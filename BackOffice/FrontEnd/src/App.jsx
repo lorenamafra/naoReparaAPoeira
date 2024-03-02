@@ -1,11 +1,11 @@
-import Alterar from "./Components/Alterar";
+import ListarUsuarios from "./Pages/ListarUsuarios"
 
 function App() {
-	return (
-		<>
-			<Alterar />
-		</>
-	);
+  return (
+	<div>
+		<ListarUsuarios/>		
+	</div>
+  )
 }
 
-export default App;
+export default App
