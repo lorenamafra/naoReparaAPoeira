@@ -1,29 +1,37 @@
-import React from 'react'
-import "./ListarUsuarios.css"
-import Usuario from "../Components/Usuario.jsx"
-import BuscaUsuario from '../Components/BuscaUsuario'
-import Sidenav from '../Components/Sidenav'
-
-
+import { useEffect, useState } from "react";
+import "./ListarUsuarios.css";
+import Usuario from "../Components/Usuario.jsx";
+import BuscaUsuario from "../Components/BuscaUsuario";
+import Sidenav from "../Components/Sidenav";
+import axios from "axios";
 function ListarUsuarios() {
-  const lista = [1,2,3,4]
+	const [usuarios, setUsuarios] = useState([]);
 
-  return (
-    <div>    
-    <main className="main-container">
-    <h1>Usuários</h1>
-    <BuscaUsuario/> 
-    <div className='geral'>
-    <Sidenav/>
-    <div className='usuarios-container'>
-    {lista.map((usuario)=>(
-      <Usuario/>
-    ))} 
-    </div>
-    </div>
-    </main>
-    </div>
-  )
+	useEffect(() => {
+		return () => {
+			axios.get("http://localhost:8080/usuarios").then((resp) => {
+				setUsuarios(resp.data.usuarios);
+			});
+		};
+	}, []);
+
+	return (
+		<div>
+			<main className="main-container">
+				<h1>Usuários</h1>
+				<BuscaUsuario />
+				<div className="geral">
+					<Sidenav />
+					<div className="usuarios-container">
+						{usuarios.map((usuario, key) => (
+							// eslint-disable-next-line react/jsx-key
+							<Usuario usuario={usuario} id={key} />
+						))}
+					</div>
+				</div>
+			</main>
+		</div>
+	);
 }
 
-export default ListarUsuarios
+export default ListarUsuarios;

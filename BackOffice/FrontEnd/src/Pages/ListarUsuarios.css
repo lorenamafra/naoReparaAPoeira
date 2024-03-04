@@ -1,95 +1,95 @@
-h1{
-    text-align: center;
+h1 {
+	text-align: center;
 }
 
-.main-container{
-    padding: 0 10rem;
+.main-container {
+	padding: 0 20rem;
 }
 
-.container-principal{
-    display: flex;
-    align-items: flex-start;
+.container-principal {
+	display: flex;
+	align-items: flex-start;
 }
 
-.usuarios-container{
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+.usuarios-container {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
 }
 
-.container{
-    display: flex;
-    gap: 2rem;
-    margin: 0 1rem;
-    border: 1px solid black;
-    padding: 1rem;
-    box-shadow: -0.2rem 0.2rem 0.3rem rgba(0,0,0,0.4);
-    align-items: center;
+.container {
+	display: flex;
+	gap: 2rem;
+	margin: 0 1rem;
+	border: 1px solid black;
+	padding: 1rem;
+	box-shadow: -0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.4);
+	align-items: center;
 }
 
-.container > #status{
-    color: #F6F8FF;
-    border: 0.1rem solid red;
-    background-color: red;
-    border-radius: 0.9rem;
-    padding: 0.3rem 0.5rem;
+.container > #status {
+	color: #f6f8ff;
+	border: 0.1rem solid red;
+	background-color: red;
+	border-radius: 0.9rem;
+	padding: 0.3rem 0.5rem;
 }
 
-.container button{
-    transition: all ease-in-out 0.15s;
-    font-size: 15px;
-    color: #F6F8FF;
-    border: 0.1rem solid black;
-    background-color: black;
-    border-radius: 0.9rem;
-    padding: 0.3rem 0.5rem;
-    cursor: pointer;
-    font-family: "Roboto Slab", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
+.container button {
+	transition: all ease-in-out 0.15s;
+	font-size: 15px;
+	color: #f6f8ff;
+	border: 0.1rem solid black;
+	background-color: black;
+	border-radius: 0.9rem;
+	padding: 0.3rem 0.5rem;
+	cursor: pointer;
+	font-family: "Roboto Slab", serif;
+	font-optical-sizing: auto;
+	font-style: normal;
 }
 
-.container button:hover{
-    color: black;
-    background-color: #F6F8FF;
-    border: 0.1rem solid black;
-    border-radius: 0.9rem;
+.container button:hover {
+	color: black;
+	background-color: #f6f8ff;
+	border: 0.1rem solid black;
+	border-radius: 0.9rem;
 }
 
-.container-busca{
-    display: flex;
-    justify-content: center;
-    margin: 2rem;
-    gap: 0.5rem;
-    text-align: center;
-    border-radius: 0.5rem;
+.container-busca {
+	display: flex;
+	justify-content: center;
+	margin: 2rem;
+	gap: 0.5rem;
+	text-align: center;
+	border-radius: 0.5rem;
 }
 
-.container-busca button{
-    padding: 10px 20px;
-    background-color: #F6F8FF;
-    border: 1px solid #383F51;
-    cursor: pointer;
+.container-busca button {
+	padding: 10px 20px;
+	background-color: #f6f8ff;
+	border: 1px solid #383f51;
+	cursor: pointer;
 }
 
-button img{
-    width: 15px;
+button img {
+	width: 15px;
 }
 
-.sidenav{
-    height: 100vh;
-    width:15rem;
-    background-color: #383F51;
+.sidenav {
+	height: 100vh;
+	width: 15rem;
+	background-color: #383f51;
 }
 
-.nav{
-    display: flex;
-    justify-content: center;
-    height: 5rem;
-    color: #F6F8FF;
+.nav {
+	display: flex;
+	justify-content: center;
+	height: 5rem;
+	color: #f6f8ff;
 }
 
-.geral{
-    display: flex;
-    gap: 2rem;
+.geral {
+	display: flex;
+	gap: 2rem;
 }

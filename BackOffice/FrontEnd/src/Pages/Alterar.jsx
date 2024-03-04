@@ -1,14 +1,17 @@
-import { useState, useEffect, useRef } from "react";
-import "./Alterar.css";
+import { useState, useEffect } from "react";
 
-function Alterar() {
-	const user = {
-		email: "denisls02@outlook.com",
-		nome: "Denis",
-		grupo: "ADMIN",
-		cpf: "12345678910",
-		senha: "kanyewest",
-	};
+import "./Alterar.css";
+import { useLocation, useNavigate } from "react-router";
+import axios from "axios";
+function Alterar(props) {
+	let navigate = useNavigate();
+	let location = useLocation();
+
+	console.log(location.state.usuario);
+
+	const user = location.state.usuario;
+
+	console.log(user);
 	const [email, setEmail] = useState();
 	const [nome, setNome] = useState();
 	const [cpf, setCpf] = useState();
@@ -23,35 +26,37 @@ function Alterar() {
 			setNome(user.nome);
 			setCpf(user.cpf);
 			setGrupo(user.grupo);
-			setSenha(user.senha);
 		};
 	}, []);
 
 	const validation = () => {
 		let isValid = true;
 
-		nome == "" ? alert("Nome vazio") : "nome";
-		cpf == "" ? alert("CPF vazio") : "nome";
-		grupo == "" ? alert("Grupo vazio") : "nome";
-		senha == "" ? alert("Senha vazio") : "nome";
-		confirmaSenha == "" ? alert("Confirme a senha") : "nome";
-
+		nome == "" ? alert("Nome vazio") : "";
+		cpf == "" ? alert("CPF vazio") : "";
+		grupo == "" ? alert("Grupo vazio") : "";
+		senha == "" ? alert("Senha vazio") : "";
+		confirmaSenha == "" ? alert("Confirme a senha") : "";
+		senha == confirmaSenha ? "" : alert("Senha tem que ser confirmada");
 		return isValid;
 	};
 
 	const handleSave = (e) => {
 		e.preventDefault();
 
-		console.log(nome);
-		console.log(user);
 		if (validation()) {
 			user.nome = nome;
 			user.cpf = cpf;
 			user.senha = senha;
 			user.grupo = grupo;
 			console.log(user);
+
+			axios.put("http://localhost:8080/usuario/alterar", user).then((resp) => {
+				if (resp.status == 200) {
+					navigate(-1);
+				}
+			});
 		}
-		console.log(user);
 	};
 
 	return (
@@ -108,7 +113,13 @@ function Alterar() {
 					/>
 					<div>
 						<button onClick={handleSave}>Salvar</button>
-						<button>Cancelar</button>
+						<button
+							onClick={() => {
+								navigate(-1);
+							}}
+						>
+							Cancelar
+						</button>
 					</div>
 				</form>
 			</div>
