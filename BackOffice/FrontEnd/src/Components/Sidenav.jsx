@@ -1,10 +1,14 @@
 import React from 'react'
+import { useNavigate } from 'react-router'
 
 function Sidenav() {
+  let navigate = useNavigate();
+
   return (
         <nav class="sidenav">
         <div class="nav">
-      Listar Usuários
+        Opções
+      <p onClick={()=>{navigate("/Usuarios/Cadastrar")}}>Cadastrar Usuários</p>
     </div>
   </nav>
   )

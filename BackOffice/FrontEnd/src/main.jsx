@@ -5,6 +5,7 @@ import ListarUsuarios from "./Pages/ListarUsuarios.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Alterar from "./Pages/Alterar.jsx";
+import Cadastrar from "./Pages/Cadastrar.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
 	},
 
 	{ path: "/Usuarios/Alterar", element: <Alterar /> },
+
+	{path: "/Usuarios/Cadastrar", element: <Cadastrar/>
+
+	}
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
