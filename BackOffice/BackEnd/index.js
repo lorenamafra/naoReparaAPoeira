@@ -18,7 +18,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
 	host: "127.0.0.1",
 	user: "root",
-	password: "80085",
+	password: "Lolo@2024",
 	database: "nrp",
 	port: "3306",
 });
@@ -93,7 +93,6 @@ app.post("/usuario/cadastrar", (req, res) => {
 	const cpf = req.body.cpf;
 	const email = req.body.email;
 	const senha = req.body.senha;
-	const status = req.body.status;
 	const grupo = req.body.grupo;
 
 	bcrypt.hash(senha, saltRounds, (err, hash) => {
@@ -101,11 +100,11 @@ app.post("/usuario/cadastrar", (req, res) => {
 			res.send({ err: err });
 		}
 		connection.query(
-			`INSERT INTO usuario (nome, cpf, email, senha, status_cliente , grupo) values ('${nome}','${cpf}' , '${email}', '${hash}', "Ativo", '${grupo}')`,
+			`INSERT INTO usuario (nome, cpf, email, senha, status_cliente, grupo) values ('${nome}','${cpf}' , '${email}', '${hash}', "Ativo", '${grupo}')`,
 
 			(err, result) => {
 				if (err) {
-					res.send("CPF já cadastrado. Tente fazer login!");
+					res.send("CPF ou E-mail já cadastrado. Tente fazer login!");
 				}
 
 				if (result) {

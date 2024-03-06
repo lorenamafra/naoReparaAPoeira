@@ -113,7 +113,7 @@ function Alterar(props) {
 						onChange={(event) => setConfirmaSenha(event.target.value)}
 					/>
 					<div>
-						<button onClick={handleSave}>Salvar</button>
+						<button onClick={handleSave}>Alterar</button>
 						<button
 							onClick={() => {
 								navigate(-1);
