@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 
-import "./Alterar.css";
 import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
+import { FormContainer, MainFormContainer } from "../Styles/Form.styles";
+
 function Alterar(props) {
 	let navigate = useNavigate();
 	let location = useLocation();
@@ -60,10 +61,10 @@ function Alterar(props) {
 	};
 
 	return (
-		<main>
+		<MainFormContainer>
 			<h1>Alterar usuário</h1>
 			<div>
-				<form onSubmit={handleSave}>
+				<FormContainer onSubmit={handleSave}>
 					<label htmlFor="email"> Email </label>
 					<input defaultValue={email} type="text" name="email" disabled />
 
@@ -121,9 +122,9 @@ function Alterar(props) {
 							Cancelar
 						</button>
 					</div>
-				</form>
+				</FormContainer>
 			</div>
-		</main>
+		</MainFormContainer>
 	);
 }
 

@@ -69,9 +69,9 @@ app.post("/usuario/login", (req, res) => {
 			}
 			if (result) {
 				if (result.length > 0) {
-					bcrypt.compare(senha, result[0].SENHA, (err, response) => {
+					bcrypt.compare(senha, result[0].senha, (err, response) => {
 						if (err) {
-							res.send({ message: err });
+							console.log(err);
 						}
 						if (response) {
 							res.send(true);
@@ -79,7 +79,7 @@ app.post("/usuario/login", (req, res) => {
 					});
 				} else {
 					res.send({
-						message: "Usuário inexistente, cadastre-se!",
+						message: "Usuário inexistente",
 					});
 				}
 			}

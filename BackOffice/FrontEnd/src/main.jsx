@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Login from "./Pages/Login.jsx";
-import ListarUsuarios from "./Pages/ListarUsuarios.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Alterar from "./Pages/Alterar.jsx";
+import MainBackOffice from "./Pages/MainBackOffice.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -13,7 +13,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: "/Usuarios",
-		element: <ListarUsuarios />,
+		element: <MainBackOffice />,
 	},
 
 	{ path: "/Usuarios/Alterar", element: <Alterar /> },

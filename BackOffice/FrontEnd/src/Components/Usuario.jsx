@@ -1,5 +1,10 @@
 import { useNavigate } from "react-router";
 import axios from "axios";
+import {
+	UsuarioContainer,
+	UsuarioInnerContainer,
+} from "../Styles/MainBackOffice.styles";
+
 function Usuario(props) {
 	const usuario = props.usuario;
 	const navigate = useNavigate();
@@ -19,26 +24,24 @@ function Usuario(props) {
 		navigate(0);
 	};
 	return (
-		<div>
-			<div className="container-principal">
-				<div className="container">
-					<div id="name">{usuario.nome}</div>
-					<div id="email">{usuario.email}</div>
-					<div id="group">{usuario.grupo}</div>
-					<div id="status" onClick={handleAlterarStatus}>
-						{" "}
-						{usuario.status_cliente}
-					</div>
-					<button
-						onClick={() =>
-							navigate("/usuarios/alterar", { state: { usuario: usuario } })
-						}
-					>
-						Alterar
-					</button>
+		<UsuarioContainer>
+			<UsuarioInnerContainer>
+				<div id="name">{usuario.nome}</div>
+				<div id="email">{usuario.email}</div>
+				<div id="group">{usuario.grupo}</div>
+				<div id="status" onClick={handleAlterarStatus}>
+					{" "}
+					{usuario.status_cliente}
 				</div>
-			</div>
-		</div>
+				<button
+					onClick={() =>
+						navigate("/usuarios/alterar", { state: { usuario: usuario } })
+					}
+				>
+					Alterar
+				</button>
+			</UsuarioInnerContainer>
+		</UsuarioContainer>
 	);
 }
 

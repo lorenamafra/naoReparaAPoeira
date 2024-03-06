@@ -1,13 +1,11 @@
-import React from 'react'
+import { SidenavContainer } from "../Styles/MainBackOffice.styles";
 
 function Sidenav() {
-  return (
-        <nav class="sidenav">
-        <div class="nav">
-      Listar Usuários
-    </div>
-  </nav>
-  )
+	return (
+		<SidenavContainer>
+			<div>Listar Usuários</div>
+		</SidenavContainer>
+	);
 }
 
-export default Sidenav
+export default Sidenav;

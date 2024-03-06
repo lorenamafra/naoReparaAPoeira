@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "npm --prefix ./BackEnd run dev  && npm --prefix ./FrontEnd run dev ",
+		"dev": "npm --prefix ./BackEnd run dev && echo \"complete\" ",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],

@@ -1,7 +1,17 @@
-import React, { useState } from "react";
-import "./Login.css";
+import { useState } from "react";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+import {
+	BtnLogin,
+	CardLogin,
+	Erro,
+	LoginContainer,
+	LoginMainContainer,
+	Textfield,
+} from "../Styles/Login.styles";
+
 function Login() {
 	const navigate = useNavigate();
 	const [erro, setErro] = useState();
@@ -13,7 +23,8 @@ function Login() {
 		senha: "",
 	});
 
-	const Logar = () => {
+	const Logar = (e) => {
+		e.preventDefault();
 		user.email = email;
 		user.senha = password;
 
@@ -28,35 +39,33 @@ function Login() {
 		});
 	};
 	return (
-		<div>
-			<main className="login_main">
-				<div className="card-login">
-					<h1>Login</h1>
-					<div className="container">
-						<div className="textfield">
-							<label htmlFor="usuario">Usuário</label>
-							<input
-								type="text"
-								name="usuario"
-								onChange={(e) => setEmail(e.target.value)}
-							/>
-						</div>
-						<div className="textfield">
-							<label htmlFor="senha">Senha</label>
-							<input
-								type="password"
-								name="senha"
-								onChange={(e) => setPassword(e.target.value)}
-							/>
-						</div>
-						<button className="btn-login" onClick={Logar}>
-							<b>Login</b>
-						</button>
-						<p> {erro}</p>
-					</div>
-				</div>
-			</main>
-		</div>
+		<LoginMainContainer className="login_main">
+			<CardLogin className="card-login" onSubmit={Logar}>
+				<h1>Login</h1>
+				<LoginContainer className="container">
+					<Textfield className="textfield">
+						<label htmlFor="usuario">Usuário</label>
+						<input
+							type="text"
+							name="usuario"
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+					</Textfield>
+					<Textfield className="textfield">
+						<label htmlFor="senha">Senha</label>
+						<input
+							type="password"
+							name="senha"
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+					</Textfield>
+					<BtnLogin className="btn-login" onClick={Logar}>
+						<b>Login</b>
+					</BtnLogin>
+					<Erro> {erro}</Erro>
+				</LoginContainer>
+			</CardLogin>
+		</LoginMainContainer>
 	);
 }
 

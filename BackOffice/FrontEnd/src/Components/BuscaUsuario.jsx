@@ -1,15 +1,15 @@
-import React from "react";
+import { ContainerBusca } from "../Styles/MainBackOffice.styles";
 import searchIcon from "../assets/search.svg";
 
 function BuscaUsuario() {
 	return (
 		<div>
-			<div class="container-busca">
+			<ContainerBusca>
 				<input type="text" id="search" placeholder="Digite o nome" />
 				<button>
 					<img src={searchIcon} alt="" />
 				</button>
-			</div>
+			</ContainerBusca>
 		</div>
 	);
 }
