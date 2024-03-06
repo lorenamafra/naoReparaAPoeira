@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
 import { FormContainer, MainFormContainer } from "../Styles/Form.styles";
-
-function Alterar(props) {
+import LeftArrow from "../assets/arrow-thin-left.svg";
+function Alterar() {
 	let navigate = useNavigate();
 	let location = useLocation();
 
@@ -19,26 +19,42 @@ function Alterar(props) {
 	const [grupo, setGrupo] = useState();
 	const [senha, setSenha] = useState();
 	const [confirmaSenha, setConfirmaSenha] = useState();
+	const [loader, setLoader] = useState(true);
 
 	useEffect(() => {
-		//variavel no projeto
-		return () => {
-			setEmail(user.email);
-			setNome(user.nome);
-			setCpf(user.cpf);
-			setGrupo(user.grupo);
+		const fetchUsuarios = async () => {
+			await setEmail(user.email);
+			await setNome(user.nome);
+			await setCpf(user.cpf);
+			await setGrupo(user.grupo);
+			setLoader(false);
 		};
+		fetchUsuarios();
 	}, []);
 
 	const validation = () => {
 		let isValid = true;
 
-		nome == "" ? alert("Nome vazio") : "";
-		cpf == "" ? alert("CPF vazio") : "";
-		grupo == "" ? alert("Grupo vazio") : "";
-		senha == "" ? alert("Senha vazio") : "";
-		confirmaSenha == "" ? alert("Confirme a senha") : "";
-		senha == confirmaSenha ? "" : alert("Senha tem que ser confirmada");
+		const invalidado = (campo) => {
+			isValid = false;
+			alert(`${campo} vazio!`);
+		};
+
+		const invalidaSenhaConfirma = () => {
+			alert("Senha não confirmada");
+			isValid = false;
+		};
+
+		const senhasNãoCorrespondem = () => {
+			alert("Senhas não correspondem");
+			isValid = false;
+		};
+		nome == "" ? invalidado("Nome") : "";
+		cpf == "" ? invalidado("CPF") : "";
+		grupo == "" ? invalidado("Grupo") : "";
+		senha == "" ? invalidado("Senha") : "";
+		confirmaSenha == "" ? invalidaSenhaConfirma() : "";
+		senha == confirmaSenha ? "" : senhasNãoCorrespondem();
 		return isValid;
 	};
 
@@ -60,9 +76,16 @@ function Alterar(props) {
 		}
 	};
 
+	const handleGrupo = () => {
+		setGrupo(event.target.value);
+	};
 	return (
 		<MainFormContainer>
-			<h1>Alterar usuário</h1>
+			<header>
+				<img src={LeftArrow} onClick={() => navigate(-1)} />
+
+				<h1>Alterar usuário</h1>
+			</header>
 			<div>
 				<FormContainer onSubmit={handleSave}>
 					<label htmlFor="email"> Email </label>
@@ -87,13 +110,17 @@ function Alterar(props) {
 					/>
 
 					<label htmlFor="Grupo"> Grupo </label>
-					<input
-						value={grupo}
-						type="text"
-						name="Grupo"
-						required
-						onChange={(event) => setGrupo(event.target.value)}
-					/>
+					<select
+						onChange={(event) => handleGrupo(event)}
+						// value={grupo}
+						// type="text"
+						// name="Grupo"
+						// required
+						// onChange={(event) => setGrupo(event.target.value)}
+					>
+						<option value="Admin"> Admin </option>
+						<option value="Estoquista"> Estoquista </option>
+					</select>
 
 					<label htmlFor="Senha"> Senha </label>
 					<input

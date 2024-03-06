@@ -32,7 +32,10 @@ function Login() {
 
 		axios.post("http://localhost:8080/usuario/login", user).then((resp) => {
 			if (resp.data == true) {
-				navigate("/Usuarios");
+				axios.get("http://localhost:8080/usuario", user).then((resp) => {
+					console.log(resp);
+				});
+				navigate("/BackOffice");
 			} else {
 				setErro(resp.data.message);
 			}

@@ -18,7 +18,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
 	host: "127.0.0.1",
 	user: "root",
-	password: "Lolo@2024",
+	password: "80085",
 	database: "nrp",
 	port: "3306",
 });
@@ -37,9 +37,8 @@ app.get("/usuarios", function (req, res) {
 
 app.get("/usuario", (req, res) => {
 	const email = req.body.email;
-
 	connection.query(
-		`SELECT * FROM usuario where email = "${email}"`,
+		`SELECT * FROM usuario WHERE email = "${email}"`,
 
 		(err, result) => {
 			if (err) {
@@ -125,19 +124,19 @@ app.put("/usuario/alterar", (req, res) => {
 	const status = req.body.status;
 	const cpf = req.body.cpf;
 	// Atualizar rotas
-	connection.query(
-		`UPDATE usuario SET GRUPO = '${grupo}', NOME ='${nome}', SENHA ='${senha}', CPF ='${cpf}' WHERE EMAIL = '${email}'`,
-		(err, result) => {
-			if (err) {
-				throw err;
+
+	bcrypt.hash(senha, saltRounds, (err, hash) => {
+		connection.query(
+			`UPDATE usuario SET GRUPO = '${grupo}', NOME ='${nome}', SENHA ='${hash}', CPF ='${cpf}' WHERE EMAIL = '${email}'`,
+			(err, result) => {
+				if (result.affectedRows > 0) {
+					res.status(200).send("Atualizado com sucesso");
+				} else {
+					res.status(400).send("Impossibilitado de alteração ");
+				}
 			}
-			if (result.affectedRows > 0) {
-				res.status(200).send("Atualizado com sucesso");
-			} else {
-				res.status(404).send("Email não encontrado ou nenhum dado atualizado");
-			}
-		}
-	);
+		);
+	});
 });
 
 app.put("/usuario/alterarStatus", (req, res) => {

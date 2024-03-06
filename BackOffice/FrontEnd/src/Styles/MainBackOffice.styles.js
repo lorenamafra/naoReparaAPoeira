@@ -2,23 +2,40 @@ import styled from "styled-components";
 
 export const MainBackOfficeContainer = styled.div`
 	header {
+		display: flex;
+		justify-content: center;
+	}
+
+	header p {
+		margin: 0;
+	}
+	span {
 		display: grid;
 		place-items: center;
+	}
+
+	aside {
+		position: absolute;
 	}
 `;
 
 export const SidenavContainer = styled.nav`
 	display: flex;
 	height: 100vh;
+	justify-content: center;
 	width: 10rem;
 	min-width: 5rem;
 	background-color: #383f51;
 
-	div {
-		display: flex;
-		justify-content: center;
-		height: 5rem;
-		color: #f6f8ff;
+	li {
+		text-align: left;
+		list-style: none;
+		margin: 0.5rem 0;
+		padding: 0;
+	}
+
+	ul {
+		padding: 0;
 	}
 `;
 
@@ -45,8 +62,9 @@ export const UsuarioContainer = styled.div`
 `;
 
 export const UsuarioInnerContainer = styled.div`
-	display: flex;
-	gap: 1rem;
+	display: grid;
+	gap: 2rem;
+	grid-template-columns: 2fr 1fr 0.5fr 0.5fr;
 	border: 1px solid black;
 	padding: 1rem;
 	box-shadow: -0.2rem 0.2rem 0.3rem rgba(0, 0, 0, 0.4);
@@ -54,10 +72,18 @@ export const UsuarioInnerContainer = styled.div`
 
 	& #status {
 		color: #f6f8ff;
+		width: 4rem;
+		text-align: center;
 		border: 0.1rem solid red;
 		background-color: red;
 		border-radius: 0.9rem;
 		padding: 0.3rem 0.5rem;
+	}
+	& #status:hover {
+		cursor: pointer;
+		outline: 1px solid red;
+		background-color: #f6f8ff;
+		color: red;
 	}
 
 	button {

@@ -1,19 +1,24 @@
-import React from "react";
+import react from "react";
 import ReactDOM from "react-dom/client";
-import Login from "./Pages/Login.jsx";
+import {
+	BrowserRouter,
+	RouterProvider,
+	createBrowserRouter,
+} from "react-router-dom";
+import Login from "./Pages/Login";
+import MainBackOffice from "./Pages/MainBackOffice";
+import Alterar from "./Pages/Alterar";
+import Cadastrar from "./Pages/Cadastrar";
+import React from "react";
+import App from "./App";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Alterar from "./Pages/Alterar.jsx";
-import MainBackOffice from "./Pages/MainBackOffice.jsx";
-import Cadastrar from "./Pages/Cadastrar.jsx";
-
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <Login />,
 	},
 	{
-		path: "/Usuarios",
+		path: "/BackOffice",
 		element: <MainBackOffice />,
 	},
 
@@ -23,7 +28,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<React.StrictMode>
-		<RouterProvider router={router} />
-	</React.StrictMode>
+	<BrowserRouter>
+		<App />
+	</BrowserRouter>
 );

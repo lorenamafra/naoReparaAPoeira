@@ -14,31 +14,44 @@ import {
 
 function MainBackOffice() {
 	const [usuarios, setUsuarios] = useState([]);
-
+	const [loader, setLoader] = useState(true);
 	useEffect(() => {
-		return () => {
-			axios.get("http://localhost:8080/usuarios").then((resp) => {
+		const fetchUsuarios = async () => {
+			await axios.get("http://localhost:8080/usuarios").then((resp) => {
 				setUsuarios(resp.data.usuarios);
+				setLoader(false);
 			});
 		};
+		fetchUsuarios();
 	}, []);
 
 	return (
 		<MainBackOfficeContainer>
+			<aside>
+				<p> Nome </p>
+				<p> Grupo </p>
+			</aside>
 			<header>
-				<h1>Usuários</h1>
-				<BuscaUsuario />
+				<span>
+					<h1>Usuários</h1>
+
+					<BuscaUsuario />
+				</span>
 			</header>
+
 			<OuterContainer>
 				<Sidenav />
 				<MainContainer>
-					{/* <div> Produtos </div> */}
-					<ListaUsuarios>
-						{usuarios.map((usuario, key) => (
-							// eslint-disable-next-line react/jsx-key
-							<Usuario usuario={usuario} key={key} />
-						))}
-					</ListaUsuarios>
+					{loader ? (
+						<p> Is loading</p>
+					) : (
+						<ListaUsuarios>
+							{usuarios.map((usuario, key) => (
+								// eslint-disable-next-line react/jsx-key
+								<Usuario usuario={usuario} key={key} />
+							))}
+						</ListaUsuarios>
+					)}
 				</MainContainer>
 			</OuterContainer>
 		</MainBackOfficeContainer>

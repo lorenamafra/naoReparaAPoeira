@@ -3,6 +3,14 @@ import styled from "styled-components";
 export const MainFormContainer = styled.div`
 	display: grid;
 	place-items: center;
+
+	header {
+		display: flex;
+		gap: 1rem;
+	}
+	header img {
+		cursor: pointer;
+	}
 `;
 
 export const FormContainer = styled.div`
@@ -20,7 +28,8 @@ export const FormContainer = styled.div`
 		grid-template-columns: 1fr 1fr;
 	}
 
-	input {
+	input,
+	select {
 		margin: 0.5rem;
 		border: none;
 		width: 100%;
@@ -29,7 +38,8 @@ export const FormContainer = styled.div`
 		transition: all ease-in-out 0.15s;
 	}
 
-	input:focus {
+	input:focus,
+	select:focus {
 		outline: none;
 
 		-webkit-box-shadow: 8px 13px 0px -8px rgba(0, 0, 0, 0.75);
