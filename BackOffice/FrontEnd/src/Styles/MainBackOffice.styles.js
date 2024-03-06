@@ -21,11 +21,13 @@ export const MainBackOfficeContainer = styled.div`
 
 export const SidenavContainer = styled.nav`
 	display: flex;
+	color: white;
 	height: 100vh;
 	justify-content: center;
 	width: 10rem;
 	min-width: 5rem;
 	background-color: #383f51;
+	cursor: pointer;
 
 	li {
 		text-align: left;

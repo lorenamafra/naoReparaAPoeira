@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
-// import "./ListarUsuarios.css";
 import Usuario from "../Components/Usuario.jsx";
 import BuscaUsuario from "../Components/BuscaUsuario.jsx";
 import axios from "axios";
+import searchIcon from "../assets/search.svg";
 
 import Sidenav from "../Components/Sidenav.jsx";
 import {
 	ListaUsuarios,
+	ContainerBusca,
 	MainBackOfficeContainer,
 	MainContainer,
 	OuterContainer,
 } from "../Styles/MainBackOffice.styles.js";
 
 function MainBackOffice() {
+	const [nome, setNome] = useState();
 	const [usuarios, setUsuarios] = useState([]);
 	const [loader, setLoader] = useState(true);
 	useEffect(() => {
@@ -25,6 +27,15 @@ function MainBackOffice() {
 		fetchUsuarios();
 	}, []);
 
+	const handleFetch =  () =>{
+		
+	 axios.post("http://localhost:8080/usuario/pesquisar",{"nome":nome}).then((resp) => {setLoader(true)
+		setUsuarios(resp.data)
+		console.log(resp)
+		setLoader(false)})
+
+	}
+
 	return (
 		<MainBackOfficeContainer>
 			<aside>
@@ -35,7 +46,16 @@ function MainBackOffice() {
 				<span>
 					<h1>Usuários</h1>
 
-					<BuscaUsuario />
+					<div>
+			<ContainerBusca>
+				<div>
+				<input type="search" id="search" placeholder="Digite o nome" value={nome} onChange={(event) => setNome(event.target.value)}/>
+				<button onClick={handleFetch} >
+					<img src={searchIcon} alt="" />
+				</button>
+				</div>
+			</ContainerBusca>
+		</div>
 				</span>
 			</header>
 

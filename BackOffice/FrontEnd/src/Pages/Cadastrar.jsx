@@ -1,5 +1,4 @@
 import React from "react";
-import "./Alterar.css";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { useState } from "react";
