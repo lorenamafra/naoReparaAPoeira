@@ -4,10 +4,13 @@ import Login from "./Pages/Login";
 import MainBackOffice from "./Pages/MainBackOffice";
 import Cadastrar from "./Pages/Cadastrar";
 import Alterar from "./Pages/Alterar";
+import { useState } from "react";
 
 function App() {
+	const [currentUser, setCurrentUser] = useState({nome:"", id:"", grupo:""})
+
 	return (
-		<UserContext.Provider value={"oi"}>
+		<UserContext.Provider value={[currentUser, setCurrentUser]}>
 			<Routes>
 				<Route path="/" element={<Login />} />
 				<Route path="/BackOffice" element={<MainBackOffice />} />

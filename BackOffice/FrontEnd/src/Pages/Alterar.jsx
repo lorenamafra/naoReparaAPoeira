@@ -78,6 +78,9 @@ function Alterar() {
 
 	const handleGrupo = () => {
 		setGrupo(event.target.value);
+		if(user.email == email){
+			prompt("Você não pode alterar seu próprio grupo")
+		}
 	};
 	return (
 		<MainFormContainer>

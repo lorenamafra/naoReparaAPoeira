@@ -26,7 +26,7 @@ function Usuario(props) {
 	};
 	return (
 		<UsuarioContainer>
-			<UsuarioInnerContainer>
+			<UsuarioInnerContainer status={usuario.status_cliente}>
 				<div>
 					<div id="name">{usuario.nome}</div> <br />
 					<div id="email">{usuario.email}</div>

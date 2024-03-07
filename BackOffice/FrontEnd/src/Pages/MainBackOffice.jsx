@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Usuario from "../Components/Usuario.jsx";
 import BuscaUsuario from "../Components/BuscaUsuario.jsx";
 import axios from "axios";
@@ -11,9 +11,22 @@ import {
 	MainBackOfficeContainer,
 	MainContainer,
 	OuterContainer,
+	ButaoTeste,
 } from "../Styles/MainBackOffice.styles.js";
+import { UserContext } from "../Context/UserContext.jsx";
+
+//mockUser
+// const mockUser = {
+// 	nome:"Denis",
+// 	status_cliente:"Ativo",
+// 	email:"",
+// 	grupo:"Admin"
+// }
 
 function MainBackOffice() {
+
+	const currentUser = useContext(UserContext)[0]
+
 	const [nome, setNome] = useState();
 	const [usuarios, setUsuarios] = useState([]);
 	const [loader, setLoader] = useState(true);
@@ -39,8 +52,8 @@ function MainBackOffice() {
 	return (
 		<MainBackOfficeContainer>
 			<aside>
-				<p> Nome </p>
-				<p> Grupo </p>
+				<p> {currentUser.nome}</p>
+				{/* <p> {currentUser.grupo} </p> */}
 			</aside>
 			<header>
 				<span>
@@ -62,13 +75,14 @@ function MainBackOffice() {
 			<OuterContainer>
 				<Sidenav />
 				<MainContainer>
+
 					{loader ? (
 						<p> Is loading</p>
 					) : (
 						<ListaUsuarios>
 							{usuarios.map((usuario, key) => (
 								// eslint-disable-next-line react/jsx-key
-								<Usuario usuario={usuario} key={key} />
+								<Usuario usuario={usuario} key={key} status={"Ativo"} />
 							))}
 						</ListaUsuarios>
 					)}

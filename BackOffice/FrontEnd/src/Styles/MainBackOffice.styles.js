@@ -1,5 +1,10 @@
 import styled from "styled-components";
 
+export const ButaoTeste = styled.div`
+background-color: ${props => props.status == "Ativo" ? "Green" : "Red"};
+background-color: ${props => props.status == "Ativo" ? "Green" : "Red"};
+`
+
 export const MainBackOfficeContainer = styled.div`
 	header {
 		display: flex;
@@ -76,16 +81,15 @@ export const UsuarioInnerContainer = styled.div`
 		color: #f6f8ff;
 		width: 4rem;
 		text-align: center;
-		border: 0.1rem solid red;
-		background-color: red;
+		background-color:  ${props => props.status == "Ativo" ? "Green" : "Red"};
 		border-radius: 0.9rem;
 		padding: 0.3rem 0.5rem;
 	}
 	& #status:hover {
 		cursor: pointer;
-		outline: 1px solid red;
+		outline: 1px solid ${props => props.status == "Ativo" ? "Green" : "Red"};
 		background-color: #f6f8ff;
-		color: red;
+		color:  ${props => props.status == "Ativo" ? "Green" : "Red"};
 	}
 
 	button {

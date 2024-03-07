@@ -35,7 +35,7 @@ app.get("/usuarios", function (req, res) {
 
 //Rota para pegar UM usuário
 
-app.get("/usuario", (req, res) => {
+app.post("/usuario", (req, res) => {
 	const email = req.body.email;
 	connection.query(
 		`SELECT * FROM usuario WHERE email = "${email}"`,

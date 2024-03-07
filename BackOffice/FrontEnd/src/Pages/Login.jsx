@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -11,8 +11,10 @@ import {
 	LoginMainContainer,
 	Textfield,
 } from "../Styles/Login.styles";
+import { UserContext } from "../Context/UserContext";
 
 function Login() {
+	const setCurrentUser = useContext(UserContext)[1]
 	const navigate = useNavigate();
 	const [erro, setErro] = useState();
 	const [email, setEmail] = useState();
@@ -29,15 +31,21 @@ function Login() {
 		user.senha = password;
 
 		console.log(user);
+		setCurrentUser({
+			nome:user.email
+		})
+		navigate("/BackOffice")
 
-		axios.post("http://localhost:8080/usuario/login", user).then((resp) => {
-			if (resp.data == true) {
-				console.log(resp.data)
-				navigate("/BackOffice");
-			} else {
-				setErro(resp.data.message);
-			}
-		});
+		// axios.post("http://localhost:8080/usuario/login", user).then((resp) => {
+		// 	if (resp.data == true) {
+		// 		console.log(resp.data)
+		// 		navigate("/BackOffice");
+		// 	} else {
+		// 		setErro(resp.data.message);
+		// 	}
+		// });
+
+		
 	};
 	return (
 		<LoginMainContainer className="login_main">
