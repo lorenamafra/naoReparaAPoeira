@@ -53,7 +53,7 @@ function MainBackOffice() {
 		<MainBackOfficeContainer>
 			<aside>
 				<p> {currentUser.nome}</p>
-				{/* <p> {currentUser.grupo} </p> */}
+			 <p> {currentUser.grupo} </p>
 			</aside>
 			<header>
 				<span>
