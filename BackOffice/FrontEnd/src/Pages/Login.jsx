@@ -30,20 +30,19 @@ function Login() {
 		user.email = email;
 		user.senha = password;
 
-		console.log(user);
-		setCurrentUser({
+		
+		
+
+		axios.post("http://localhost:8080/usuario/login", user).then((resp) => {
+		 	if (resp.data == true) {
+				setCurrentUser({
 			nome:user.email
 		})
-		navigate("/BackOffice")
-
-		// axios.post("http://localhost:8080/usuario/login", user).then((resp) => {
-		// 	if (resp.data == true) {
-		// 		console.log(resp.data)
-		// 		navigate("/BackOffice");
-		// 	} else {
-		// 		setErro(resp.data.message);
-		// 	}
-		// });
+		 		navigate("/BackOffice");
+		 	} else {
+		 		setErro(resp.data.message);
+		 	}
+		 });
 
 		
 	};
