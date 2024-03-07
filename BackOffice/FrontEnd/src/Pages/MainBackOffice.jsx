@@ -82,7 +82,7 @@ function MainBackOffice() {
 						<ListaUsuarios>
 							{usuarios.map((usuario, key) => (
 								// eslint-disable-next-line react/jsx-key
-								<Usuario usuario={usuario} key={key} status={"Ativo"} />
+								<Usuario usuario={usuario} key={key} status={usuario.status_cliente} />
 							))}
 						</ListaUsuarios>
 					)}
