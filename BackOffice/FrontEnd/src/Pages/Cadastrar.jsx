@@ -30,7 +30,12 @@ function Cadastrar() {
 		senha == confirmaSenha ? "" : alert("Senha tem que ser confirmada");
 		return isValid;
 	};
-
+const handleGrupo = () => {
+		setGrupo(event.target.value);
+		if(user.email == email){
+			prompt("Você não pode alterar seu próprio grupo")
+		}
+	};
 	const handleSave = (e) => {
 		e.preventDefault();
 
@@ -88,13 +93,17 @@ if(currentUser.grupo == "Admin"){
 					/>
 
 					<label htmlFor="Grupo"> Grupo </label>
-					<input
-						value={grupo}
-						type="text"
-						name="Grupo"
-						required
-						onChange={(event) => setGrupo(event.target.value)}
-					/>
+					<select
+						onChange={(event) => handleGrupo(event)}
+						// value={grupo}
+						// type="text"
+						// name="Grupo"
+						// required
+						// onChange={(event) => setGrupo(event.target.value)}
+					>
+						<option value="Admin"> Admin </option>
+						<option value="Estoquista"> Estoquista </option>
+					</select>
 
 					<label htmlFor="Senha"> Senha </label>
 					<input
