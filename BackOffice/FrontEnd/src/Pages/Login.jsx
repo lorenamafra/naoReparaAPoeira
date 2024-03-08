@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useMemo } from "react";
 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -35,9 +35,15 @@ function Login() {
 
 		axios.post("http://localhost:8080/usuario/login", user).then((resp) => {
 		 	if (resp.data == true) {
-				setCurrentUser({
-			nome:user.email
-		})
+				axios.post("http://localhost:8080/usuario",user).then((resp)=>{
+					console.log(resp.data)
+					setCurrentUser({
+						nome:resp.data.nome,
+						email:resp.data.email,
+						grupo:resp.data.grupo
+					})
+				})
+				
 		 		navigate("/BackOffice");
 		 	} else {
 		 		setErro(resp.data.message);

@@ -4,7 +4,8 @@ export const ButaoTeste = styled.div`
 background-color: ${props => props.status == "Ativo" ? "Green" : "Red"};
 background-color: ${props => props.status == "Ativo" ? "Green" : "Red"};
 `
-
+export const EstoquistaSideNav = styled.div``
+export const AdminSideNav = styled.div``
 export const MainBackOfficeContainer = styled.div`
 	header {
 		display: flex;
@@ -21,6 +22,9 @@ export const MainBackOfficeContainer = styled.div`
 
 	aside {
 		position: absolute;
+		right:0;
+		margin: 0;
+		padding-right:3rem;
 	}
 `;
 

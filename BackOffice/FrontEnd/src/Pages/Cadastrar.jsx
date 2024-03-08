@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { useState } from "react";
 import LeftArrow from "../assets/arrow-thin-left.svg";
 import { FormContainer, MainFormContainer } from "../Styles/Form.styles";
+import { UserContext } from "../Context/UserContext";
 
 //(props - propriedade de um componente): usuários como parâmetro
 function Cadastrar() {
 	let navigate = useNavigate();
+	const currentUser = useContext(UserContext)[0]
 
 	const user = {};
 	const [email, setEmail] = useState();
@@ -49,7 +51,8 @@ function Cadastrar() {
 				});
 		}
 	};
-
+	console.log(currentUser.grupo)
+if(currentUser.grupo == "Admin"){
 	return (
 		<MainFormContainer>
 			<header>
@@ -123,7 +126,12 @@ function Cadastrar() {
 				</FormContainer>
 			</div>
 		</MainFormContainer>
-	);
+	);}
+	else{
+		return(<div>
+			<h1> Essa página só é acessível para administradores</h1>
+		</div>)
+	}
 }
 
 export default Cadastrar;

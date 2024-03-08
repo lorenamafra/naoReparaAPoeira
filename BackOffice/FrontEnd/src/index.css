@@ -5,3 +5,8 @@
 	--blue: #383f51;
 	font-family: "Roboto Slab", serif;
 }
+
+body{
+	padding:0;
+	margin:0
+}

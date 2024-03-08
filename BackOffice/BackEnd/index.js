@@ -18,7 +18,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
 	host: "127.0.0.1",
 	user: "root",
-	password: "Lolo@2024",
+	password: "TJrs4321@",
 	database: "nrp",
 	port: "3306",
 });
@@ -46,7 +46,7 @@ app.post("/usuario", (req, res) => {
 			}
 
 			if (result && result.length > 0) {
-				res.send(result);
+				res.send(result[0]);
 			} else {
 				res.status(404).send("Email não encontrado");
 			}
@@ -94,7 +94,7 @@ app.post("/usuario/cadastrar", (req, res) => {
 	const email = req.body.email;
 	const senha = req.body.senha;
 	const grupo = req.body.grupo;
-
+	console.log(req.body.email)
 	bcrypt.hash(senha, saltRounds, (err, hash) => {
 		if (err) {
 			res.send({ err: err });
@@ -104,7 +104,7 @@ app.post("/usuario/cadastrar", (req, res) => {
 
 			(err, result) => {
 				if (err) {
-					res.send("CPF ou E-mail já cadastrado. Tente fazer login!");
+					res.send(err);
 				}
 
 				if (result) {

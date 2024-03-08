@@ -8,6 +8,7 @@ import { useState } from "react";
 
 function App() {
 	const [currentUser, setCurrentUser] = useState({nome:"", id:"", grupo:""})
+	// const providerValue = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser, setUser])
 
 	return (
 		<UserContext.Provider value={[currentUser, setCurrentUser]}>
