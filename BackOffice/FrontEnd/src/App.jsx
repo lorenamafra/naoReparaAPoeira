@@ -5,9 +5,14 @@ import MainBackOffice from "./Pages/MainBackOffice";
 import Cadastrar from "./Pages/Cadastrar";
 import Alterar from "./Pages/Alterar";
 import { useState } from "react";
+import ListaProdutos from "./Components/ListaProdutos";
 
 function App() {
-	const [currentUser, setCurrentUser] = useState({nome:"", id:"", grupo:""})
+	const [currentUser, setCurrentUser] = useState({
+		nome: "",
+		id: "",
+		grupo: "",
+	});
 	// const providerValue = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser, setUser])
 
 	return (
@@ -17,6 +22,10 @@ function App() {
 				<Route path="/BackOffice" element={<MainBackOffice />} />
 				<Route path="/Usuarios/Cadastrar" element={<Cadastrar />} />
 				<Route path="/Usuarios/Alterar" element={<Alterar />} />
+				<Route
+					path="./Components/ListaProdutos.jsx"
+					element={<ListaProdutos />}
+				/>
 			</Routes>
 		</UserContext.Provider>
 	);

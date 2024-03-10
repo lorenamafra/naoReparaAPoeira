@@ -12,6 +12,7 @@ import {
 	OuterContainer,
 } from "../Styles/MainBackOffice.styles.js";
 import { useNavigate } from "react-router";
+import ListaProdutos from "../Components/ListaProdutos.jsx";
 
 //mockUser
 // const mockUser = {
@@ -71,7 +72,7 @@ function MainBackOffice() {
 					{page == "Lista de Produtos" ? (
 						<div>
 							{" "}
-							<p> Lista de produtos </p>
+							<ListaProdutos />
 						</div>
 					) : (
 						""
