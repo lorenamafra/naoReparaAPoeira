@@ -11,10 +11,10 @@ import {
 	LoginMainContainer,
 	Textfield,
 } from "../Styles/Login.styles";
-import { UserContext } from "../Context/UserContext";
 
 function Login() {
-	const setCurrentUser = useContext(UserContext)[1]
+	sessionStorage.setItem("User", JSON.stringify());
+
 	const navigate = useNavigate();
 	const [erro, setErro] = useState();
 	const [email, setEmail] = useState();
@@ -30,27 +30,23 @@ function Login() {
 		user.email = email;
 		user.senha = password;
 
-		
-		
-
 		axios.post("http://localhost:8080/usuario/login", user).then((resp) => {
-		 	if (resp.data == true) {
-				axios.post("http://localhost:8080/usuario",user).then((resp)=>{
-					console.log(resp.data)
-					setCurrentUser({
-						nome:resp.data.nome,
-						email:resp.data.email,
-						grupo:resp.data.grupo
-					})
-				})
-				
-		 		navigate("/BackOffice");
-		 	} else {
-		 		setErro(resp.data.message);
-		 	}
-		 });
+			if (resp.data == true) {
+				axios.post("http://localhost:8080/usuario", user).then((resp) => {
+					const currentUser = {
+						nome: resp.data.nome,
+						email: resp.data.email,
+						grupo: resp.data.grupo,
+					};
 
-		
+					sessionStorage.setItem("User", JSON.stringify(currentUser));
+				});
+				console.log(JSON.parse(sessionStorage.getItem("User")));
+				navigate("/BackOffice");
+			} else {
+				setErro(resp.data.message);
+			}
+		});
 	};
 	return (
 		<LoginMainContainer className="login_main">

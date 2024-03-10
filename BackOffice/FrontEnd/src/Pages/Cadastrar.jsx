@@ -1,15 +1,13 @@
-import React, { useContext } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { useState } from "react";
 import LeftArrow from "../assets/arrow-thin-left.svg";
 import { FormContainer, MainFormContainer } from "../Styles/Form.styles";
-import { UserContext } from "../Context/UserContext";
 
 //(props - propriedade de um componente): usuários como parâmetro
 function Cadastrar() {
 	let navigate = useNavigate();
-	const currentUser = useContext(UserContext)[0]
+	const currentUser = JSON.parse(sessionStorage.getItem("User"));
 
 	const user = {};
 	const [email, setEmail] = useState();
@@ -30,10 +28,10 @@ function Cadastrar() {
 		senha == confirmaSenha ? "" : alert("Senha tem que ser confirmada");
 		return isValid;
 	};
-const handleGrupo = () => {
+	const handleGrupo = () => {
 		setGrupo(event.target.value);
-		if(user.email == email){
-			prompt("Você não pode alterar seu próprio grupo")
+		if (user.email == email) {
+			prompt("Você não pode alterar seu próprio grupo");
 		}
 	};
 	const handleSave = (e) => {
@@ -56,90 +54,92 @@ const handleGrupo = () => {
 				});
 		}
 	};
-	console.log(currentUser.grupo)
-if(currentUser.grupo == "Admin"){
-	return (
-		<MainFormContainer>
-			<header>
-				<img src={LeftArrow} onClick={() => navigate(-1)} />
-				<h1>Cadastrar usuário</h1>
-			</header>
-			<div>
-				<FormContainer onSubmit={handleSave}>
-					<label htmlFor="email"> Email </label>
-					<input
-						onChange={(event) => setEmail(event.target.value)}
-						value={email}
-						type="text"
-						name="email"
-					/>
+	console.log(currentUser.grupo);
+	if (currentUser.grupo == "Admin") {
+		return (
+			<MainFormContainer>
+				<header>
+					<img src={LeftArrow} onClick={() => navigate(-1)} />
+					<h1>Cadastrar usuário</h1>
+				</header>
+				<div>
+					<FormContainer onSubmit={handleSave}>
+						<label htmlFor="email"> Email </label>
+						<input
+							onChange={(event) => setEmail(event.target.value)}
+							value={email}
+							type="text"
+							name="email"
+						/>
 
-					<label htmlFor="nome"> Nome </label>
-					<input
-						required
-						value={nome}
-						type="text"
-						name="nome"
-						onChange={(event) => setNome(event.target.value)}
-					/>
+						<label htmlFor="nome"> Nome </label>
+						<input
+							required
+							value={nome}
+							type="text"
+							name="nome"
+							onChange={(event) => setNome(event.target.value)}
+						/>
 
-					<label htmlFor="CPF"> CPF </label>
-					<input
-						required
-						value={cpf}
-						type="text"
-						name="CPF"
-						onChange={(event) => setCpf(event.target.value)}
-					/>
+						<label htmlFor="CPF"> CPF </label>
+						<input
+							required
+							value={cpf}
+							type="text"
+							name="CPF"
+							onChange={(event) => setCpf(event.target.value)}
+						/>
 
-					<label htmlFor="Grupo"> Grupo </label>
-					<select
-						onChange={(event) => handleGrupo(event)}
-						// value={grupo}
-						// type="text"
-						// name="Grupo"
-						// required
-						// onChange={(event) => setGrupo(event.target.value)}
-					>
-						<option value="Admin"> Admin </option>
-						<option value="Estoquista"> Estoquista </option>
-					</select>
-
-					<label htmlFor="Senha"> Senha </label>
-					<input
-						value={senha}
-						type="password"
-						name="Senha"
-						required
-						onChange={(event) => setSenha(event.target.value)}
-					/>
-
-					<label htmlFor="ConfirmaSenha"> Confirmar Senha </label>
-					<input
-						value={confirmaSenha}
-						type="password"
-						name="ConfirmaSenha"
-						required
-						onChange={(event) => setConfirmaSenha(event.target.value)}
-					/>
-					<div>
-						<button onClick={handleSave}>Cadastrar</button>
-						<button
-							onClick={() => {
-								navigate(-1);
-							}}
+						<label htmlFor="Grupo"> Grupo </label>
+						<select
+							onChange={(event) => handleGrupo(event)}
+							// value={grupo}
+							// type="text"
+							// name="Grupo"
+							// required
+							// onChange={(event) => setGrupo(event.target.value)}
 						>
-							Cancelar
-						</button>
-					</div>
-				</FormContainer>
+							<option value="Admin"> Admin </option>
+							<option value="Estoquista"> Estoquista </option>
+						</select>
+
+						<label htmlFor="Senha"> Senha </label>
+						<input
+							value={senha}
+							type="password"
+							name="Senha"
+							required
+							onChange={(event) => setSenha(event.target.value)}
+						/>
+
+						<label htmlFor="ConfirmaSenha"> Confirmar Senha </label>
+						<input
+							value={confirmaSenha}
+							type="password"
+							name="ConfirmaSenha"
+							required
+							onChange={(event) => setConfirmaSenha(event.target.value)}
+						/>
+						<div>
+							<button onClick={handleSave}>Cadastrar</button>
+							<button
+								onClick={() => {
+									navigate(-1);
+								}}
+							>
+								Cancelar
+							</button>
+						</div>
+					</FormContainer>
+				</div>
+			</MainFormContainer>
+		);
+	} else {
+		return (
+			<div>
+				<h1> Essa página só é acessível para administradores</h1>
 			</div>
-		</MainFormContainer>
-	);}
-	else{
-		return(<div>
-			<h1> Essa página só é acessível para administradores</h1>
-		</div>)
+		);
 	}
 }
 

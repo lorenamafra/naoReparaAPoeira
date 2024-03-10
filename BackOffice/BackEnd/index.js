@@ -18,7 +18,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
 	host: "127.0.0.1",
 	user: "root",
-	password: "TJrs4321@",
+	password: "80085",
 	database: "nrp",
 	port: "3306",
 });
@@ -59,7 +59,7 @@ app.post("/usuario", (req, res) => {
 app.post("/usuario/login", (req, res) => {
 	const email = req.body.email;
 	const senha = req.body.senha;
-	connection.query( 
+	connection.query(
 		"SELECT * FROM usuario WHERE email = ?",
 		email,
 		(err, result) => {
@@ -68,7 +68,7 @@ app.post("/usuario/login", (req, res) => {
 			}
 			if (result) {
 				if (result.length > 0) {
-					console.log(result)
+					console.log(result);
 					bcrypt.compare(senha, result[0].senha, (err, response) => {
 						if (err) {
 							console.log(err);
@@ -94,7 +94,7 @@ app.post("/usuario/cadastrar", (req, res) => {
 	const email = req.body.email;
 	const senha = req.body.senha;
 	const grupo = req.body.grupo;
-	console.log(req.body.email)
+	console.log(req.body.email);
 	bcrypt.hash(senha, saltRounds, (err, hash) => {
 		if (err) {
 			res.send({ err: err });
@@ -158,21 +158,20 @@ app.put("/usuario/alterarStatus", (req, res) => {
 	);
 });
 
-
-app.post("/usuario/pesquisar", (req, res) =>{
+app.post("/usuario/pesquisar", (req, res) => {
 	let nome = req.body.nome;
-	console.log(req.body)
+	console.log(req.body);
 	connection.query(
 		`SELECT * FROM usuario WHERE nome LIKE '%${nome}%';`,
-		(err, result) =>{
-			if(err){
+		(err, result) => {
+			if (err) {
 				throw err;
 			}
-			
-				res.send(result)
+
+			res.send(result);
 		}
-	)
-})
+	);
+});
 // app.put("/alterar-nome", (req, res) => {
 // 	const email = req.body.email;
 // 	const nome = req.body.nome;

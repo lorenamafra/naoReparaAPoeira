@@ -7,6 +7,7 @@ import LeftArrow from "../assets/arrow-thin-left.svg";
 function Alterar() {
 	let navigate = useNavigate();
 	let location = useLocation();
+	const currentUser = JSON.parse(sessionStorage.getItem("User"));
 
 	console.log(location.state.usuario);
 
@@ -78,8 +79,8 @@ function Alterar() {
 
 	const handleGrupo = () => {
 		setGrupo(event.target.value);
-		if(user.email == email){
-			prompt("Você não pode alterar seu próprio grupo")
+		if (user.email == email) {
+			prompt("Você não pode alterar seu próprio grupo");
 		}
 	};
 	return (
@@ -113,17 +114,24 @@ function Alterar() {
 					/>
 
 					<label htmlFor="Grupo"> Grupo </label>
-					<select
-						onChange={(event) => handleGrupo(event)}
-						// value={grupo}
-						// type="text"
-						// name="Grupo"
-						// required
-						// onChange={(event) => setGrupo(event.target.value)}
-					>
-						<option value="Admin"> Admin </option>
-						<option value="Estoquista"> Estoquista </option>
-					</select>
+
+					{currentUser.email == user.email ? (
+						<select disabled>
+							<option>{currentUser.grupo}</option>
+						</select>
+					) : (
+						<select
+							onChange={(event) => handleGrupo(event)}
+							// value={grupo}
+							// type="text"
+							// name="Grupo"
+							// required
+							// onChange={(event) => setGrupo(event.target.value)}
+						>
+							<option value="Admin"> Admin </option>
+							<option value="Estoquista"> Estoquista </option>
+						</select>
+					)}
 
 					<label htmlFor="Senha"> Senha </label>
 					<input
