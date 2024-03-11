@@ -6,6 +6,7 @@ import Cadastrar from "./Pages/Cadastrar";
 import Alterar from "./Pages/Alterar";
 import { useState } from "react";
 import ListaProdutos from "./Components/ListaProdutos";
+import CadastrarProdutos from "./Pages/CadastrarProdutos";
 
 function App() {
 	const [currentUser, setCurrentUser] = useState({
@@ -22,10 +23,8 @@ function App() {
 				<Route path="/BackOffice" element={<MainBackOffice />} />
 				<Route path="/Usuarios/Cadastrar" element={<Cadastrar />} />
 				<Route path="/Usuarios/Alterar" element={<Alterar />} />
-				<Route
-					path="./Components/ListaProdutos.jsx"
-					element={<ListaProdutos />}
-				/>
+				<Route path="/ListaProdutos" element={<ListaProdutos />} />
+				<Route path="/CadastrarProdutos" element={<CadastrarProdutos />} />
 			</Routes>
 		</UserContext.Provider>
 	);

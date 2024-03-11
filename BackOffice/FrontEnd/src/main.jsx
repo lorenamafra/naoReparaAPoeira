@@ -12,20 +12,6 @@ import Cadastrar from "./Pages/Cadastrar";
 import React from "react";
 import App from "./App";
 import "./index.css";
-const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <Login />,
-	},
-	{
-		path: "/BackOffice",
-		element: <MainBackOffice />,
-	},
-
-	{ path: "/Usuarios/Alterar", element: <Alterar /> },
-
-	{ path: "/Usuarios/Cadastrar", element: <Cadastrar /> },
-]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<BrowserRouter>
