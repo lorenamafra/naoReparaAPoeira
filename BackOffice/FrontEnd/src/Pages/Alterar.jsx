@@ -59,6 +59,26 @@ function Alterar() {
 		return isValid;
 	};
 
+	//função pra validar e-mail
+	// const form = document.querySelector('form');
+	// const buttonSubmit = document.getElementById('submit');
+
+	// const validaEmail = (email) =>{
+	// 	let validacao = /\S+@\S+\.\S+/;
+	// 	return validacao.test(email);
+	// }
+
+	// buttonSubmit.addEventListener('click', function(event){
+	// 	let email = document.getElementById('email').value;
+
+	// 	let response = validaEmail(email);
+	// 	if(response) {form.resete()}
+	// 	else{
+	// 		alert('E-mail inválido');
+	// 	}
+	// 	event.preventDefault( );
+	// })
+
 	const handleSave = (e) => {
 		e.preventDefault();
 
