@@ -68,7 +68,9 @@ function Cadastrar() {
             <input
               onChange={(event) => setEmail(event.target.value)}
               value={email}
-              type="text"
+              type="email"
+              required
+              pattern="/^[A-Z0-9. _%+-]+@[A-Z0-9. -]+\. [A-Z]{2,}$/i\"
               name="email"
             />
 
