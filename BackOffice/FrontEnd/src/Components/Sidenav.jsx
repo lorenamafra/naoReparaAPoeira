@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router";
 import {
 	AdminSideNav,
 	EstoquistaSideNav,
@@ -8,7 +7,6 @@ import {
 function Sidenav(props) {
 	console.log(props);
 	const setPage = props.page[1];
-	let navigate = useNavigate();
 	const currentUser = JSON.parse(sessionStorage.getItem("User"));
 
 	console.log(currentUser);
