@@ -12,3 +12,26 @@ status_cliente VARCHAR(150),
 grupo VARCHAR(150)
 );
 
+CREATE TABLE produto (
+id_produto INT AUTO_INCREMENT PRIMARY KEY,
+cod_produto VARCHAR(50) UNIQUE,
+nome_disco VARCHAR(200),
+estoque INT,
+valor DECIMAL,
+artista VARCHAR(150),
+categoria VARCHAR(150),
+ano INT,
+avaliacao DECIMAL,
+status_produto VARCHAR(50)
+);
+
+CREATE TABLE imagem_produto(
+id_imagem INT AUTO_INCREMENT PRIMARY KEY,
+cod_produto VARCHAR(50) UNIQUE,
+CONSTRAINT fk_cod_produto FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto),
+diretorio VARCHAR(150),
+extensao VARCHAR(50),
+imagem_principal VARCHAR(50)
+);
+
+

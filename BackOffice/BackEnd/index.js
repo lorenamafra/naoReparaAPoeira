@@ -116,8 +116,8 @@ app.post("/usuario/cadastrar", (req, res) => {
 });
 
 //Rota para alterar usuário
-
 app.put("/usuario/alterar", (req, res) => {
+<<<<<<< HEAD
 	const email = req.body.email;
 	const grupo = req.body.grupo;
 	const nome = req.body.nome;
@@ -125,6 +125,14 @@ app.put("/usuario/alterar", (req, res) => {
 	const status = req.body.status;
 	const cpf = req.body.cpf;
 	// Atualizar rotas
+=======
+  const email = req.body.email;
+  const grupo = req.body.grupo;
+  const nome = req.body.nome;
+  const senha = req.body.senha;
+  const status = req.body.status;
+  const cpf = req.body.cpf;
+>>>>>>> 569f6d6653a95e6849558890ab7cca4e3669cb30
 
 	bcrypt.hash(senha, saltRounds, (err, hash) => {
 		connection.query(
@@ -172,6 +180,79 @@ app.post("/usuario/pesquisar", (req, res) => {
 		}
 	);
 });
+
+app.post("/produto/inserir", (req, res) => {
+  const cod_produto = req.body.cod_produto;
+  const nome_disco = req.body.nome_disco;
+  const estoque = req.body.estoque;
+  const valor = req.body.valor;
+  const artista = req.body.artista;
+  const categoria = req.body.categoria;
+  const ano = req.body.ano;
+  const avaliacao = req.body.avaliacao;
+  const status_produto = req.body.status_produto;
+  connection.query(
+    `INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, categoria, ano, avaliacao, status_produto) VALUES ('${cod_produto}', '${nome_disco}', '${estoque}', '${valor}', '${artista}', '${categoria}', '${ano}', '${avaliacao}', '${status_produto}')`,
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      }
+
+      // Inserir dados na tabela imagem_produto, relacionando com o produto recém inserido
+      const cod_produto = req.body.cod_produto;
+      const diretorio = req.body.diretorio;
+      const extensao = req.body.extensao;
+      const imagem_principal = req.body.imagem_principal;
+      connection.query(
+        `INSERT INTO imagem_produto (cod_produto, diretorio, extensao, imagem_principal) VALUES ('${cod_produto}', '${diretorio}', '${extensao}', '${imagem_principal}')`,
+        (err, result) => {
+          if (err) {
+            res.send(err);
+          } else {
+            res.send("Produto e imagem inseridos com sucesso!");
+          }
+        }
+      );
+    }
+  );
+});
+
+app.put("/produto/alterarProduto", (req, res) => {
+  let cod_produto = req.body.cod_produto;
+  let nome_disco = req.body.nome_disco;
+  let estoque = req.body.estoque;
+  let valor = req.body.valor;
+  let artista = req.body.artista;
+  let categoria = req.body.categoria;
+  let ano = req.body.ano;
+  let avaliacao = req.body.avaliacao;
+  connection.query(
+    `UPDATE produto SET nome_disco= '${nome_disco}', estoque= '${estoque}', valor='${valor}', artista = '${artista}',   categoria='${categoria}', ano='${ano}', avaliacao='${avaliacao}'`,
+    (err, result) => {
+      if (result.affectedRows > 0) {
+        res.status(200).send("Atualizado com sucesso");
+      }
+
+      // Alterar imagem na tabela imagem_produto, relacionando com o produto recém alterado
+      let cod_produto = req.body.cod_produto;
+      let diretorio = req.body.diretorio;
+      let extensao = req.body.extensao;
+      let imagem_principal = req.body.imagem_principal;
+
+      connection.query(
+        `UPDATE imagem_produto SET diretorio= '${diretorio}', extensao= '${extensao}', imagem_principal='${imagem_principal}'`,
+        (err, result) => {
+          if (result.affectedRows > 0) {
+            res.status(200).send("Atualizado com sucesso");
+          } else {
+            res.status(400).send("Impossibilitado de alteração ");
+          }
+        }
+      );
+    }
+  );
+});
+
 // app.put("/alterar-nome", (req, res) => {
 // 	const email = req.body.email;
 // 	const nome = req.body.nome;
