@@ -5,7 +5,7 @@ import MainBackOffice from "./Pages/MainBackOffice";
 import Cadastrar from "./Pages/Cadastrar";
 import Alterar from "./Pages/Alterar";
 import { useState } from "react";
-import ListaProdutos from "./Components/ListaProdutos";
+import Produtos from "./Components/Produtos";
 import CadastrarProdutos from "./Pages/CadastrarProdutos";
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
         <Route path="/BackOffice" element={<MainBackOffice />} />
         <Route path="/Usuarios/Cadastrar" element={<Cadastrar />} />
         <Route path="/Usuarios/Alterar" element={<Alterar />} />
-        <Route path="/ListaProdutos" element={<ListaProdutos />} />
+        <Route path="/Produtos" element={<Produtos />} />
         <Route path="/CadastrarProdutos" element={<CadastrarProdutos />} />
       </Routes>
     </UserContext.Provider>
