@@ -30,7 +30,6 @@ id_imagem INT AUTO_INCREMENT PRIMARY KEY,
 cod_produto VARCHAR(50) UNIQUE,
 CONSTRAINT fk_cod_produto FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto),
 diretorio VARCHAR(150),
-nome_album VARCHAR(150),
 extensao VARCHAR(50),
 imagem_principal VARCHAR(50)
 );
