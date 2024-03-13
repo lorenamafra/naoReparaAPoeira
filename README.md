@@ -6,5 +6,5 @@ Projeto Integrador: Desenvolvimento de Sistemas Orientados a WEB
 
 O NRP (Não Repara a Poeira) é um E-commerce de discos de vinil desenvolvido a partir de CSS, HTML e JavaScript.
 Além do desenvolvimento do front office, também desenvolvemos o back office, de modo que o administrador possa realizar 
-alterações nas informações sobre os produtos e nos dados dos usuários (exceto e-mail cadastrado), além de cadastrar novos usuários 
+alterações nas informações sobre os produtos e nos dados dos usuários (exceto e-mail cadastrado), bem como cadastrar novos usuários 
 e definir seu acesso como administrador ou estoquista.
