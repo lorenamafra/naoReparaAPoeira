@@ -15,16 +15,20 @@ export const MainFormContainer = styled.div`
 
 export const ProdutoFormContainer = styled.form`
 	display: grid;
-	grid-template-columns: 1fr 1fr;
 	background-color: var(--blue);
 	padding: 1rem;
-	width: 50rem;
+	width: 55rem;
 	color: var(--white);
-	height: 100vh;
+	height: 80vh;
 
 	fieldset {
 		border: none;
 		width: 5rem;
+	}
+
+	section {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
 	}
 
 	img {
@@ -38,6 +42,11 @@ export const ProdutoFormContainer = styled.form`
 	}
 `;
 
+export const ImagesContainer = styled.div`
+	display: flex;
+	height: 300px;
+`;
+
 export const ImageFieldset = styled.fieldset`
 	display: grid;
 
@@ -48,12 +57,19 @@ export const ImageFieldset = styled.fieldset`
 	}
 
 	button {
+		color: white;
+		background: none;
 		border: 0;
-		background: red;
+		outline: 1px solid red;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		height: fit-content;
+		transition: all ease-in-out 0.15s;
+	}
+	button:hover {
+		background-color: red;
+		color: var(--white);
 	}
 
 	button img {
@@ -68,6 +84,22 @@ export const ImgLabel = styled.img`
 	width: 50px;
 	background-color: none;
 	margin: 0;
+`;
+
+export const SubmitButton = styled.button`
+	all: unset;
+	text-align: center;
+	height: 5rem;
+	float: bottom;
+	background: none;
+	outline: 1px solid white;
+	box-shadow: none;
+	transition: all ease-in-out 0.2s;
+
+	&:hover {
+		background-color: white;
+		color: black;
+	}
 `;
 
 export const FormContainer = styled.div`
@@ -120,6 +152,7 @@ export const FormContainer = styled.div`
 `;
 
 export const InputQuantidade = styled.input`
+	width: 50%;
 	text-align: center;
 	&::-webkit-outer-spin-button,
 	&::-webkit-inner-spin-button {

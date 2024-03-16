@@ -1,14 +1,22 @@
 import { useState } from "react";
 import {
 	ImageFieldset,
+	ImagesContainer,
 	ImgLabel,
 	InputQuantidade,
 	ProdutoFormContainer,
+	SubmitButton,
 } from "../Styles/Form.styles";
 import { MainFormContainer } from "../Styles/Form.styles";
-import Close from "../assets/Images/close.svg";
+
+import { RedirectText } from "../Styles/MainStyles.styles";
+import { useNavigate } from "react-router";
+import Icon from "@mdi/react";
+import { mdiTrashCanOutline } from "@mdi/js";
 
 function CadastrarProdutos() {
+	const navigate = useNavigate();
+
 	// const handleAdicionarImagem = () => {
 	// 	// Handle adicionar imagem irá retornar um fieldset como o que foi feito, e irá adicionar um sempre que tiver uma imagem nova a ser adicionada
 	// 	// Conte a quantidade de fieldsets
@@ -18,13 +26,17 @@ function CadastrarProdutos() {
 	function handleSubmit(event) {
 		event.preventDefault();
 		const fd = new FormData(event.currentTarget);
-		// fd.append('image',image)
-		console.log(fd);
 		fd.append("images", `${selectedImages} `);
-		console.log(fd.get("images"));
-
-		const disco = Object.fromEntries(fd);
-		console.log(disco);
+		let currentYear = new Date().getFullYear();
+		if (
+			parseInt(fd.get("year")) <= 1930 ||
+			parseInt(fd.get("year")) > currentYear
+		) {
+			console.log("ano errado");
+			console.log(new Date().getFullYear());
+		}
+		const entries = [...fd.values()];
+		console.log(entries);
 	}
 
 	const onSelectFile = (event) => {
@@ -42,89 +54,110 @@ function CadastrarProdutos() {
 	return (
 		<MainFormContainer>
 			<ProdutoFormContainer onSubmit={handleSubmit}>
-				<div>
-					<fieldset>
-						<label htmlFor="discName"> Disco </label>
-						<input type="text" name="discName" />
-					</fieldset>
-					<fieldset>
-						<label htmlFor=""> Artista </label>
-						<input type="text" name="artist" />
-					</fieldset>
-					<fieldset>
-						<label htmlFor=""> Generos </label>
-						<input type="text" name="genre" />
-					</fieldset>
-					<fieldset>
-						<label htmlFor=""> Ano de Lançamento </label>
-						<InputQuantidade width={50} type="Number" name="year" />
-					</fieldset>
-					<fieldset>
-						<label htmlFor=""> Quantidade </label>
-
-						<InputQuantidade type="number" name="quantidade" />
-					</fieldset>
-					<fieldset>
-						<label htmlFor=""> Avaliação </label>
-
-						<InputQuantidade type="number" />
-					</fieldset>
-					{/* <div id="inputImagem">
-					<fieldset>
-						<input type="file" name="imagem[0]" />
-						<div></div>
-					</fieldset>
-					<button type="button" id="btnNovaImagem">
-						Inlucir nova imagem
-					</button>
-				</div> */}
-					<button action="submit">Submit</button>
-				</div>
-				<fieldset>
-					<label>
-						Add Imagem
-						<input
-							type="file"
-							name="images"
-							onChange={onSelectFile}
-							multiple
-							accept="image/jpeg, image/png, image/webp"
-							style={{ display: "none" }}
-						/>
-					</label>
+				<section>
+					<div>
+						<fieldset>
+							<label htmlFor="discName"> Nome do Disco </label>
+							<input type="text" name="discName" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Artista </label>
+							<input type="text" name="artist" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Generos </label>
+							<input type="text" name="genre" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Ano de Lançamento </label>
+							<InputQuantidade
+								type="number"
+								name="year"
+								maxlength={4}
+								required
+							/>
+						</fieldset>
+					</div>
 
 					<div>
-						<div>
-							{selectedImages &&
-								selectedImages.map((image, index) => {
-									return (
-										<ImageFieldset key={index}>
-											<img src={image} alt="" />
-											<div>
-												<label htmlFor="principal">Main</label>
-												<input
-													type="radio"
-													name="principal"
-													value={index}
-													checked
-												/>
-											</div>
-											<button
-												onClick={() =>
-													setSelectedImages(
-														selectedImages.filter((e) => e !== image)
-													)
-												}
-											>
-												<ImgLabel src={Close} alt="" />
-												<p>Delete Image</p>
-											</button>
-										</ImageFieldset>
-									);
-								})}
-						</div>
+						<fieldset>
+							<label htmlFor=""> Quantidade </label>
+							<InputQuantidade type="number" name="quantidade" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Avaliação </label>
+							<select type="select" min={0} max={5} required>
+								<option value="0"> 0 </option>
+								<option value="0.5"> 0.5 </option>
+								<option value="1"> 1 </option>
+								<option value="1.5"> 1.5 </option>
+								<option value="2"> 2 </option>
+								<option value="2.5"> 2.5 </option>
+								<option value="3"> 3 </option>
+								<option value="3.5"> 3.5 </option>
+								<option value="4"> 4 </option>
+								<option value="4.5"> 4.5 </option>
+								<option value="5"> 5 </option>
+							</select>
+							/5
+						</fieldset>
+						<fieldset>
+							<label htmlFor="description">Descrição</label>
+							<textarea name="description " required></textarea>
+						</fieldset>
+						<RedirectText onClick={() => navigate("/Produto/Visualizar")}>
+							{" "}
+							Visualizar{" "}
+						</RedirectText>
+					</div>
+				</section>
+				<section>
+					<div>
+						<fieldset>
+							<label>
+								Add Imagem
+								<input
+									required
+									type="file"
+									name="images"
+									onChange={onSelectFile}
+									multiple
+									accept="image/jpeg, image/png, image/webp"
+								/>
+							</label>
 
-						{/* {selectedImages &&
+							<div>
+								<ImagesContainer>
+									{selectedImages &&
+										selectedImages.map((image, index) => {
+											return (
+												<ImageFieldset key={index}>
+													<img src={image} alt="" />
+													<div>
+														<label htmlFor="principal">Main</label>
+														<input
+															type="radio"
+															name="principal"
+															value={index}
+															checked
+														/>
+													</div>
+													<button
+														onClick={() =>
+															setSelectedImages(
+																selectedImages.filter((e) => e !== image)
+															)
+														}
+													>
+														<Icon path={mdiTrashCanOutline} size={1} />
+														<p>Delete Image</p>
+													</button>
+												</ImageFieldset>
+											);
+										})}
+								</ImagesContainer>
+
+								{/* {selectedImages &&
 							selectedImages.map((image, index) => {
 								return (
 									<fieldset key={index}>
@@ -155,8 +188,12 @@ function CadastrarProdutos() {
 									</fieldset>
 								);
 							})} */}
+							</div>
+						</fieldset>
 					</div>
-				</fieldset>
+				</section>
+
+				<SubmitButton type="submit">Submit</SubmitButton>
 			</ProdutoFormContainer>
 		</MainFormContainer>
 	);
