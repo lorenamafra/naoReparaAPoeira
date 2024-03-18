@@ -36,10 +36,7 @@ function CadastrarProdutos() {
       console.log(new Date().getFullYear());
     }
     const entries = [...fd.values()];
-    console.log(fd);
-    axios
-      .post("http://localhost:8080/produto/inserir", fd)
-      .then((resp) => console.log(resp));
+    console.log(entries);
   }
 
   const onSelectFile = (event) => {
