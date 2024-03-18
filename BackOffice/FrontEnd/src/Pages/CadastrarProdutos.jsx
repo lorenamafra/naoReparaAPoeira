@@ -35,7 +35,7 @@ function CadastrarProdutos() {
 			console.log("ano errado");
 			console.log(new Date().getFullYear());
 		}
-		const entries = [...fd.values()];
+		const entries = [...fd.entries()];
 		console.log(entries);
 	}
 
@@ -156,38 +156,6 @@ function CadastrarProdutos() {
 											);
 										})}
 								</ImagesContainer>
-
-								{/* {selectedImages &&
-							selectedImages.map((image, index) => {
-								return (
-									<fieldset key={index}>
-										<img src={image} alt="" />
-										<button
-											onClick={() =>
-												setSelectedImages(
-													selectedImages.filter((e) => e !== image)
-												)
-											}
-										>
-											Delete{" "}
-										</button>
-										<label htmlFor="principal">Main</label>
-										<input type="radio" name="principal" value="true" checked />
-										<label>
-											<AddImg src={addImgIcon} />
-											<p>Adicione</p>
-											<input
-												type="file"
-												name="images"
-												onChange={onSelectFile}
-												multiple
-												accept="image/jpeg, image/png, image/webp"
-												style={{ display: "none" }}
-											/>
-										</label>
-									</fieldset>
-								);
-							})} */}
 							</div>
 						</fieldset>
 					</div>

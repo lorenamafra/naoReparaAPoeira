@@ -33,22 +33,6 @@ app.get("/usuarios", function (req, res) {
 	});
 });
 
-app.get("/test", (req, res) => {
-	let resposta = [];
-
-	connection.query("select * from usuario where id = 6", (err, rows) => {
-		resposta.push(rows[0]);
-		console.log("resposta 1", resposta);
-	});
-
-	connection.query("select * from usuario where id = 7", (err, rows) => {
-		resposta.push(rows.splice(indexInicial, indexFinal));
-		console.log("resp 2", resposta);
-		console.log(rows[0]);
-	});
-
-	res.send(resposta);
-});
 //Rota para pegar UM usuário
 
 app.post("/usuario", (req, res) => {
@@ -84,7 +68,6 @@ app.post("/usuario/login", (req, res) => {
 			}
 			if (result) {
 				if (result.length > 0) {
-					console.log(result);
 					bcrypt.compare(senha, result[0].senha, (err, response) => {
 						if (err) {
 							console.log(err);

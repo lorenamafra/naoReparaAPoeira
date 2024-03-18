@@ -4,6 +4,7 @@ import {
 	MainContainer,
 } from "../Styles/ProductDetails.styles";
 import ProductImageDetailed from "./ProductImageDetailed";
+import ProductInfo from "./ProductInfo";
 
 function DetalhesProduto() {
 	return (
@@ -13,7 +14,9 @@ function DetalhesProduto() {
 					<ImageContainer>
 						<ProductImageDetailed />
 					</ImageContainer>
-					<div></div>
+					<div>
+						<ProductInfo />
+					</div>
 				</InnerContainer>
 			</MainContainer>
 		</div>

@@ -11,6 +11,7 @@ import {
 	MainBackOfficeContainer,
 	MainContainer,
 	OuterContainer,
+	AlterarStatusButton,
 } from "../Styles/MainBackOffice.styles.js";
 import {
 	ProdutoTable,
@@ -168,9 +169,10 @@ function MainBackOffice() {
 														<ProdutoTd>{produto.preco}</ProdutoTd>
 														<ProdutoTd>{produto.status}</ProdutoTd>
 														<button>alterar</button>
-														<button>inativar</button>
-														<button>reativar</button>
-														<button>vizualizar</button>
+														<AlterarStatusButton status={"Ativo"}>
+															Ativo
+														</AlterarStatusButton>
+														<button>Visualizar</button>
 													</tr>
 												);
 											})}

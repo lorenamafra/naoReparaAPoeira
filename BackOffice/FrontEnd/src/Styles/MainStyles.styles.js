@@ -5,6 +5,6 @@ export const RedirectText = styled.p`
 `;
 
 export const MainNav = styled.nav`
-	height: 4rem;
-	background-color: var(--black);
+	height: 8rem;
+	outline: 0.3rem solid black;
 `;
