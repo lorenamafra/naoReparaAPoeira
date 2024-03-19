@@ -172,59 +172,76 @@ app.post("/usuario/pesquisar", (req, res) => {
 });
 
 app.post("/produto/inserir", (req, res) => {
-  const cod_produto = req.body.cod_produto;
-  const nome_disco = req.body.nome_disco;
+  let nome_disco = req.body.nome_disco;
   const estoque = req.body.estoque;
   const valor = req.body.valor;
   const artista = req.body.artista;
-  const categoria = req.body.categoria;
+  const genero = req.body.genero;
   const ano = req.body.ano;
   const avaliacao = req.body.avaliacao;
-  const status_produto = req.body.status_produto;
-  // var abbr = artista
-  //   .split(" ")
-  //   .map(function (item) {
-  //     return item[0];
-  //   })
-  //   .join("");
+  const descricao = req.body.descricao;
 
-  // nome_disco = nome_disco.replaceAll(" ", "");
+  var abbr = artista
+    .split(" ")
+    .map(function (item) {
+      return item[0];
+    })
+    .join("");
 
-  // codProduto = abbr.concat(nome_disco, ano);
+  nome_disco = nome_disco.replaceAll(" ", "");
+
+  cod_produto = abbr.concat(nome_disco, ano);
+
+  connection.query(
+    `INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao) values ('${cod_produto}','${nome_disco}' , ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}')`,
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      }
+
+      if (result) {
+        res.send("Produto adicionado com sucesso!");
+      }
+    }
+  );
+
+  // if (result) {
+  //   const diretorio = req.body.diretorio;
+  //   const extensao = req.body.extensao;
+  //   const imagem_principal = req.body.imagem_principal;
+  //   connection.query(
+  //     `INSERT INTO imagem_produto (diretorio, extensao, imagem_principal) VALUES ('${cod_produto}', '${diretorio}', '${extensao}', '${imagem_principal}')`,
+  //     (err, result) => {
+  //       if (err) {
+  //         res.send(err);
+  //       } else {
+  //         res.send("Produto e imagem inseridos com sucesso!");
+  //       }
+  //     }
+  //   );
+  // }
 });
 
 app.put("/produto/alterarProduto", (req, res) => {
   let cod_produto = req.body.cod_produto;
-  let nome_disco = req.body.nome_disco;
   let estoque = req.body.estoque;
   let valor = req.body.valor;
   let artista = req.body.artista;
-  let categoria = req.body.categoria;
-  let ano = req.body.ano;
   let avaliacao = req.body.avaliacao;
+  let descricao = req.body.descricao;
+  let status_produto = req.body.status_produto;
+
   connection.query(
-    `UPDATE produto SET nome_disco= '${nome_disco}', estoque= '${estoque}', valor='${valor}', artista = '${artista}',   categoria='${categoria}', ano='${ano}', avaliacao='${avaliacao}'`,
+    `UPDATE usuario SET produto = ${estoque}, ${valor}, '${artista}',${avaliacao},'${descricao}','${status_produto} WHERE cod_produto = '${cod_produto}'`,
     (err, result) => {
+      if (err) {
+        throw err;
+      }
       if (result.affectedRows > 0) {
         res.status(200).send("Atualizado com sucesso");
+      } else {
+        res.status(404).send("Nenhum dado atualizado");
       }
-
-      // Alterar imagem na tabela imagem_produto, relacionando com o produto recém alterado
-      let cod_produto = req.body.cod_produto;
-      let diretorio = req.body.diretorio;
-      let extensao = req.body.extensao;
-      let imagem_principal = req.body.imagem_principal;
-
-      connection.query(
-        `UPDATE imagem_produto SET diretorio= '${diretorio}', extensao= '${extensao}', imagem_principal='${imagem_principal}'`,
-        (err, result) => {
-          if (result.affectedRows > 0) {
-            res.status(200).send("Atualizado com sucesso");
-          } else {
-            res.status(400).send("Impossibilitado de alteração ");
-          }
-        }
-      );
     }
   );
 });

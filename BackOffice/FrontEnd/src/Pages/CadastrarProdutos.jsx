@@ -37,6 +37,10 @@ function CadastrarProdutos() {
     }
     const entries = [...fd.values()];
     console.log(entries);
+    const formObject = Object.fromEntries(fd);
+    axios
+      .post("http://localhost:8080/produto/inserir", formObject)
+      .then((resp) => console.log(resp));
   }
 
   const onSelectFile = (event) => {
@@ -85,6 +89,10 @@ function CadastrarProdutos() {
               <InputQuantidade type="number" name="estoque" required />
             </fieldset>
             <fieldset>
+              <label htmlFor=""> Preço </label>
+              <InputQuantidade type="number" name="valor" required />
+            </fieldset>
+            <fieldset>
               <label htmlFor=""> Avaliação </label>
               <select type="select" name="avaliacao" min={0} max={5} required>
                 <option value="0"> 0 </option>
@@ -103,7 +111,7 @@ function CadastrarProdutos() {
             </fieldset>
             <fieldset>
               <label htmlFor="description">Descrição</label>
-              <textarea name="description " required></textarea>
+              <textarea name="descricao" required></textarea>
             </fieldset>
             <RedirectText onClick={() => navigate("/Produto/Visualizar")}>
               {" "}
