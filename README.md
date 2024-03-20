@@ -10,5 +10,6 @@ alterações nas informações sobre os produtos e nos dados dos usuários (exce
 e definir seu acesso como administrador ou estoquista.
 
 
-Diagrama EER do banco de dados
+
+Diagrama EER do banco de dados:
 ![image](https://github.com/lorenamafra/naoReparaAPoeira/assets/108240782/2215094b-daaf-4d6d-90e4-102bf7df7794)
