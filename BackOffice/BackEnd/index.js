@@ -19,7 +19,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "80085",
+  password: "Lolo@2024",
   database: "nrp",
   port: "3306",
 });
@@ -248,6 +248,18 @@ app.put("/produto/alterarProduto", (req, res) => {
 app.get("/produtos", function (req, res) {
   connection.query(
     `SELECT * FROM produto ORDER BY id_produto DESC`,
+    (err, rows) => {
+      if (err) throw err;
+
+      res.send({ produtos: rows });
+    }
+  );
+});
+
+//listar somente um item da tabela
+app.get("/produtos", function (req, res) {
+  connection.query(
+    `SELECT nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria FROM produto WHERE cod_produto = ?`,
     (err, rows) => {
       if (err) throw err;
 
