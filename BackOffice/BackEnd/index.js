@@ -19,7 +19,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "Lolo@2024",
+  password: "TJrs4321@",
   database: "nrp",
   port: "3306",
 });

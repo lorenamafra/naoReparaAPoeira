@@ -20,6 +20,19 @@ export const ProdutoTh = styled.th`
 `;
 
 export const ProdutoTd = styled.td`
-  border: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   padding: 8px;
+`;
+
+export const Pagination = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const PaginationButton = styled.div`
+  display: flex;
+`;
+
+export const PaginationItem = styled.div`
+  margin: 0 10px;
 `;
