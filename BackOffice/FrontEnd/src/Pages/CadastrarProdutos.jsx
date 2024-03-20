@@ -1,11 +1,11 @@
 import { useState } from "react";
 import {
-  ImageFieldset,
-  ImagesContainer,
-  ImgLabel,
-  InputQuantidade,
-  ProdutoFormContainer,
-  SubmitButton,
+	ImageFieldset,
+	ImagesContainer,
+	ImgLabel,
+	InputQuantidade,
+	ProdutoFormContainer,
+	SubmitButton,
 } from "../Styles/Form.styles";
 import { MainFormContainer } from "../Styles/Form.styles";
 import axios from "axios";
@@ -15,118 +15,136 @@ import Icon from "@mdi/react";
 import { mdiTrashCanOutline } from "@mdi/js";
 
 function CadastrarProdutos() {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
+	const [images, setImages] = useState([]);
 
-  // const handleAdicionarImagem = () => {
-  // 	// Handle adicionar imagem irá retornar um fieldset como o que foi feito, e irá adicionar um sempre que tiver uma imagem nova a ser adicionada
-  // 	// Conte a quantidade de fieldsets
-  // 	// usar a KEY do MAP para ser a quantidade da imagem no nome "imagem[i]"
-  // };
+	// const handleImages = (e) => {};
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const fd = new FormData(event.currentTarget);
-    fd.append("images", `${selectedImages} `);
-    let currentYear = new Date().getFullYear();
-    if (
-      parseInt(fd.get("year")) <= 1930 ||
-      parseInt(fd.get("year")) > currentYear
-    ) {
-      console.log("ano errado");
-      console.log(new Date().getFullYear());
-    }
-    const entries = [...fd.values()];
-    console.log(entries);
-    const formObject = Object.fromEntries(fd);
-    formObject.images = formObject.images.split(",");
-    console.log(formObject);
-    axios
-      .post("http://localhost:8080/produto/inserir", formObject)
-      .then((resp) => console.log(resp));
-  }
+	function handleSubmit(event) {
+		event.preventDefault();
+		const fd = new FormData(event.currentTarget);
+		let currentYear = new Date().getFullYear();
 
-  const onSelectFile = (event) => {
-    const selectedFiles = event.target.files;
-    const selectedFilesArray = Array.from(selectedFiles);
+		var abbr = fd
+			.get("artista")
+			.split(" ")
+			.map(function (item) {
+				return item[0];
+			})
+			.join("");
 
-    const imagesArray = selectedFilesArray.map((file) => {
-      return URL.createObjectURL(file);
-    });
+		let nome_disco = fd.get("nome_disco").replaceAll(" ", "");
 
-    setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-  };
+		let cod_produto = abbr.concat(nome_disco, fd.get("ano"));
 
-  return (
-    <MainFormContainer>
-      <ProdutoFormContainer onSubmit={handleSubmit}>
-        <section>
-          <div>
-            <fieldset>
-              <label htmlFor="discName"> Nome do Disco </label>
-              <input type="text" name="nome_disco" required />
-            </fieldset>
-            <fieldset>
-              <label htmlFor=""> Artista </label>
-              <input type="text" name="artista" required />
-            </fieldset>
-            <fieldset>
-              <label htmlFor=""> Generos </label>
-              <input type="text" name="genero" required />
-            </fieldset>
-            <fieldset>
-              <label htmlFor=""> Ano de Lançamento </label>
-              <InputQuantidade
-                type="number"
-                name="ano"
-                maxlength={4}
-                required
-              />
-            </fieldset>
-          </div>
+		for (let i = 0; i <= images.length; i++) {
+			fd.append(`images`, images[0][i]);
+			console.log(images[0][i]);
+		}
 
-          <div>
-            <fieldset>
-              <label htmlFor=""> Quantidade </label>
-              <InputQuantidade type="number" name="estoque" required />
-            </fieldset>
-            <fieldset>
-              <label htmlFor=""> Preço </label>
-              <InputQuantidade type="number" name="valor" required />
-            </fieldset>
-            <fieldset>
-              <label htmlFor=""> Avaliação </label>
-              <select type="select" name="avaliacao" min={0} max={5} required>
-                <option value="0"> 0 </option>
-                <option value="0.5"> 0.5 </option>
-                <option value="1"> 1 </option>
-                <option value="1.5"> 1.5 </option>
-                <option value="2"> 2 </option>
-                <option value="2.5"> 2.5 </option>
-                <option value="3"> 3 </option>
-                <option value="3.5"> 3.5 </option>
-                <option value="4"> 4 </option>
-                <option value="4.5"> 4.5 </option>
-                <option value="5"> 5 </option>
-              </select>
-              /5
-            </fieldset>
-            <fieldset>
-              <label htmlFor="description">Descrição</label>
-              <textarea name="descricao" required></textarea>
-            </fieldset>
-            <RedirectText onClick={() => navigate("/Produto/Visualizar")}>
-              {" "}
-              Visualizar{" "}
-            </RedirectText>
-          </div>
-        </section>
-        <div style={{ display: "grid" }}>
-          <SubmitButton type="submit">Submit</SubmitButton>
-          <SubmitButton onClick={() => navigate(-1)}>Cancelar</SubmitButton>
-        </div>
-      </ProdutoFormContainer>
-    </MainFormContainer>
-  );
+		if (
+			parseInt(fd.get("year")) <= 1930 ||
+			parseInt(fd.get("year")) > currentYear
+		) {
+			console.log("ano errado");
+			console.log(new Date().getFullYear());
+		}
+		console.log(fd.getAll("images"));
+
+		axios
+			.post("http://localhost:8080/produto/inserir", fd)
+			.then((resp) => console.log(resp));
+	}
+
+	// const handleImage = (e) => {
+	// 	console.log(e.target.files);
+	// 	let currentImages = images;
+	// 	currentImages.push(e.target.files);
+	// 	setImages(currentImages);
+	// 	console.log(images);
+	// };
+
+	return (
+		<MainFormContainer>
+			<ProdutoFormContainer onSubmit={handleSubmit}>
+				<section>
+					<div>
+						<fieldset>
+							<label htmlFor="discName"> Nome do Disco </label>
+							<input type="text" name="nome_disco" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Artista </label>
+							<input type="text" name="artista" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Generos </label>
+							<input type="text" name="genero" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Ano de Lançamento </label>
+							<InputQuantidade
+								type="number"
+								name="ano"
+								maxlength={4}
+								required
+							/>
+						</fieldset>
+					</div>
+
+					<div>
+						<fieldset>
+							<label htmlFor=""> Quantidade </label>
+							<InputQuantidade type="number" name="estoque" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Preço </label>
+							<InputQuantidade type="number" name="valor" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Avaliação </label>
+							<select type="select" name="avaliacao" min={0} max={5} required>
+								<option value="0"> 0 </option>
+								<option value="0.5"> 0.5 </option>
+								<option value="1"> 1 </option>
+								<option value="1.5"> 1.5 </option>
+								<option value="2"> 2 </option>
+								<option value="2.5"> 2.5 </option>
+								<option value="3"> 3 </option>
+								<option value="3.5"> 3.5 </option>
+								<option value="4"> 4 </option>
+								<option value="4.5"> 4.5 </option>
+								<option value="5"> 5 </option>
+							</select>
+							/5
+						</fieldset>
+						<fieldset>
+							<label htmlFor="description">Descrição</label>
+							<textarea name="descricao" required></textarea>
+						</fieldset>
+						<RedirectText onClick={() => navigate("/Produto/Visualizar")}>
+							{" "}
+							Visualizar{" "}
+						</RedirectText>
+					</div>
+				</section>
+
+				<fieldset>
+					<input
+						type="file"
+						name="images"
+						onChange={(e) => setImages(e.target.files)}
+						multiple
+					/>
+				</fieldset>
+				<div style={{ display: "grid" }}>
+					<SubmitButton type="">IMAGE TEST</SubmitButton>
+					<SubmitButton type="submit">Submit</SubmitButton>
+					<SubmitButton onClick={() => navigate(-1)}>Cancelar</SubmitButton>
+				</div>
+			</ProdutoFormContainer>
+		</MainFormContainer>
+	);
 }
 
 export default CadastrarProdutos;
