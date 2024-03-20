@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+multer = require("multer");
 
 // creating instances of the imports
 const app = new express();
@@ -55,7 +56,6 @@ app.post("/usuario", (req, res) => {
 });
 
 // Rota para Login
-
 app.post("/usuario/login", (req, res) => {
   const email = req.body.email;
   const senha = req.body.senha;
@@ -171,7 +171,21 @@ app.post("/usuario/pesquisar", (req, res) => {
   );
 });
 
-app.post("/produto/inserir", (req, res) => {
+//CADASTRAR PRODUTOS!!!!!!!!!!!!!!!!!!!!!!!!!!
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + file.originalName);
+  },
+});
+
+const uploadImage = multer({ storage: storage }).array("images", 12);
+app.post("/produto/inserir", uploadImage, (req, res) => {
+  const files = req.files;
+  console.log(files);
   let nome_disco = req.body.nome_disco;
   const estoque = req.body.estoque;
   const valor = req.body.valor;
@@ -193,7 +207,7 @@ app.post("/produto/inserir", (req, res) => {
   cod_produto = abbr.concat(nome_disco, ano);
 
   connection.query(
-    `INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao) values ('${cod_produto}','${nome_disco}' , ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}')`,
+    `INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}')`,
     (err, result) => {
       if (err) {
         res.send(err);
@@ -204,24 +218,9 @@ app.post("/produto/inserir", (req, res) => {
       }
     }
   );
-
-  // if (result) {
-  //   const diretorio = req.body.diretorio;
-  //   const extensao = req.body.extensao;
-  //   const imagem_principal = req.body.imagem_principal;
-  //   connection.query(
-  //     `INSERT INTO imagem_produto (diretorio, extensao, imagem_principal) VALUES ('${cod_produto}', '${diretorio}', '${extensao}', '${imagem_principal}')`,
-  //     (err, result) => {
-  //       if (err) {
-  //         res.send(err);
-  //       } else {
-  //         res.send("Produto e imagem inseridos com sucesso!");
-  //       }
-  //     }
-  //   );
-  // }
 });
 
+//ALTERAR PRODUTO!!!
 app.put("/produto/alterarProduto", (req, res) => {
   let cod_produto = req.body.cod_produto;
   let estoque = req.body.estoque;
@@ -232,7 +231,7 @@ app.put("/produto/alterarProduto", (req, res) => {
   let status_produto = req.body.status_produto;
 
   connection.query(
-    `UPDATE usuario SET produto = ${estoque}, ${valor}, '${artista}',${avaliacao},'${descricao}','${status_produto} WHERE cod_produto = '${cod_produto}'`,
+    `UPDATE produto SET estoque = ${estoque}, valor = ${valor}, artista = '${artista}', avaliacao = ${avaliacao}, descricao = '${descricao}', status ='${status_produto} WHERE cod_produto = '${cod_produto}'`,
     (err, result) => {
       if (err) {
         throw err;
@@ -242,6 +241,17 @@ app.put("/produto/alterarProduto", (req, res) => {
       } else {
         res.status(404).send("Nenhum dado atualizado");
       }
+    }
+  );
+});
+
+app.get("/produtos", function (req, res) {
+  connection.query(
+    "SELECT * FROM produto ORDER BY id_produto DESC",
+    (err, rows) => {
+      if (err) throw err;
+
+      res.send({ produtos: rows });
     }
   );
 });

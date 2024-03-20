@@ -14,14 +14,8 @@ import { useNavigate } from "react-router";
 import Icon from "@mdi/react";
 import { mdiTrashCanOutline } from "@mdi/js";
 
-function CadastrarProdutos() {
+function AlterarProdutos() {
   const navigate = useNavigate();
-
-  // const handleAdicionarImagem = () => {
-  // 	// Handle adicionar imagem irá retornar um fieldset como o que foi feito, e irá adicionar um sempre que tiver uma imagem nova a ser adicionada
-  // 	// Conte a quantidade de fieldsets
-  // 	// usar a KEY do MAP para ser a quantidade da imagem no nome "imagem[i]"
-  // };
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -41,20 +35,9 @@ function CadastrarProdutos() {
     formObject.images = formObject.images.split(",");
     console.log(formObject);
     axios
-      .post("http://localhost:8080/produto/inserir", formObject)
+      .post("http://localhost:8080/produto/alterarProduto", formObject)
       .then((resp) => console.log(resp));
   }
-
-  const onSelectFile = (event) => {
-    const selectedFiles = event.target.files;
-    const selectedFilesArray = Array.from(selectedFiles);
-
-    const imagesArray = selectedFilesArray.map((file) => {
-      return URL.createObjectURL(file);
-    });
-
-    setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-  };
 
   return (
     <MainFormContainer>
@@ -120,10 +103,7 @@ function CadastrarProdutos() {
             </RedirectText>
           </div>
         </section>
-        <div style={{ display: "grid" }}>
-          <SubmitButton type="submit">Submit</SubmitButton>
-          <SubmitButton onClick={() => navigate(-1)}>Cancelar</SubmitButton>
-        </div>
+        <SubmitButton type="submit">Submit</SubmitButton>
       </ProdutoFormContainer>
     </MainFormContainer>
   );
