@@ -25,7 +25,6 @@ var connection = mysql.createConnection({
 });
 
 // Rota para pegar todos os usuários
-
 app.get("/usuarios", function (req, res) {
   connection.query("SELECT * FROM usuario", (err, rows) => {
     if (err) throw err;
@@ -35,7 +34,6 @@ app.get("/usuarios", function (req, res) {
 });
 
 //Rota para pegar UM usuário
-
 app.post("/usuario", (req, res) => {
   const email = req.body.email;
   connection.query(
@@ -196,13 +194,23 @@ app.post("/produto/inserir", uploadImage, (req, res) => {
   const avaliacao = req.body.avaliacao;
   const descricao = req.body.descricao;
 
+  var abbr = artista
+    .split(" ")
+    .map(function (item) {
+      return item[0];
+    })
+    .join("");
+
+  nome_disco = nome_disco.replaceAll(" ", "");
+
+  cod_produto = abbr.concat(nome_disco, ano);
+
   connection.query(
-    `INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}')`,
+    `INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo",'${descricao}')`,
     (err, result) => {
       if (err) {
         res.send(err);
       }
-
       if (result) {
         res.send("Produto adicionado com sucesso!");
       }
@@ -221,7 +229,7 @@ app.put("/produto/alterarProduto", (req, res) => {
   let status_produto = req.body.status_produto;
 
   connection.query(
-    `UPDATE produto SET estoque = ${estoque}, valor = ${valor}, artista = '${artista}', avaliacao = ${avaliacao}, descricao = '${descricao}', status ='${status_produto} WHERE cod_produto = '${cod_produto}'`,
+    `UPDATE produto SET estoque = ${estoque}, valor = ${valor}, artista = '${artista}', avaliacao = ${avaliacao}, descricao = '${descricao}', status ='${status_produto} WHERE cod_produto = ${cod_produto}`,
     (err, result) => {
       if (err) {
         throw err;
@@ -231,6 +239,22 @@ app.put("/produto/alterarProduto", (req, res) => {
       } else {
         res.status(404).send("Nenhum dado atualizado");
       }
+    }
+  );
+});
+
+//busca por um produto por id
+app.post("/usuario/pesquisar", (req, res) => {
+  let nome = req.body.nome;
+  console.log(req.body);
+  connection.query(
+    `SELECT * FROM produto WHERE cod_produto = ?;`,
+    (err, result) => {
+      if (err) {
+        throw err;
+      }
+
+      res.send(result);
     }
   );
 });
@@ -251,9 +275,10 @@ app.post("/usuario/pesquisar", (req, res) => {
   );
 });
 
+//busca todos os produtos por ordem decrescente
 app.get("/produtos", function (req, res) {
   connection.query(
-    `SELECT * FROM produto  ORDER BY id_produto DESC`,
+    `SELECT * FROM produto ORDER BY id_produto DESC`,
     (err, rows) => {
       if (err) throw err;
 
@@ -264,32 +289,17 @@ app.get("/produtos", function (req, res) {
 
 // listar os 10 primeiros itens da tabela (use essa rota só na página 1)
 app.get("/produtos", function (req, res) {
-  connection.query(`SELECT * FROM produto LIMIT 10`, (err, rows) => {
-    if (err) throw err;
+  //página= página atual * index por página
+  connection.query(
+    `SELECT * FROM produto LIMIT 10 OFFSET ${pagina} ORDER BY id_produto DESC`,
+    (err, rows) => {
+      if (err) throw err;
 
-    res.send({ produtos: rows });
-  });
+      res.send({ produtos: rows });
+    }
+  );
 });
 
-// listar os itens do 11 ao 20 (use essa rota só na página 2)
-app.get("/produtos", function (req, res) {
-  connection.query(`SELECT * FROM produto LIMIT 10 OFFSET 20`, (err, rows) => {
-    if (err) throw err;
-
-    res.send({ produtos: rows });
-  });
-});
-
-// listar os itens do 21 ao 30 (use essa rota só na página 3)
-app.get("/produtos", function (req, res) {
-  connection.query(`SELECT * FROM produto LIMIT 10 OFFSET 30`, (err, rows) => {
-    if (err) throw err;
-
-    res.send({ produtos: rows });
-  });
-});
-
-*/
 // app.put("/alterar-nome", (req, res) => {
 // 	const email = req.body.email;
 // 	const nome = req.body.nome;

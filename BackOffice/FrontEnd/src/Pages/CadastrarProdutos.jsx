@@ -73,10 +73,11 @@ function CadastrarProdutos() {
     }
     console.log(fd.getAll("images"));
 
-    // axios
-    //   .post("http://localhost:8080/produto/inserir", fd)
-    //   .then((resp) => console.log(resp));
+    axios
+      .post("http://localhost:8080/produto/inserir", fd)
+      .then((resp) => console.log(resp));
   }
+
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagesComponents, setImagesComponents] = useState([]);
   const [images, setImages] = useState([]);
@@ -203,7 +204,6 @@ function CadastrarProdutos() {
               <label>
                 Add Imagem
                 <input
-                  required
                   type="file"
                   name="images"
                   onChange={(e) => onSelectFile(e)}

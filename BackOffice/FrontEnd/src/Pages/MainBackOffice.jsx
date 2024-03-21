@@ -64,7 +64,7 @@ function MainBackOffice() {
     { nome: "teste13", codigo: 13, estoque: 11, preco: 14.5, status: "ativo" },
   ];
 
-  //Produtos --------------------------------------------------------------------------------
+  //Produtos
 
   const [products, setProducts] = useState([]);
   const [total] = useState(products.length);
@@ -75,7 +75,7 @@ function MainBackOffice() {
   const [loaderP, setLoaderP] = useState(true);
   const [nomeDisco, setNomeDisco] = useState();
 
-  //Usuarios --------------------------------------------------------------------------------
+  //Usuarios
 
   const currentUser = JSON.parse(sessionStorage.getItem("User"));
   const navigate = useNavigate();
@@ -84,7 +84,7 @@ function MainBackOffice() {
   const [loader, setLoader] = useState(true);
   const [page, setPage] = useState();
 
-  //Produtos --------------------------------------------------------------------------------
+  //Produtos
 
   useEffect(() => {
     function loadProdutos() {
