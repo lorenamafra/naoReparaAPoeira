@@ -19,7 +19,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "80085",
+  password: "TJrs4321@",
   database: "nrp",
   port: "3306",
 });
@@ -247,7 +247,7 @@ app.put("/produto/alterarProduto", (req, res) => {
 
 app.get("/produtos", function (req, res) {
   connection.query(
-    `SELECT * FROM produto ORDER BY id_produto DESC`,
+    `SELECT * FROM produto  ORDER BY id_produto DESC`,
     (err, rows) => {
       if (err) throw err;
 
@@ -256,8 +256,41 @@ app.get("/produtos", function (req, res) {
   );
 });
 
+app.post("/produtos/pesquisar", (req, res) => {
+  let nomeDisco = req.body.nome;
+  console.log(req.body);
+  connection.query(
+    `SELECT * FROM produto WHERE nome_disco LIKE '%${nomeDisco}%';`,
+    (err, result) => {
+      if (err) {
+        throw err;
+      }
+
+      res.send(result);
+    }
+  );
+});
+
+app.put("/usuario/alterarStatusProduto", (req, res) => {
+  let status_produto = req.body.status_produto;
+  let cod_produto = req.body.cod_produto;
+  connection.query(
+    `UPDATE produto SET status_produto = '${status_produto}' WHERE EMAIL = '${cod_produto}'`,
+    (err, result) => {
+      if (err) {
+        throw err;
+      }
+      if (result.affectedRows > 0) {
+        res.status(200).send("Atualizado com sucesso");
+      } else {
+        res.status(404).send("Codigo não encontrado");
+      }
+    }
+  );
+});
+
 // listar os 10 primeiros itens da tabela (use essa rota só na página 1)
-app.get("/produtos", function (req, res) {
+/*app.get("/produtos", function (req, res) {
   connection.query(`SELECT * FROM produto LIMIT 10`, (err, rows) => {
     if (err) throw err;
 
@@ -283,6 +316,7 @@ app.get("/produtos", function (req, res) {
   });
 });
 
+*/
 // app.put("/alterar-nome", (req, res) => {
 // 	const email = req.body.email;
 // 	const nome = req.body.nome;

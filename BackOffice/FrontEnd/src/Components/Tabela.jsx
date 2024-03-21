@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { AlterarStatusButton } from "../Styles/MainBackOffice.styles.js";
 
@@ -13,6 +13,7 @@ import {
 
 function Tabela() {
   const produtos = [
+    { nome: "teste0", codigo: 0, estoque: 1, preco: 10.99, status: "inativo" },
     { nome: "teste1", codigo: 1, estoque: 1, preco: 10.99, status: "inativo" },
     { nome: "teste2", codigo: 2, estoque: 5, preco: 20.0, status: "ativo" },
     { nome: "teste3", codigo: 3, estoque: 21, preco: 12.99, status: "ativo" },
@@ -40,17 +41,28 @@ function Tabela() {
     { nome: "teste13", codigo: 13, estoque: 11, preco: 14.5, status: "ativo" },
   ];
 
-  const total = produtos.length;
+  const [products, setProducts] = useState([]);
+  const [total] = useState(produtos.length);
+  const [limite] = useState(10);
+  const [pages, setPages] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const limite = 10;
-  const totalPages = Math.ceil(total / limite);
+  useEffect(() => {
+    function loadProdutos() {
+      const totalPages = Math.ceil(total / limite);
+      const arrayPages = [];
+      for (let i = 1; i <= totalPages; i++) {
+        arrayPages.push(i);
+      }
+      setPages(arrayPages);
 
-  const arrayPages = [];
-  for (let i = 1; i <= totalPages; i++) {
-    arrayPages.push(i);
-  }
+      const startIndex = (currentPage - 1) * limite;
+      const slicedProducts = produtos.slice(startIndex, startIndex + limite);
+      setProducts(slicedProducts);
+    }
 
-  const paginas = arrayPages.length;
+    loadProdutos();
+  }, [currentPage, total, limite, produtos]);
 
   return (
     <>
@@ -68,14 +80,14 @@ function Tabela() {
           </tr>
         </thead>
         <tbody>
-          {produtos.map((produto) => {
+          {products.map((product) => {
             return (
-              <tr key={produto.codigo}>
-                <ProdutoTd>{produto.codigo}</ProdutoTd>
-                <ProdutoTd>{produto.nome}</ProdutoTd>
-                <ProdutoTd>{produto.estoque}</ProdutoTd>
-                <ProdutoTd>{produto.preco}</ProdutoTd>
-                <ProdutoTd>{produto.status}</ProdutoTd>
+              <tr key={products.codigo}>
+                <ProdutoTd>{product.codigo}</ProdutoTd>
+                <ProdutoTd>{product.nome}</ProdutoTd>
+                <ProdutoTd>{product.estoque}</ProdutoTd>
+                <ProdutoTd>{product.preco}</ProdutoTd>
+                <ProdutoTd>{product.status}</ProdutoTd>
                 <ProdutoTd>
                   <button>alterar</button>
                 </ProdutoTd>
@@ -93,13 +105,38 @@ function Tabela() {
         </tbody>
       </ProdutoTable>
       <Pagination>
-        <div>Qtd de itens: {total} </div>
         <PaginationButton>
-          <PaginationItem>Anterior</PaginationItem>
-          {arrayPages.map((arrayPages) => {
-            return <PaginationItem>{arrayPages}</PaginationItem>;
-          })}
-          <PaginationItem>Próxima</PaginationItem>
+          <PaginationItem>
+            <button
+              onClick={() =>
+                setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)
+              }
+            >
+              Anterior
+            </button>
+          </PaginationItem>
+          {pages.map((page) => (
+            <PaginationItem>
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                disabled={page === currentPage}
+              >
+                {page}
+              </button>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <button
+              onClick={() =>
+                setCurrentPage(
+                  currentPage < pages.length ? currentPage + 1 : pages.length
+                )
+              }
+            >
+              Próxima
+            </button>
+          </PaginationItem>
         </PaginationButton>
       </Pagination>
     </>

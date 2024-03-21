@@ -11,11 +11,20 @@ import {
   MainBackOfficeContainer,
   MainContainer,
   OuterContainer,
+  ContainerHead,
   AlterarStatusButton,
 } from "../Styles/MainBackOffice.styles.js";
 
+import {
+  ProdutoTable,
+  ProdutoTh,
+  ProdutoTd,
+  Pagination,
+  PaginationButton,
+  PaginationItem,
+} from "../Styles/ListaProdutos.styles.js";
+
 import { useNavigate } from "react-router";
-import Tabela from "../Components/Tabela.jsx";
 
 //mockUser
 // const mockUser = {
@@ -27,6 +36,7 @@ import Tabela from "../Components/Tabela.jsx";
 
 function MainBackOffice() {
   const produtos = [
+    { nome: "teste0", codigo: 0, estoque: 1, preco: 10.99, status: "inativo" },
     { nome: "teste1", codigo: 1, estoque: 1, preco: 10.99, status: "inativo" },
     { nome: "teste2", codigo: 2, estoque: 5, preco: 20.0, status: "ativo" },
     { nome: "teste3", codigo: 3, estoque: 21, preco: 12.99, status: "ativo" },
@@ -54,23 +64,18 @@ function MainBackOffice() {
     { nome: "teste13", codigo: 13, estoque: 11, preco: 14.5, status: "ativo" },
   ];
 
+  //Produtos --------------------------------------------------------------------------------
+
+  const [products, setProducts] = useState([]);
+  const [total] = useState(products.length);
+  const [limite] = useState(10);
+  const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  // Definindo o número de itens por página
-  const itemsPerPage = 10;
+  const [mostrarTabela, setMostrarTabela] = useState(false);
+  const [loaderP, setLoaderP] = useState(true);
+  const [nomeDisco, setNomeDisco] = useState();
 
-  // Calculando o índice inicial e final dos itens na página atual
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const [currentItens, setCurrentItens] = useState([]);
-  // Função para trocar para a página anterior
-  const goToPrevPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
-  };
-
-  // Função para trocar para a próxima página
-  const goToNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
+  //Usuarios --------------------------------------------------------------------------------
 
   const currentUser = JSON.parse(sessionStorage.getItem("User"));
   const navigate = useNavigate();
@@ -78,7 +83,74 @@ function MainBackOffice() {
   const [usuarios, setUsuarios] = useState([]);
   const [loader, setLoader] = useState(true);
   const [page, setPage] = useState();
-  console.log(produtos[0]);
+
+  //Produtos --------------------------------------------------------------------------------
+
+  useEffect(() => {
+    function loadProdutos() {
+      const totalPages = Math.ceil(total / limite);
+      const arrayPages = [];
+      for (let i = 1; i <= totalPages; i++) {
+        arrayPages.push(i);
+      }
+      setPages(arrayPages);
+
+      const startIndex = (currentPage - 1) * limite;
+      const slicedProducts = products.slice(startIndex, startIndex + limite);
+      setProducts(slicedProducts);
+    }
+
+    loadProdutos();
+  }, [currentPage, total, limite, products]);
+
+  useEffect(() => {
+    const fetchProdutos = async () => {
+      await axios.get("http://localhost:8080/produtos").then((resp) => {
+        setProducts(resp.data.products);
+        setLoaderP(false);
+      });
+    };
+    fetchProdutos();
+  }, []);
+
+  const handleFetchProdutos = () => {
+    if (nome == "") {
+      axios.get("http://localhost:8080/produtos").then((resp) => {
+        setProducts(resp.data.products);
+        setLoader(false);
+      });
+    } else {
+      axios
+        .post("http://localhost:8080/produtos/pesquisar", {
+          nomeDisco: nomeDisco,
+        })
+        .then((resp) => {
+          setLoader(true);
+          setUsuarios(resp.data);
+          console.log(resp);
+          setLoader(false);
+        });
+    }
+  };
+
+  const handleAlterarStatusProdutos = () => {
+    if (confirm("Deseja alterar o status do produto?")) {
+      usuario.status_cliente == "Ativo"
+        ? axios.put("http://localhost:8080/produtos/alterarStatusProduto", {
+            status_cliente: "Inativo",
+            cod_produto: products.cod_produto,
+          })
+        : axios.put("http://localhost:8080/usuario/alterarStatusProduto", {
+            status_cliente: "Ativo",
+            email: products.cod_produto,
+          });
+
+      navigate(0);
+    }
+  };
+
+  //Usuarios --------------------------------------------------------------------------------
+
   useEffect(() => {
     const fetchUsuarios = async () => {
       await axios.get("http://localhost:8080/usuarios").then((resp) => {
@@ -123,42 +195,122 @@ function MainBackOffice() {
             <div>
               {" "}
               <div>
-                <h1>Produtos</h1>
+                <ContainerHead>
+                  <h1>Produtos</h1>
+                </ContainerHead>
 
-                <div>
-                  <button>Listar produtos</button>
-                </div>
-
-                <div>
-                  <input
-                    type="BuscaProduto"
-                    id="BuscaProduto"
-                    placeholder="Digite o nome do produto"
-                    value={"produto.nome"}
-                    onChange={(event) => setNomeProduto(event.target.value)}
-                  />
-                  <button onClick={"handleFetch"}>
-                    <img src={searchIcon} alt="" />
-                  </button>
-                  <button onClick={() => navigate("/CadastrarProdutos")}>
-                    <Icon path={mdiPlusBoxOutline} size={1.5} alt="" />
-                  </button>
-                </div>
-
-                <div>
-                  <Tabela />
-                  <div>
-                    <button onClick={goToPrevPage} disabled={currentPage === 1}>
-                      Anterior
-                    </button>
+                <>
+                  <ContainerBusca>
                     <button
-                      onClick={goToNextPage}
-                      disabled={indexOfLastItem >= produtos.length}
+                      onClick={() => setMostrarTabela(true) && fetchProdutos}
                     >
-                      Próxima
+                      Listar produtos
                     </button>
-                  </div>
-                </div>
+
+                    <input
+                      type="search"
+                      id="search"
+                      placeholder="Digite o nome do produto"
+                      value={nomeDisco}
+                      onChange={(event) => setNomeDisco(event.target.value)}
+                    />
+                    <button onClick={handleFetchProdutos}>
+                      <img src={searchIcon} alt="" />
+                    </button>
+                    <button onClick={() => navigate("/CadastrarProdutos")}>
+                      <Icon path={mdiPlusBoxOutline} size={1.5} alt="" />
+                    </button>
+                  </ContainerBusca>
+                  {mostrarTabela && (
+                    <div>
+                      <>
+                        <ProdutoTable>
+                          <thead>
+                            <tr>
+                              <ProdutoTh>Codigo do produto</ProdutoTh>
+                              <ProdutoTh>Nome do produto</ProdutoTh>
+                              <ProdutoTh>Quantidade em estoque</ProdutoTh>
+                              <ProdutoTh>Preço</ProdutoTh>
+                              <ProdutoTh>Status</ProdutoTh>
+                              <ProdutoTh></ProdutoTh>
+                              <ProdutoTh></ProdutoTh>
+                              <ProdutoTh></ProdutoTh>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {products.map((product) => {
+                              return (
+                                <tr key={products.cod_produto}>
+                                  <ProdutoTd>{product.cod_produto}</ProdutoTd>
+                                  <ProdutoTd>{product.nome_disco}</ProdutoTd>
+                                  <ProdutoTd>{product.estoque}</ProdutoTd>
+                                  <ProdutoTd>{product.valor}</ProdutoTd>
+                                  <ProdutoTd>
+                                    {product.status_produto}
+                                  </ProdutoTd>
+                                  <ProdutoTd>
+                                    <button>alterar</button>
+                                  </ProdutoTd>
+                                  <ProdutoTd>
+                                    <div
+                                      id="status"
+                                      onClick={handleAlterarStatusProdutos}
+                                    >
+                                      {" "}
+                                      {usuario.status_cliente}
+                                    </div>
+                                  </ProdutoTd>
+                                  <ProdutoTd>
+                                    <button>Visualizar</button>
+                                  </ProdutoTd>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </ProdutoTable>
+                        <Pagination>
+                          <PaginationButton>
+                            <PaginationItem>
+                              <button
+                                onClick={() =>
+                                  setCurrentPage(
+                                    currentPage > 1 ? currentPage - 1 : 1
+                                  )
+                                }
+                              >
+                                Anterior
+                              </button>
+                            </PaginationItem>
+                            {pages.map((page) => (
+                              <PaginationItem>
+                                <button
+                                  key={page}
+                                  onClick={() => setCurrentPage(page)}
+                                  disabled={page === currentPage}
+                                >
+                                  {page}
+                                </button>
+                              </PaginationItem>
+                            ))}
+                            <PaginationItem>
+                              <button
+                                onClick={() =>
+                                  setCurrentPage(
+                                    currentPage < pages.length
+                                      ? currentPage + 1
+                                      : pages.length
+                                  )
+                                }
+                              >
+                                Próxima
+                              </button>
+                            </PaginationItem>
+                          </PaginationButton>
+                        </Pagination>
+                      </>
+                    </div>
+                  )}
+                </>
               </div>
             </div>
           ) : (
@@ -177,27 +329,24 @@ function MainBackOffice() {
 
                       <div>
                         <ContainerBusca>
-                          <div>
-                            <input
-                              type="search"
-                              id="search"
-                              placeholder="Digite o nome"
-                              value={nome}
-                              onChange={(event) => setNome(event.target.value)}
-                            />
-                            <button onClick={handleFetch}>
-                              <img src={searchIcon} alt="" />
-                            </button>
+                          <input
+                            type="search"
+                            id="search"
+                            placeholder="Digite o nome"
+                            value={nome}
+                            onChange={(event) => setNome(event.target.value)}
+                          />
+                          <button onClick={handleFetch}>
+                            <img src={searchIcon} alt="" />
+                          </button>
 
-                            <button
-                              onClick={() => {
-                                navigate("/Usuarios/Cadastrar");
-                              }}
-                            >
-                              {" "}
-                              +{" "}
-                            </button>
-                          </div>
+                          <button
+                            onClick={() => {
+                              navigate("/Usuarios/Cadastrar");
+                            }}
+                          >
+                            <Icon path={mdiPlusBoxOutline} size={1.5} alt="" />
+                          </button>
                         </ContainerBusca>
                       </div>
                     </span>
