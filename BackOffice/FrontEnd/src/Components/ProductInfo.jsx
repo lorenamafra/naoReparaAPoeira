@@ -1,21 +1,27 @@
 import {
-	PricingTag,
-	ProductInfoContainer,
+  PricingTag,
+  ProductInfoContainer,
 } from "../Styles/ProductDetails.styles";
 import AddToCartButton from "./AddToCartButton";
 import StarRating from "./StarRating";
+import { useLocation } from "react-router";
 
 function ProductInfo() {
-	return (
-		<ProductInfoContainer>
-			<h1>Humbug</h1>
-			<h2>Arctic Monkeys </h2>
-			<h3>2006</h3>
-			<StarRating />
-			<PricingTag>R$ 25.00</PricingTag>
-			<AddToCartButton />
-		</ProductInfoContainer>
-	);
+  let disco = useLocation().state;
+  console.log("prod info", location.state);
+
+  return (
+    <ProductInfoContainer>
+      <h1>{disco.nome_disco}</h1>
+      <h2>{disco.artista}</h2>
+      <h3>
+        {disco.ano}, {disco.genero}
+      </h3>
+      <StarRating />
+      <PricingTag>R$ {disco.valor}</PricingTag>
+      <AddToCartButton />
+    </ProductInfoContainer>
+  );
 }
 
 export default ProductInfo;

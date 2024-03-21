@@ -97,10 +97,7 @@ function AlterarProdutos() {
               <label htmlFor="description">Descrição</label>
               <textarea name="descricao" required></textarea>
             </fieldset>
-            <RedirectText onClick={() => navigate("/Produto/Visualizar")}>
-              {" "}
-              Visualizar{" "}
-            </RedirectText>
+            <RedirectText onClick={Visualizar}> Visualizar </RedirectText>
           </div>
         </section>
         <SubmitButton type="submit">Submit</SubmitButton>
