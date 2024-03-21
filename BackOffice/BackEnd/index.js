@@ -19,7 +19,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "TJrs4321@",
+  password: "Lolo@2024",
   database: "nrp",
   port: "3306",
 });
@@ -195,17 +195,6 @@ app.post("/produto/inserir", uploadImage, (req, res) => {
   const avaliacao = req.body.avaliacao;
   const descricao = req.body.descricao;
 
-  var abbr = artista
-    .split(" ")
-    .map(function (item) {
-      return item[0];
-    })
-    .join("");
-
-  nome_disco = nome_disco.replaceAll(" ", "");
-
-  cod_produto = abbr.concat(nome_disco, ano);
-
   connection.query(
     `INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}')`,
     (err, result) => {
@@ -256,35 +245,14 @@ app.get("/produtos", function (req, res) {
   );
 });
 
-app.post("/produtos/pesquisar", (req, res) => {
-  let nomeDisco = req.body.nome;
-  console.log(req.body);
+//listar somente um item da tabela
+app.get("/produtos", function (req, res) {
   connection.query(
-    `SELECT * FROM produto WHERE nome_disco LIKE '%${nomeDisco}%';`,
-    (err, result) => {
-      if (err) {
-        throw err;
-      }
+    `SELECT nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria FROM produto WHERE cod_produto = ?`,
+    (err, rows) => {
+      if (err) throw err;
 
-      res.send(result);
-    }
-  );
-});
-
-app.put("/usuario/alterarStatusProduto", (req, res) => {
-  let status_produto = req.body.status_produto;
-  let cod_produto = req.body.cod_produto;
-  connection.query(
-    `UPDATE produto SET status_produto = '${status_produto}' WHERE EMAIL = '${cod_produto}'`,
-    (err, result) => {
-      if (err) {
-        throw err;
-      }
-      if (result.affectedRows > 0) {
-        res.status(200).send("Atualizado com sucesso");
-      } else {
-        res.status(404).send("Codigo não encontrado");
-      }
+      res.send({ produtos: rows });
     }
   );
 });
