@@ -156,6 +156,7 @@ app.put("/usuario/alterarStatus", (req, res) => {
   );
 });
 
+//busca parcial do usuario
 app.post("/usuario/pesquisar", (req, res) => {
   let nome = req.body.nome;
   console.log(req.body);
@@ -245,6 +246,22 @@ app.put("/produto/alterarProduto", (req, res) => {
   );
 });
 
+//busca parcial do nome do produto
+app.post("/usuario/pesquisar", (req, res) => {
+  let nome = req.body.nome;
+  console.log(req.body);
+  connection.query(
+    `SELECT * FROM produto WHERE nome LIKE '%${nome_disco}%';`,
+    (err, result) => {
+      if (err) {
+        throw err;
+      }
+
+      res.send(result);
+    }
+  );
+});
+
 app.get("/produtos", function (req, res) {
   connection.query(
     `SELECT * FROM produto ORDER BY id_produto DESC`,
@@ -256,30 +273,9 @@ app.get("/produtos", function (req, res) {
   );
 });
 
-//listar somente um item da tabela
-app.get("/produtos", function (req, res) {
-  connection.query(
-    `SELECT nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria FROM produto WHERE cod_produto = ?`,
-    (err, rows) => {
-      if (err) throw err;
-
-      res.send({ produtos: rows });
-    }
-  );
-});
-
 // listar os 10 primeiros itens da tabela (use essa rota só na página 1)
 app.get("/produtos", function (req, res) {
-  connection.query(`SELECT * FROM produto LIMIT 10`, (err, rows) => {
-    if (err) throw err;
-
-    res.send({ produtos: rows });
-  });
-});
-
-// listar os itens do 11 ao 20 (use essa rota só na página 2)
-app.get("/produtos", function (req, res) {
-  connection.query(`SELECT * FROM produto LIMIT 10 OFFSET 20`, (err, rows) => {
+  connection.query(`SELECT * FROM produto LIMIT 10 OFFSET`, (err, rows) => {
     if (err) throw err;
 
     res.send({ produtos: rows });
