@@ -195,17 +195,6 @@ app.post("/produto/inserir", uploadImage, (req, res) => {
   const avaliacao = req.body.avaliacao;
   const descricao = req.body.descricao;
 
-  var abbr = artista
-    .split(" ")
-    .map(function (item) {
-      return item[0];
-    })
-    .join("");
-
-  nome_disco = nome_disco.replaceAll(" ", "");
-
-  cod_produto = abbr.concat(nome_disco, ano);
-
   connection.query(
     `INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}')`,
     (err, result) => {
