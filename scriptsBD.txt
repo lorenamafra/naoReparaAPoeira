@@ -14,24 +14,25 @@ grupo VARCHAR(150)
 
 CREATE TABLE produto (
 id_produto INT AUTO_INCREMENT PRIMARY KEY,
-cod_produto VARCHAR(50) UNIQUE,
+cod_produto VARCHAR(150) UNIQUE,
 nome_disco VARCHAR(200),
 estoque INT,
 valor DECIMAL,
 artista VARCHAR(150),
-categoria VARCHAR(150),
+genero VARCHAR(150),
 ano INT,
 avaliacao DECIMAL,
-status_produto VARCHAR(50)
+status_produto VARCHAR(50),
+descricao VARCHAR(150),
+imagem_principal varchar(255),
+imagem_secundaria varchar(255)
 );
 
-CREATE TABLE imagem_produto(
+CREATE TABLE imagem (
 id_imagem INT AUTO_INCREMENT PRIMARY KEY,
-cod_produto VARCHAR(50) UNIQUE,
-CONSTRAINT fk_cod_produto FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto),
-diretorio VARCHAR(150),
-extensao VARCHAR(50),
-imagem_principal VARCHAR(50)
+cod_produto VARCHAR(150),
+imagem_principal varchar(255),
+imagem_secundaria varchar(255),
+FOREIGN KEY (cod_produto) REFERENCES produto(cod_produto)
 );
-
 
