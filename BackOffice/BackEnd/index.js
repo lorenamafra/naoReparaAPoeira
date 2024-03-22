@@ -19,7 +19,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "TJrs4321@",
+  password: "Lolo@2024",
   database: "nrp",
   port: "3306",
 });
@@ -177,15 +177,21 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     console.log(req.body);
+
     console.log(file);
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+    cb(
+      null,
+      req.body.cod_produto +
+        file.charAt(str.length - 1) +
+        path.extname(file.originalname)
+    );
   },
 });
 
 const uploadImage = multer({ storage: storage }).any();
 app.post("/produto/inserir", uploadImage, (req, res) => {
   console.log(req.body);
+  console.log(req.files);
   let nome_disco = req.body.nome_disco;
   const estoque = req.body.estoque;
   const valor = req.body.valor;
@@ -194,7 +200,11 @@ app.post("/produto/inserir", uploadImage, (req, res) => {
   const ano = req.body.ano;
   const avaliacao = req.body.avaliacao;
   const descricao = req.body.descricao;
+  const cod_produto = req.body.cod_produto;
 
+  for (let i = 0; i < req.files.length; i++) {
+    console.log(req.files[i]);
+  }
   connection.query(
     `INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}')`,
     (err, result) => {
@@ -210,17 +220,17 @@ app.post("/produto/inserir", uploadImage, (req, res) => {
 });
 
 //ALTERAR PRODUTO!!!
-app.put("/produto/alterarProduto", (req, res) => {
+app.put("/produto/alterar", (req, res) => {
+  console.log("req body", req.body);
   let cod_produto = req.body.cod_produto;
   let estoque = req.body.estoque;
   let valor = req.body.valor;
   let artista = req.body.artista;
   let avaliacao = req.body.avaliacao;
   let descricao = req.body.descricao;
-  let status_produto = req.body.status_produto;
 
   connection.query(
-    `UPDATE produto SET estoque = ${estoque}, valor = ${valor}, artista = '${artista}', avaliacao = ${avaliacao}, descricao = '${descricao}', status ='${status_produto} WHERE cod_produto = '${cod_produto}'`,
+    `UPDATE produto SET estoque = '${estoque}', valor = '${valor}', artista = '${artista}', avaliacao = '${avaliacao}', descricao = '${descricao}', WHERE cod_produto = '${cod_produto}'`,
     (err, result) => {
       if (err) {
         throw err;
@@ -235,17 +245,17 @@ app.put("/produto/alterarProduto", (req, res) => {
 });
 
 //busca por um produto por id
-app.post("/usuario/pesquisar", (req, res) => {
-  let nome = req.body.nome;
+app.post("/produto/pesquisar", (req, res) => {
+  let cod_produto = req.body.cod_produto;
   console.log(req.body);
   connection.query(
-    `SELECT * FROM produto WHERE cod_produto = ?;`,
+    `SELECT * FROM produto WHERE cod_produto = '${cod_produto}';`,
     (err, result) => {
       if (err) {
         throw err;
       }
 
-      res.send(result);
+      res.send(result[0]);
     }
   );
 });
@@ -278,11 +288,12 @@ app.get("/produtos", function (req, res) {
   );
 });
 
-app.put("/usuario/alterarStatusProduto", (req, res) => {
-  let status_produto = req.body.status_cliente;
+app.put("/produto/alterarStatusProduto", (req, res) => {
+  let status_produto = req.body.status_produto;
+  console.log(status_produto);
   let cod_produto = req.body.cod_produto;
   connection.query(
-    `UPDATE usuario SET status_cliente = '${status_produto}' WHERE EMAIL = '${cod_produto} ORDER BY id_produto DESC'`,
+    `UPDATE produto SET status_produto = '${status_produto}' WHERE cod_produto = '${cod_produto}'`,
     (err, result) => {
       if (err) {
         throw err;

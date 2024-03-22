@@ -125,16 +125,18 @@ function MainBackOffice() {
     }
   };
 
-  const handleAlterarStatusProdutos = () => {
+  const handleAlterarStatusProdutos = (index) => {
+    console.log(index);
+    console.log(produtos[index]);
     if (confirm("Deseja alterar o status do produto?")) {
-      produtos.status_produto == "Ativo"
-        ? axios.put("http://localhost:8080/produtos/alterarStatusProduto", {
+      produtos[index].status_produto == "Ativo"
+        ? axios.put("http://localhost:8080/produto/alterarStatusProduto", {
             status_produto: "Inativo",
-            cod_produto: produtos.cod_produto,
+            cod_produto: produtos[index].cod_produto,
           })
-        : axios.put("http://localhost:8080/usuario/alterarStatusProduto", {
+        : axios.put("http://localhost:8080/produto/alterarStatusProduto", {
             status_produto: "Ativo",
-            cod_produto: produtos.cod_produto,
+            cod_produto: produtos[index].cod_produto,
           });
 
       navigate(0);
@@ -233,30 +235,46 @@ function MainBackOffice() {
                               </tr>
                             </thead>
                             <tbody>
-                              {produtos.map((produto) => {
+                              {produtos.map((produto, index) => {
                                 return (
                                   <tr key={produtos.cod_produto}>
                                     <ProdutoTd>{produto.cod_produto}</ProdutoTd>
                                     <ProdutoTd>{produto.nome_disco}</ProdutoTd>
                                     <ProdutoTd>{produto.estoque}</ProdutoTd>
                                     <ProdutoTd>{produto.valor}</ProdutoTd>
+
                                     <ProdutoTd>
-                                      {produto.status_produto}
-                                    </ProdutoTd>
-                                    <ProdutoTd>
-                                      <button>alterar</button>
+                                      <button
+                                        onClick={() =>
+                                          navigate("/Produto/Alterar", {
+                                            state: produto.cod_produto,
+                                          })
+                                        }
+                                      >
+                                        Alterar
+                                      </button>
                                     </ProdutoTd>
                                     <ProdutoTd>
                                       <div
                                         id="status"
-                                        onClick={handleAlterarStatusProdutos}
+                                        onClick={() =>
+                                          handleAlterarStatusProdutos(index)
+                                        }
                                       >
                                         {" "}
                                         {produto.status_produto}
                                       </div>
                                     </ProdutoTd>
                                     <ProdutoTd>
-                                      <button>Visualizar</button>
+                                      <button
+                                        onClick={() =>
+                                          navigate("/Produto/Visualizar", {
+                                            state: produtos[index],
+                                          })
+                                        }
+                                      >
+                                        Visualizar
+                                      </button>
                                     </ProdutoTd>
                                   </tr>
                                 );

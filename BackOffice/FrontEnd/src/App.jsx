@@ -7,30 +7,32 @@ import Alterar from "./Pages/Alterar";
 import { useState } from "react";
 import Produtos from "./Components/Produtos";
 import CadastrarProdutos from "./Pages/CadastrarProdutos";
+import AlterarProduto from "./Pages/AlterarProduto";
 import VisualizarProduto from "./Pages/VisualizarProduto";
 
 function App() {
-	const [currentUser, setCurrentUser] = useState({
-		nome: "",
-		id: "",
-		grupo: "",
-	});
-	// const providerValue = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser, setUser])
+  const [currentUser, setCurrentUser] = useState({
+    nome: "",
+    id: "",
+    grupo: "",
+  });
+  // const providerValue = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser, setUser])
 
-	return (
-		<UserContext.Provider value={[currentUser, setCurrentUser]}>
-			<Routes>
-				<Route path="/" element={<Login />} />
+  return (
+    <UserContext.Provider value={[currentUser, setCurrentUser]}>
+      <Routes>
+        <Route path="/" element={<Login />} />
 
-				<Route path="/BackOffice" element={<MainBackOffice />} />
-				<Route path="/Usuarios/Cadastrar" element={<Cadastrar />} />
-				<Route path="/Usuarios/Alterar" element={<Alterar />} />
-				<Route path="/Produtos" element={<Produtos />} />
-				<Route path="/CadastrarProdutos" element={<CadastrarProdutos />} />
-				<Route path="/Produto/Visualizar" element={<VisualizarProduto />} />
-			</Routes>
-		</UserContext.Provider>
-	);
+        <Route path="/BackOffice" element={<MainBackOffice />} />
+        <Route path="/Usuarios/Cadastrar" element={<Cadastrar />} />
+        <Route path="/Usuarios/Alterar" element={<Alterar />} />
+        <Route path="/Produtos" element={<Produtos />} />
+        <Route path="/CadastrarProdutos" element={<CadastrarProdutos />} />
+        <Route path="/Produto/Visualizar" element={<VisualizarProduto />} />
+        <Route path="/Produto/Alterar" element={<AlterarProduto />} />
+      </Routes>
+    </UserContext.Provider>
+  );
 }
 
 export default App;
