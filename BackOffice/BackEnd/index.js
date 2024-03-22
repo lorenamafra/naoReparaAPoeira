@@ -19,7 +19,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "Lolo@2024",
+  password: "TJrs4321@",
   database: "nrp",
   port: "3306",
 });
@@ -235,14 +235,11 @@ app.put("/produto/alterarProduto", (req, res) => {
 });
 
 app.get("/produtos", function (req, res) {
-  connection.query(
-    `SELECT * FROM produto  ORDER BY id_produto DESC`,
-    (err, rows) => {
-      if (err) throw err;
+  connection.query(`SELECT * FROM produto`, (err, rows) => {
+    if (err) throw err;
 
-      res.send({ produtos: rows });
-    }
-  );
+    res.send({ produtos: rows });
+  });
 });
 
 //listar somente um item da tabela
@@ -253,6 +250,21 @@ app.get("/produtos", function (req, res) {
       if (err) throw err;
 
       res.send({ produtos: rows });
+    }
+  );
+});
+
+app.post("/produtos/pesquisar", (req, res) => {
+  let nome_disco = req.body.nomeDisco;
+  console.log(req.body);
+  connection.query(
+    `SELECT * FROM usuario WHERE nome_disco LIKE '%${nome_disco}%';`,
+    (err, result) => {
+      if (err) {
+        throw err;
+      }
+
+      res.send(result);
     }
   );
 });

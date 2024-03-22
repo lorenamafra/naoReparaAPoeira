@@ -35,44 +35,15 @@ import { useNavigate } from "react-router";
 // }
 
 function MainBackOffice() {
-  const produtos = [
-    { nome: "teste0", codigo: 0, estoque: 1, preco: 10.99, status: "inativo" },
-    { nome: "teste1", codigo: 1, estoque: 1, preco: 10.99, status: "inativo" },
-    { nome: "teste2", codigo: 2, estoque: 5, preco: 20.0, status: "ativo" },
-    { nome: "teste3", codigo: 3, estoque: 21, preco: 12.99, status: "ativo" },
-    { nome: "teste4", codigo: 4, estoque: 23, preco: 15.99, status: "ativo" },
-    { nome: "teste5", codigo: 5, estoque: 42, preco: 6.99, status: "inativo" },
-    { nome: "teste6", codigo: 6, estoque: 29, preco: 19.9, status: "ativo" },
-    { nome: "teste7", codigo: 7, estoque: 8, preco: 23.5, status: "ativo" },
-    { nome: "teste8", codigo: 8, estoque: 3, preco: 40.2, status: "ativo" },
-    { nome: "teste9", codigo: 9, estoque: 15, preco: 30.45, status: "inativo" },
-    { nome: "teste10", codigo: 10, estoque: 18, preco: 50.0, status: "ativo" },
-    {
-      nome: "teste11",
-      codigo: 11,
-      estoque: 31,
-      preco: 32.8,
-      status: "inativo",
-    },
-    {
-      nome: "teste12",
-      codigo: 12,
-      estoque: 30,
-      preco: 21.75,
-      status: "inativo",
-    },
-    { nome: "teste13", codigo: 13, estoque: 11, preco: 14.5, status: "ativo" },
-  ];
-
   //Produtos --------------------------------------------------------------------------------
 
-  const [products, setProducts] = useState([]);
-  const [total] = useState(products.length);
+  const [produtos, setProdutos] = useState([]);
+  const [total] = useState(produtos.length);
   const [limite] = useState(10);
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [mostrarTabela, setMostrarTabela] = useState(false);
-  const [loaderP, setLoaderP] = useState(true);
+  const [loaderProdutos, setLoaderProdutos] = useState(true);
   const [nomeDisco, setNomeDisco] = useState();
 
   //Usuarios --------------------------------------------------------------------------------
@@ -96,37 +67,34 @@ function MainBackOffice() {
       setPages(arrayPages);
 
       const startIndex = (currentPage - 1) * limite;
-      const slicedProducts = products.slice(startIndex, startIndex + limite);
-      setProducts(slicedProducts);
+      const slicedProducts = produtos.slice(startIndex, startIndex + limite);
+      setProdutos(slicedProducts);
     }
 
-    loadProdutos();
-  }, [currentPage, total, limite, products]);
-
-  useEffect(() => {
     const fetchProdutos = async () => {
       await axios.get("http://localhost:8080/produtos").then((resp) => {
-        setProducts(resp.data.products);
-        setLoaderP(false);
+        setProdutos(resp.data.produtos);
+        setLoaderProdutos(false);
       });
     };
     fetchProdutos();
+    loadProdutos();
   }, []);
 
   const handleFetchProdutos = () => {
-    if (nome == "") {
+    if (nomeDisco == "") {
       axios.get("http://localhost:8080/produtos").then((resp) => {
-        setProducts(resp.data.products);
+        setProdutos(resp.data.produtos);
         setLoader(false);
       });
     } else {
       axios
         .post("http://localhost:8080/produtos/pesquisar", {
-          nomeDisco: nomeDisco,
+          nome_disco: nomeDisco,
         })
         .then((resp) => {
           setLoader(true);
-          setUsuarios(resp.data);
+          setProdutos(resp.data);
           console.log(resp);
           setLoader(false);
         });
@@ -135,14 +103,14 @@ function MainBackOffice() {
 
   const handleAlterarStatusProdutos = () => {
     if (confirm("Deseja alterar o status do produto?")) {
-      usuario.status_cliente == "Ativo"
+      produtos.status_produto == "Ativo"
         ? axios.put("http://localhost:8080/produtos/alterarStatusProduto", {
-            status_cliente: "Inativo",
-            cod_produto: products.cod_produto,
+            status_produto: "Inativo",
+            cod_produto: produtos.cod_produto,
           })
         : axios.put("http://localhost:8080/usuario/alterarStatusProduto", {
-            status_cliente: "Ativo",
-            email: products.cod_produto,
+            status_produto: "Ativo",
+            email: produtos.cod_produto,
           });
 
       navigate(0);
@@ -201,9 +169,7 @@ function MainBackOffice() {
 
                 <>
                   <ContainerBusca>
-                    <button
-                      onClick={() => setMostrarTabela(true) && fetchProdutos}
-                    >
+                    <button onClick={() => setMostrarTabela(true)}>
                       Listar produtos
                     </button>
 
@@ -238,15 +204,15 @@ function MainBackOffice() {
                             </tr>
                           </thead>
                           <tbody>
-                            {products.map((product) => {
+                            {produtos.map((produto) => {
                               return (
-                                <tr key={products.cod_produto}>
-                                  <ProdutoTd>{product.cod_produto}</ProdutoTd>
-                                  <ProdutoTd>{product.nome_disco}</ProdutoTd>
-                                  <ProdutoTd>{product.estoque}</ProdutoTd>
-                                  <ProdutoTd>{product.valor}</ProdutoTd>
+                                <tr key={produtos.cod_produto}>
+                                  <ProdutoTd>{produto.cod_produto}</ProdutoTd>
+                                  <ProdutoTd>{produto.nome_disco}</ProdutoTd>
+                                  <ProdutoTd>{produto.estoque}</ProdutoTd>
+                                  <ProdutoTd>{produto.valor}</ProdutoTd>
                                   <ProdutoTd>
-                                    {product.status_produto}
+                                    {produto.status_produto}
                                   </ProdutoTd>
                                   <ProdutoTd>
                                     <button>alterar</button>
@@ -257,7 +223,7 @@ function MainBackOffice() {
                                       onClick={handleAlterarStatusProdutos}
                                     >
                                       {" "}
-                                      {usuario.status_cliente}
+                                      {produto.status_produto}
                                     </div>
                                   </ProdutoTd>
                                   <ProdutoTd>
