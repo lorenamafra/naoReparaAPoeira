@@ -90,7 +90,8 @@ function CadastrarProdutos() {
 
 		axios
 			.post("http://localhost:8080/produto/inserir", fd)
-			.then((resp) => console.log(resp));
+			.then((resp) => console.log(resp))
+			.then(navigate("/BackOffice"));
 	};
 
 	const [imagesComponents, setImagesComponents] = useState([]);
