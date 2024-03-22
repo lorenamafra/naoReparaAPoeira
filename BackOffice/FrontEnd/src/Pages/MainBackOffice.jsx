@@ -46,7 +46,7 @@ function MainBackOffice() {
   const [loaderProdutos, setLoaderProdutos] = useState(true);
   const [nomeDisco, setNomeDisco] = useState();
 
-  //Usuarios --------------------------------------------------------------------------------
+  //Usuarios
 
   const currentUser = JSON.parse(sessionStorage.getItem("User"));
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ function MainBackOffice() {
   const [loader, setLoader] = useState(true);
   const [page, setPage] = useState();
 
-  //Produtos --------------------------------------------------------------------------------
+  //Produtos
 
   useEffect(() => {
     function loadProdutos() {
