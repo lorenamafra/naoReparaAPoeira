@@ -176,13 +176,11 @@ const storage = multer.diskStorage({
     cb(null, "../FrontEnd/public");
   },
   filename: function (req, file, cb) {
-    console.log(req.body);
-
-    console.log(file);
+   
     cb(
       null,
       req.body.cod_produto +
-        file.charAt(str.length - 1) +
+        file.fieldname.substring(file.fieldname.length - 1) + 
         path.extname(file.originalname)
     );
   },
@@ -205,18 +203,23 @@ app.post("/produto/inserir", uploadImage, (req, res) => {
   for (let i = 0; i < req.files.length; i++) {
     console.log(req.files[i]);
   }
+
+  let mensagens = []
   connection.query(
     `INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}')`,
     (err, result) => {
       if (err) {
-        res.send(err);
+        mensagens.push(err);
       }
 
       if (result) {
-        res.send("Produto adicionado com sucesso!");
+        mensagens.push("Produto adicionado com sucesso!");
       }
     }
   );
+
+  // connection.query(`
+  // INSERT INTO imagem (cod_produto, imagem_principal, imagem_secundaria) values '${cod_produto}', ${req.files[0]}, ${req.files[1]}`)
 });
 
 //ALTERAR PRODUTO!!!

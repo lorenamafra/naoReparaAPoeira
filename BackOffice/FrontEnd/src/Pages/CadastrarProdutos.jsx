@@ -74,6 +74,7 @@ function CadastrarProdutos() {
       fd.append(`files${index}`, image);
     });
 
+    
     if (
       parseInt(fd.get("year")) <= 1930 ||
       parseInt(fd.get("year")) > currentYear
@@ -88,11 +89,12 @@ function CadastrarProdutos() {
       }
     }
     const ObjectForm = Object.fromEntries(fd);
+    console.log(ObjectForm)
 
     axios
       .post("http://localhost:8080/produto/inserir", fd)
       .then((resp) => console.log(resp))
-      .then(navigate("/BackOffice"));
+      // .then(navigate("/BackOffice"));
   };
 
   const [imagesComponents, setImagesComponents] = useState([]);
