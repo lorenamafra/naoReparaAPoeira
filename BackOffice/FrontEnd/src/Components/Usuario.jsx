@@ -13,11 +13,11 @@ function Usuario(props) {
     if (confirm("Deseja alterar o status?")) {
       usuario.status_cliente == "Ativo"
         ? axios.put("http://localhost:8080/usuario/alterarStatus", {
-            status_produto: "Inativo",
+            status_cliente: "Inativo",
             email: usuario.email,
           })
         : axios.put("http://localhost:8080/usuario/alterarStatus", {
-            status_produto: "Ativo",
+            status_cliente: "Ativo",
             email: usuario.email,
           });
 
