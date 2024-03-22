@@ -2,17 +2,16 @@ import Icon from "@mdi/react";
 import { mdiMenuLeft, mdiMenuRight } from "@mdi/js";
 import { useState } from "react";
 import { DetailedImage } from "../Styles/ProductDetails.styles";
+import { useLocation } from "react-router";
 function ProductImageDetailed() {
+	const imageFiles = useLocation().state.files;
+	console.log(imageFiles);
+
 	const [icon, setIcon] = useState(0);
-	const images = [
-		"/AlbumCovers/AMAM2013.jpg",
-		"/AlbumCovers/AMHumbug2009.jpg",
-		"/AlbumCovers/LDRBornToDie2012.jpg",
-	];
 	const Icons = [];
-	for (let i = 0; i < images.length; i++) {
-		Icons.push(<DetailedImage src={images[i]} />);
-	}
+	// for (let i = 0; i < imageFiles.length; i++) {
+	// 	Icons.push(<DetailedImage src={URL.createObjectURL(imageFiles)} />);
+	// }
 
 	const nextImage = () => {
 		if (icon + 1 > Icons.length - 1) {

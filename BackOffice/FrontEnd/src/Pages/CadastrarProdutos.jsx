@@ -1,11 +1,11 @@
 import { useState } from "react";
 import {
-  ImageFieldset,
-  ImagesContainer,
-  ImgLabel,
-  InputQuantidade,
-  ProdutoFormContainer,
-  SubmitButton,
+	ImageFieldset,
+	ImagesContainer,
+	ImgLabel,
+	InputQuantidade,
+	ProdutoFormContainer,
+	SubmitButton,
 } from "../Styles/Form.styles";
 import { MainFormContainer } from "../Styles/Form.styles";
 import axios from "axios";
@@ -14,246 +14,224 @@ import { useNavigate } from "react-router";
 import Icon from "@mdi/react";
 import { mdiTrashCanOutline } from "@mdi/js";
 
+var mainForm = document.getElementById("myForm");
+var queuedImagesArray = [];
 function CadastrarProdutos() {
-  const Visualizar = (e) => {
-    e.preventDefault();
+	const [images, setImages] = useState([]);
 
-    var formElement = document.getElementById("myForm");
-    var fd = new FormData(formElement);
-    var abbr = fd
-      .get("artista")
-      .split(" ")
-      .map(function (item) {
-        return item[0];
-      })
-      .join("");
+	const Visualizar = () => {
+		var formElement = document.getElementById("myForm");
+		console.log(queuedImagesArray);
+		var fd = new FormData(formElement);
+		var abbr = fd
+			.get("artista")
+			.split(" ")
+			.map(function (item) {
+				return item[0];
+			})
+			.join("");
 
-    let nome_disco = fd.get("nome_disco").replaceAll(" ", "");
+		let nome_disco = fd.get("nome_disco").replaceAll(" ", "");
 
-    let cod_produto = abbr.concat(nome_disco, fd.get("ano"));
-    fd.append("cod_produto", cod_produto);
-    const ObjectForm = Object.fromEntries(fd);
+		let cod_produto = abbr.concat(nome_disco, fd.get("ano"));
+		fd.append("cod_produto", cod_produto);
+		console.log("imagens ao clicar", imagesArrayCopy);
+		queuedImagesArray.forEach((image, index) => {
+			fd.append(`files${index}`, image);
+		});
+		const ObjectForm = Object.fromEntries(fd);
 
-    console.log(ObjectForm);
+		console.log(ObjectForm);
 
-    navigate("/Produto/Visualizar", { state: ObjectForm });
-  };
+		navigate("/Produto/Visualizar", { state: ObjectForm });
+	};
 
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const fd = new FormData(event.currentTarget);
-    let currentYear = new Date().getFullYear();
-    console.log(fd.getAll("images"));
+	//////
 
-    var abbr = fd
-      .get("artista")
-      .split(" ")
-      .map(function (item) {
-        return item[0];
-      })
-      .join("");
+	const handleSubmit = () => {
+		const formElement = document.getElementById("myForm");
+		console.log(queuedImagesArray);
+		const fd = new FormData(formElement);
+		console.log(fd);
+		let currentYear = new Date().getFullYear();
+		var abbr = fd
+			.get("artista")
+			.split(" ")
+			.map(function (item) {
+				return item[0];
+			})
+			.join("");
 
-    let nome_disco = fd.get("nome_disco").replaceAll(" ", "");
+		let nome_disco = fd.get("nome_disco").replaceAll(" ", "");
 
-    let cod_produto = abbr.concat(nome_disco, fd.get("ano"));
-    fd.append("cod_produto", cod_produto);
-    for (let i = 0; i <= images.length; i++) {
-      fd.append(`images`, images[0][i]);
-      console.log(images[0][i]);
-    }
+		let cod_produto = abbr.concat(nome_disco, fd.get("ano"));
+		fd.append("cod_produto", cod_produto);
+		console.log(imagesArrayCopy);
 
-    if (
-      parseInt(fd.get("year")) <= 1930 ||
-      parseInt(fd.get("year")) > currentYear
-    ) {
-      console.log("ano errado");
-      console.log(new Date().getFullYear());
-    }
-    console.log(fd.getAll("images"));
+		queuedImagesArray.forEach((image, index) => {
+			fd.append(`files${index}`, image);
+		});
 
-    // axios
-    //   .post("http://localhost:8080/produto/inserir", fd)
-    //   .then((resp) => console.log(resp));
-  }
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [imagesComponents, setImagesComponents] = useState([]);
-  const [images, setImages] = useState([]);
+		if (
+			parseInt(fd.get("year")) <= 1930 ||
+			parseInt(fd.get("year")) > currentYear
+		) {
+			console.log("ano errado");
+			console.log(new Date().getFullYear());
+		}
 
-  const onSelectFile = (event) => {
-    const selectedFiles = event.currentTarget.files;
+		for (const pair of fd.entries()) {
+			if (pair[1] == "") {
+				window.alert(`${pair[0]} está vazio`);
+			}
+		}
 
-    console.log(images);
-    const selectedFilesArray = Array.from(selectedFiles);
-    const imagesArray = selectedFilesArray.map((file) => {
-      return URL.createObjectURL(file);
-    });
+		axios
+			.post("http://localhost:8080/produto/inserir", fd)
+			.then((resp) => console.log(resp));
+	};
 
-    setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-    console.log(selectedImages);
-  };
+	const [imagesComponents, setImagesComponents] = useState([]);
+	const [imagesArrayCopy, setImageArrayCopy] = useState([]);
 
-  return (
-    <MainFormContainer>
-      <ProdutoFormContainer id="myForm" onSubmit={handleSubmit}>
-        <section>
-          <div>
-            <fieldset>
-              <label htmlFor="discName"> Nome do Disco </label>
-              <input type="text" name="nome_disco" required />
-            </fieldset>
-            <fieldset>
-              <label htmlFor=""> Artista </label>
-              <input type="text" name="artista" required />
-            </fieldset>
-            <fieldset>
-              <label htmlFor=""> Generos </label>
-              <input type="text" name="genero" required />
-            </fieldset>
-            <fieldset>
-              <label htmlFor=""> Ano de Lançamento </label>
-              <InputQuantidade
-                type="number"
-                name="ano"
-                maxLength={4}
-                required
-              />
-            </fieldset>
-          </div>
+	const onSelectFile = (e) => {
+		console.log("on select, copy", imagesArrayCopy);
+		const files = e.currentTarget.files;
+		console.log("new file", files);
+		for (let i = 0; i < files.length; i++) {
+			queuedImagesArray.push(files[i]);
+			console.log("each image", files[i]);
+		}
+		console.log(queuedImagesArray);
 
-          <div>
-            <fieldset>
-              <label htmlFor=""> Quantidade </label>
-              <InputQuantidade type="number" name="estoque" required />
-            </fieldset>
-            <fieldset>
-              <label htmlFor=""> Preço </label>
-              <InputQuantidade type="number" name="valor" required />
-            </fieldset>
-            <fieldset>
-              <label htmlFor=""> Avaliação </label>
-              <select type="select" name="avaliacao" min={0} max={5} required>
-                <option value="0"> 0 </option>
-                <option value="0.5"> 0.5 </option>
-                <option value="1"> 1 </option>
-                <option value="1.5"> 1.5 </option>
-                <option value="2"> 2 </option>
-                <option value="2.5"> 2.5 </option>
-                <option value="3"> 3 </option>
-                <option value="3.5"> 3.5 </option>
-                <option value="4"> 4 </option>
-                <option value="4.5"> 4.5 </option>
-                <option value="5"> 5 </option>
-              </select>
-              /5
-            </fieldset>
-            <fieldset>
-              <label htmlFor="description">Descrição</label>
-              <textarea name="descricao" required></textarea>
-            </fieldset>
-            <RedirectText onClick={Visualizar}> Visualizar </RedirectText>
-          </div>
-        </section>
+		imagesArrayCopy.push(queuedImagesArray);
+		document.getElementById("imagesForm").reset();
 
-        <fieldset>
-          <input
-            type="file"
-            name="images"
-            onChange={(e) => setImages(e.target.files)}
-            multiple
-          />
-        </fieldset>
-        <section>
-          <fieldset>
-            <div>
-              {/* <ImagesContainer>
-                {selectedImages &&
-                  selectedImages.map((image, index) => {
-                    return (
-                      <ImageFieldset key={index}>
-                        <img src={image} alt="" />
-                        <div>
-                          <label htmlFor="principal">Main</label>
-                          <input
-                            type="radio"
-                            name="principal"
-                            value={index}
-                            checked
-                          />
-                        </div>
-                        <button
-                          onClick={(e) =>
-                            setSelectedImages(
-                              selectedImages.filter((e) => e !== image)
-                            )
-                          }
-                        >
-                          <Icon path={mdiTrashCanOutline} size={1} />
-                          <p>Delete Image</p>
-                        </button>
-                      </ImageFieldset>
-                    );
-                  })}
-              </ImagesContainer> */}
-            </div>
-          </fieldset>
-          <div>
-            <fieldset>
-              <label>
-                Add Imagem
-                <input
-                  required
-                  type="file"
-                  name="images"
-                  onChange={(e) => onSelectFile(e)}
-                  multiple
-                  accept="image/jpeg, image/png, image/webp"
-                />
-              </label>
+		console.log("array após enviar arquivo", imagesArrayCopy);
+		console.log(queuedImagesArray);
+		displayQueuedImages();
+	};
 
-              <div>
-                <ImagesContainer>
-                  {selectedImages &&
-                    selectedImages.map((image, index) => {
-                      return (
-                        <ImageFieldset key={index}>
-                          <img src={image} alt="" />
-                          <div>
-                            <label htmlFor="principal">Main</label>
-                            <input
-                              type="radio"
-                              name="principal"
-                              value={index}
-                              checked
-                            />
-                          </div>
-                          <button
-                            onClick={(e) =>
-                              setSelectedImages(
-                                selectedImages.filter((e) => e !== image)
-                              )
-                            }
-                          >
-                            <Icon path={mdiTrashCanOutline} size={1} />
-                            <p>Delete Image</p>
-                          </button>
-                        </ImageFieldset>
-                      );
-                    })}
-                </ImagesContainer>
-              </div>
-            </fieldset>
-          </div>
-        </section>
+	const displayQueuedImages = () => {
+		var images = [];
+		console.log(queuedImagesArray);
+		queuedImagesArray.forEach((image, index) => {
+			images.push(
+				<ImageFieldset key={index}>
+					<img src={URL.createObjectURL(image)} alt="" />
+					<div>
+						<label htmlFor="principal">Main</label>
+						<input type="radio" name="principal" value={index} checked />
+					</div>
+					<button onClick={() => deleteQueuedImages(index)}>
+						<Icon path={mdiTrashCanOutline} size={1} />
+						<p>Delete Image</p>
+					</button>
+				</ImageFieldset>
+			);
 
-        <div style={{ display: "grid" }}>
-          <SubmitButton type="submit">Submit</SubmitButton>
-          <SubmitButton onClick={() => navigate(-1)}>Cancelar</SubmitButton>
-        </div>
-      </ProdutoFormContainer>
-    </MainFormContainer>
-  );
+			console.log("images, quando for display:", images);
+			setImagesComponents([...images]);
+		});
+	};
+
+	const deleteQueuedImages = (index) => {
+		console.log(queuedImagesArray[index]);
+
+		// console.log(images);
+		queuedImagesArray.splice(index, 1);
+		imagesArrayCopy.splice(index, 1);
+		displayQueuedImages();
+	};
+
+	return (
+		<MainFormContainer>
+			<ProdutoFormContainer id="myForm" onSubmit={handleSubmit}>
+				<section>
+					<div>
+						<fieldset>
+							<label htmlFor="discName"> Nome do Disco </label>
+							<input type="text" name="nome_disco" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Artista </label>
+							<input type="text" name="artista" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Generos </label>
+							<input type="text" name="genero" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Ano de Lançamento </label>
+							<InputQuantidade
+								type="number"
+								name="ano"
+								maxLength={4}
+								required
+							/>
+						</fieldset>
+					</div>
+
+					<div>
+						<fieldset>
+							<label htmlFor=""> Quantidade </label>
+							<InputQuantidade type="number" name="estoque" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Preço </label>
+							<InputQuantidade type="number" name="valor" required />
+						</fieldset>
+						<fieldset>
+							<label htmlFor=""> Avaliação </label>
+							<select type="select" name="avaliacao" min={0} max={5} required>
+								<option value="0"> 0 </option>
+								<option value="0.5"> 0.5 </option>
+								<option value="1"> 1 </option>
+								<option value="1.5"> 1.5 </option>
+								<option value="2"> 2 </option>
+								<option value="2.5"> 2.5 </option>
+								<option value="3"> 3 </option>
+								<option value="3.5"> 3.5 </option>
+								<option value="4"> 4 </option>
+								<option value="4.5"> 4.5 </option>
+								<option value="5"> 5 </option>
+							</select>
+							/5
+						</fieldset>
+						<fieldset>
+							<label htmlFor="description">Descrição</label>
+							<textarea name="descricao" required></textarea>
+						</fieldset>
+						<RedirectText onClick={Visualizar}> Visualizar </RedirectText>
+					</div>
+				</section>
+
+				<div className="inputDiv">
+					<input
+						required
+						type="file"
+						name="images"
+						onChange={(e) => onSelectFile(e)}
+						accept="image/jpeg, image/png, image/webp"
+					/>
+				</div>
+			</ProdutoFormContainer>
+
+			<form id="imagesForm" onSubmit={(e) => e.preventDefault()}>
+				<div>
+					<p>Imagens</p>
+					<ImagesContainer>{imagesComponents}</ImagesContainer>
+				</div>
+			</form>
+
+			<div style={{ display: "grid" }}>
+				<SubmitButton onClick={handleSubmit}>Submit</SubmitButton>
+				<SubmitButton onClick={() => navigate(-1)}>Cancelar</SubmitButton>
+			</div>
+		</MainFormContainer>
+	);
 }
 
 export default CadastrarProdutos;
