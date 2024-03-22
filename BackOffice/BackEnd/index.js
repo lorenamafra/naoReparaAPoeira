@@ -25,7 +25,6 @@ var connection = mysql.createConnection({
 });
 
 // Rota para pegar todos os usuários
-
 app.get("/usuarios", function (req, res) {
 	connection.query("SELECT * FROM usuario", (err, rows) => {
 		if (err) throw err;
@@ -35,7 +34,6 @@ app.get("/usuarios", function (req, res) {
 });
 
 //Rota para pegar UM usuário
-
 app.post("/usuario", (req, res) => {
 	const email = req.body.email;
 	connection.query(
@@ -156,6 +154,7 @@ app.put("/usuario/alterarStatus", (req, res) => {
 	);
 });
 
+//busca parcial do usuario
 app.post("/usuario/pesquisar", (req, res) => {
 	let nome = req.body.nome;
 	console.log(req.body);
@@ -235,6 +234,39 @@ app.put("/produto/alterarProduto", (req, res) => {
 	);
 });
 
+//busca por um produto por id
+app.post("/usuario/pesquisar", (req, res) => {
+	let nome = req.body.nome;
+	console.log(req.body);
+	connection.query(
+		`SELECT * FROM produto WHERE cod_produto = ?;`,
+		(err, result) => {
+			if (err) {
+				throw err;
+			}
+
+			res.send(result);
+		}
+	);
+});
+
+//busca parcial do nome do produto
+app.post("/usuario/pesquisar", (req, res) => {
+	let nome = req.body.nome;
+	console.log(req.body);
+	connection.query(
+		`SELECT * FROM produto WHERE nome LIKE '%${nome_disco}%';`,
+		(err, result) => {
+			if (err) {
+				throw err;
+			}
+
+			res.send(result);
+		}
+	);
+});
+
+//busca todos os produtos por ordem decrescente
 app.get("/produtos", function (req, res) {
 	connection.query(
 		`SELECT * FROM produto ORDER BY id_produto DESC`,
@@ -246,7 +278,7 @@ app.get("/produtos", function (req, res) {
 	);
 });
 
-//listar somente um item da tabela
+// listar os 10 primeiros itens da tabela (use essa rota só na página 1)
 app.get("/produtos", function (req, res) {
 	connection.query(
 		`SELECT nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria FROM produto WHERE cod_produto = ?`,

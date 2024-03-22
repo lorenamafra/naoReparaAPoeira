@@ -27,6 +27,8 @@ export const ProdutoTd = styled.td`
 export const Pagination = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 30px;
 `;
 
 export const PaginationButton = styled.div`
