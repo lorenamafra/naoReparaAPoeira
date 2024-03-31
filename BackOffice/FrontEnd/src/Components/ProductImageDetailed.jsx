@@ -4,14 +4,16 @@ import { useState } from "react";
 import { DetailedImage } from "../Styles/ProductDetails.styles";
 import { useLocation } from "react-router";
 function ProductImageDetailed() {
-	const imageFiles = useLocation().state.files;
+	const imageFiles = [];
+	imageFiles.push(useLocation().state.files0);
+	imageFiles.push(useLocation().state.files1);
 	console.log(imageFiles);
 
 	const [icon, setIcon] = useState(0);
 	const Icons = [];
-	// for (let i = 0; i < imageFiles.length; i++) {
-	// 	Icons.push(<DetailedImage src={URL.createObjectURL(imageFiles)} />);
-	// }
+	for (let i = 0; i < imageFiles.length; i++) {
+		Icons.push(<DetailedImage src={URL.createObjectURL(imageFiles[i])} />);
+	}
 
 	const nextImage = () => {
 		if (icon + 1 > Icons.length - 1) {

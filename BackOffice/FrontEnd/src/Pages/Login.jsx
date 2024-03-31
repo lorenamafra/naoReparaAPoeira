@@ -1,5 +1,4 @@
-import { useContext, useState, useMemo } from "react";
-
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -38,11 +37,9 @@ function Login() {
 						email: resp.data.email,
 						grupo: resp.data.grupo,
 					};
-
 					sessionStorage.setItem("User", JSON.stringify(currentUser));
+					navigate("/Home");
 				});
-				console.log(JSON.parse(sessionStorage.getItem("User")));
-				navigate("/BackOffice");
 			} else {
 				setErro(resp.data.message);
 			}

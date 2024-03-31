@@ -1,23 +1,20 @@
+import { Link } from "react-router-dom";
 import {
 	AdminSideNav,
 	EstoquistaSideNav,
 	SidenavContainer,
 } from "../Styles/MainBackOffice.styles";
 
-function Sidenav(props) {
-	console.log(props);
-	const setPage = props.page[1];
+function Sidenav() {
 	const currentUser = JSON.parse(sessionStorage.getItem("User"));
 
-	console.log(currentUser);
 	return (
 		<SidenavContainer>
 			{currentUser.grupo == "Estoquista" ? (
 				<EstoquistaSideNav>
 					<ul>
-						<li onClick={() => setPage("Lista de Produtos")}>
-							Lista de Produtos
-						</li>
+						<Link to="/Home">Home</Link>
+						<Link to="Produtos">Lista de Produtos</Link>
 					</ul>
 				</EstoquistaSideNav>
 			) : (
@@ -26,12 +23,10 @@ function Sidenav(props) {
 			{currentUser.grupo == "Admin" ? (
 				<AdminSideNav>
 					<ul>
-						<li onClick={() => setPage("Lista de Produtos")}>
-							Lista de Produtos
-						</li>
-						<li onClick={() => setPage("Lista de Usuarios")}>
-							Listar Usuários
-						</li>
+						<Link to="/Home">Home</Link>
+
+						<Link to="Produtos">Lista de Produtos</Link>
+						<Link to="Usuarios">Listar Usuários</Link>
 					</ul>
 				</AdminSideNav>
 			) : (

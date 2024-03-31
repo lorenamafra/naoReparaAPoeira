@@ -6,6 +6,7 @@ import Nav from "../Components/Nav";
 function VisualizarProduto() {
 	let location = useLocation();
 	console.log(location.state);
+
 	return (
 		<div>
 			<Nav />

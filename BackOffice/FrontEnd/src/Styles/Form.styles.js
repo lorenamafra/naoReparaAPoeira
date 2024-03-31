@@ -1,9 +1,6 @@
 import styled from "styled-components";
 
 export const MainFormContainer = styled.div`
-	display: grid;
-	place-items: center;
-
 	header {
 		display: flex;
 		gap: 1rem;

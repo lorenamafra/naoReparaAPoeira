@@ -1,38 +1,34 @@
-import { Route, Routes } from "react-router";
-import { UserContext } from "./Context/UserContext";
+import { RouterProvider } from "react-router";
 import Login from "./Pages/Login";
 import MainBackOffice from "./Pages/MainBackOffice";
-import Cadastrar from "./Pages/Cadastrar";
-import Alterar from "./Pages/Alterar";
-import { useState } from "react";
-import Produtos from "./Components/Produtos";
+import CadastrarUsuario from "./Pages/CadastrarUsuario";
+import AlterarUsuario from "./Pages/AlterarUsuario";
 import CadastrarProdutos from "./Pages/CadastrarProdutos";
 import AlterarProduto from "./Pages/AlterarProduto";
 import VisualizarProduto from "./Pages/VisualizarProduto";
+import { createBrowserRouter } from "react-router-dom";
+import UserList from "./Pages/UserList";
+import ProductList from "./Pages/ProductList";
+
+const router = createBrowserRouter([
+	{ path: "/", Component: Login },
+	{
+		path: "/Home",
+		Component: MainBackOffice,
+		children: [
+			{ path: "Produtos", Component: ProductList },
+			{ path: "Produtos/Cadastrar", Component: CadastrarProdutos },
+			{ path: "Produtos/Alterar", Component: AlterarProduto },
+			{ path: "Usuarios", Component: UserList },
+			{ path: "Usuarios/Cadastrar", Component: CadastrarUsuario },
+			{ path: "Usuarios/Alterar", Component: AlterarUsuario },
+		],
+	},
+	{ path: "VisualizarProduto", Component: VisualizarProduto },
+]);
 
 function App() {
-  const [currentUser, setCurrentUser] = useState({
-    nome: "",
-    id: "",
-    grupo: "",
-  });
-  // const providerValue = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser, setUser])
-
-  return (
-    <UserContext.Provider value={[currentUser, setCurrentUser]}>
-      <Routes>
-        <Route path="/" element={<Login />} />
-
-        <Route path="/BackOffice" element={<MainBackOffice />} />
-        <Route path="/Usuarios/Cadastrar" element={<Cadastrar />} />
-        <Route path="/Usuarios/Alterar" element={<Alterar />} />
-        <Route path="/Produtos" element={<Produtos />} />
-        <Route path="/CadastrarProdutos" element={<CadastrarProdutos />} />
-        <Route path="/Produto/Visualizar" element={<VisualizarProduto />} />
-        <Route path="/Produto/Alterar" element={<AlterarProduto />} />
-      </Routes>
-    </UserContext.Provider>
-  );
+	return <RouterProvider router={router} />;
 }
 
 export default App;
