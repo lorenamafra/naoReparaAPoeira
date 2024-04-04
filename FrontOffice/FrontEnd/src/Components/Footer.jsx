@@ -3,7 +3,6 @@ import {
   Container_Footer,
   Contato_Footer,
   Duvidas_Footer,
-  Main_Duvidas_Footer,
   Main_Footer,
 } from "../styles/LandingPage.styles";
 
