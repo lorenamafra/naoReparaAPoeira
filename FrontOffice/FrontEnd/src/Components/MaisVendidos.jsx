@@ -2,14 +2,14 @@ import React from "react";
 import {
   Container_CardMaisVendidos,
   Container_Card_MainMaisVendidos,
-  Main,
+  MainContainer,
   TituloMaisVendidos,
 } from "../styles/LandingPage.styles";
 import CardMaisVendidos from "./CardMaisVendidos";
 
 function MaisVendidos() {
   return (
-    <Main>
+    <MainContainer>
       <Container_Card_MainMaisVendidos>
         <TituloMaisVendidos>Mais Vendidos</TituloMaisVendidos>
         <Container_CardMaisVendidos>
@@ -18,7 +18,7 @@ function MaisVendidos() {
           <CardMaisVendidos />
         </Container_CardMaisVendidos>
       </Container_Card_MainMaisVendidos>
-    </Main>
+    </MainContainer>
   );
 }
 

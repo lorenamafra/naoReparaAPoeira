@@ -2,14 +2,14 @@ import React from "react";
 import {
   Container_CardPromocoes,
   Container_Card_MainPromocoes,
-  Main,
+  MainContainer,
   TituloLancamentos,
 } from "../styles/LandingPage.styles";
 import CardPromocoes from "./CardPromocoes";
 
 function Promocoes() {
   return (
-    <Main>
+    <MainContainer>
       <Container_Card_MainPromocoes>
         <TituloLancamentos>Promoções</TituloLancamentos>
         <Container_CardPromocoes>
@@ -18,7 +18,7 @@ function Promocoes() {
           <CardPromocoes />
         </Container_CardPromocoes>
       </Container_Card_MainPromocoes>
-    </Main>
+    </MainContainer>
   );
 }
 

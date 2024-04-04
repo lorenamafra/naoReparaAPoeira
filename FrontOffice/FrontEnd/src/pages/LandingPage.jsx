@@ -7,12 +7,12 @@ import Footer from "../Components/Footer";
 
 function LandingPage() {
   return (
-    <Main>
+    <div>
       <Lancamentos />
       <MaisVendidos />
       <Promocoes />
       <Footer />
-    </Main>
+    </div>
   );
 }
 

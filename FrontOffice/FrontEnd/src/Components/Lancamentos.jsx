@@ -4,7 +4,7 @@ import {
   Container_CardLancamentos,
   Container_Card_MainLancamentos,
   TituloLancamentos,
-  Main,
+  MainContainer,
 } from "../styles/LandingPage.styles";
 import { useLocation } from "react-router";
 import Component5 from "../assets/Component5.png";
@@ -12,7 +12,7 @@ import CardLancamentos from "./CardLancamentos";
 
 function Lancamentos() {
   return (
-    <Main>
+    <MainContainer>
       <Container_Card_MainLancamentos>
         <TituloLancamentos>Lançamentos Recentes</TituloLancamentos>
         <Container_CardLancamentos>
@@ -21,7 +21,7 @@ function Lancamentos() {
           <CardLancamentos />
         </Container_CardLancamentos>
       </Container_Card_MainLancamentos>
-    </Main>
+    </MainContainer>
   );
 }
 

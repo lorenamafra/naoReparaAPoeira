@@ -9,7 +9,7 @@ export const TituloMaisVendidos = styled.h1`
   color: white;
 `;
 
-export const Main = styled.div`
+export const MainContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -109,31 +109,21 @@ export const Container_CardPromocoes = styled.div`
   gap: 2rem;
 `;
 
-export const Main_Footer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-`;
-
 export const Container_Footer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   border: 2px solid black;
   background-color: black;
-  padding: 2rem 4rem;
+  padding: 1rem;
+  width: 100%;
 `;
 
 export const Contato_Footer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 15rem;
+  text-align: left;
   color: white;
-  padding: 1rem;
 `;
 
 export const Duvidas_Footer = styled.div`
-  display: flex;
-  width: 15rem;
+  text-align: left;
   color: white;
-  padding: 1rem;
-  gap: 2rem;
 `;
