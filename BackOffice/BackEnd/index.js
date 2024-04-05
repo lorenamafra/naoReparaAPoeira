@@ -10,7 +10,6 @@ const path = require("path");
 const app = new express();
 const port = 8080;
 var jsonParser = bodyParser.json();
-
 // setting up express
 app.use(cors());
 app.use(jsonParser);
@@ -171,9 +170,10 @@ app.post("/usuario/pesquisar", (req, res) => {
 });
 
 //CADASTRAR PRODUTOS!!!!!!!!!!!!!!!!!!!!!!!!!!
-const storage = multer.diskStorage({
+const storageA = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, "../FrontEnd/public");
+		console.log("File going to Storage A", file);
 	},
 	filename: function (req, file, cb) {
 		cb(
@@ -185,8 +185,26 @@ const storage = multer.diskStorage({
 	},
 });
 
-const uploadImage = multer({ storage: storage }).any();
+const storageB = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, "../../FrontOffice/FrontEnd/public");
+		console.log("File going to StorageB", file);
+	},
+	filename: function (req, file, cb) {
+		cb(
+			null,
+			req.body.cod_produto +
+				file.fieldname.substring(file.fieldname.length - 1) +
+				path.extname(file.originalname)
+		);
+	},
+});
+
+const uploadImage = multer({ storage: storageA }).any();
+const uploadToFrontEnd = multer({ storage: storageB }).any();
+
 app.post("/produto/inserir", uploadImage, (req, res) => {
+	console.log(req.body);
 	let nome_disco = req.body.nome_disco;
 	const estoque = req.body.estoque;
 	const valor = req.body.valor;
@@ -197,13 +215,14 @@ app.post("/produto/inserir", uploadImage, (req, res) => {
 	const descricao = req.body.descricao;
 	const cod_produto = req.body.cod_produto;
 	const principal = req.body.principal;
+
+	console.log("All Files:", req.files);
 	for (let i = 0; i < req.files.length; i++) {
-		console.log("AE AE", req.files[i]);
+		console.log("AE AE", req.files[1]);
 	}
 
 	let mensagens = [];
 	let secundaria = 1 - principal;
-
 	connection.query(
 		`INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}', "${req.files[principal].filename}", "${req.files[secundaria].filename}")`,
 		(err, result) => {
@@ -218,18 +237,35 @@ app.post("/produto/inserir", uploadImage, (req, res) => {
 	);
 });
 
+app.post("/produto/uploadImageToFrontEnd", uploadToFrontEnd, (req, res) => {
+	console.log("files", req.files);
+	console.log("UptoFrontEnd");
+});
+
+app.post("/produto/updateProductImage", uploadImage, (req, res) => {
+	console.log("Updating Image...");
+	console.log(req.files);
+});
 //ALTERAR PRODUTO!!!
-app.put("/produto/alterar", (req, res) => {
+app.put("/produto/alterar", uploadImage, (req, res) => {
 	console.log("req body", req.body);
+	for (let i = 0; i < req.files.length; i++) {
+		console.log("AE AE", req.files[i]);
+	}
+	let nome_disco = req.body.nome_disco;
+
 	let cod_produto = req.body.cod_produto;
 	let estoque = req.body.estoque;
 	let valor = req.body.valor;
 	let artista = req.body.artista;
 	let avaliacao = req.body.avaliacao;
 	let descricao = req.body.descricao;
+	const principal = req.body.principal;
+
+	let secundaria = 1 - principal;
 
 	connection.query(
-		`UPDATE produto SET estoque = '${estoque}', valor = '${valor}', artista = '${artista}', avaliacao = '${avaliacao}', descricao = '${descricao}', WHERE cod_produto = '${cod_produto}'`,
+		`UPDATE produto SET estoque = '${estoque}', valor = '${valor}', nome_disco = "${nome_disco}", artista="${artista}",avaliacao = '${avaliacao}', descricao = '${descricao}', imagem_principal = ${req.files[principal].filename}, imagem_secundaria=${req.files[secundaria].filename}  WHERE cod_produto = '${cod_produto}'`,
 		(err, result) => {
 			if (err) {
 				throw err;

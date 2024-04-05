@@ -22,11 +22,12 @@ function Cadastrar() {
 		let isValid = true;
 
 		const campoVazio = (campo, campoNome) => {
-			if (campo || campo == "" || campo == " ") {
+			if (!campo || campo == "" || campo == " ") {
 				alert(`${campoNome} está vazio!`);
 
 				return false;
 			}
+			return true;
 		};
 
 		const confirmarSenha = (senha, senha2) => {
@@ -35,7 +36,6 @@ function Cadastrar() {
 				return false;
 			}
 		};
-
 		isValid = campoVazio(email, "Email");
 		isValid = campoVazio(nome, "Nome");
 		isValid = campoVazio(cpf, "Cpf");
@@ -53,6 +53,7 @@ function Cadastrar() {
 
 	const handleSave = (e) => {
 		e.preventDefault();
+		console.log("oi");
 
 		if (validation()) {
 			user.email = email;
@@ -60,7 +61,7 @@ function Cadastrar() {
 			user.cpf = cpf;
 			user.senha = senha;
 			user.grupo = grupo;
-
+			console.log(user);
 			axios
 				.post("http://localhost:8080/usuario/cadastrar", user)
 				.then((resp) => {
@@ -108,7 +109,7 @@ function Cadastrar() {
 						/>
 
 						<label htmlFor="Grupo"> Grupo </label>
-						<select>
+						<select onChange={(event) => setGrupo(event.target.value)}>
 							<option value="Admin"> Admin </option>
 							<option value="Estoquista"> Estoquista </option>
 						</select>
@@ -131,7 +132,7 @@ function Cadastrar() {
 							onChange={(event) => setConfirmaSenha(event.target.value)}
 						/>
 						<div>
-							<button onClick={handleSave}>Cadastrar</button>
+							<button onClick={(e) => handleSave(e)}>Cadastrar</button>
 							<button
 								onClick={() => {
 									navigate(-1);

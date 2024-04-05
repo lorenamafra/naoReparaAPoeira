@@ -156,7 +156,7 @@ function ProductList() {
 														<ProdutoTd>
 															<button
 																onClick={() =>
-																	navigate("/Produtos/Alterar", {
+																	navigate("Alterar", {
 																		state: produto.cod_produto,
 																	})
 																}

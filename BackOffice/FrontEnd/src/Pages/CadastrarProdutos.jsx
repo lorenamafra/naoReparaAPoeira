@@ -95,6 +95,12 @@ function CadastrarProdutos() {
 		axios
 			.post("http://localhost:8080/produto/inserir", fd)
 			.then((resp) => console.log(resp));
+
+		axios
+			.post("http://localhost:8080/produto/uploadImageToFrontEnd", fd)
+			.then((resp) => {
+				console.log(resp.data);
+			});
 		// .then(navigate("/BackOffice"));
 	};
 

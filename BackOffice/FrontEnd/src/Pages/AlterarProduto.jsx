@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
 	ImageFieldset,
 	ImagesContainer,
-	ImgLabel,
 	InputQuantidade,
 	ProdutoFormContainer,
 	SubmitButton,
@@ -14,27 +13,75 @@ import { useLocation, useNavigate } from "react-router";
 import Icon from "@mdi/react";
 import { mdiTrashCanOutline } from "@mdi/js";
 
-var mainForm = document.getElementById("myForm");
 var queuedImagesArray = [];
 function AlterarProduto() {
 	const cod_produto = useLocation().state;
-	console.log(cod_produto);
 	const [produto, setProduto] = useState({});
 	const [images, setImages] = useState([]);
 	const [loader, setLoader] = useState(true);
 
 	useEffect(() => {
-		const getProduto = () => {
-			axios
-				.post("http://localhost:8080/produto/pesquisar", {
+		queuedImagesArray = [];
+
+		const checkEstoquista = () => {};
+		const toDataURL = (url) =>
+			fetch(url)
+				.then((response) => response.blob())
+				.then(
+					(blob) =>
+						new Promise((resolve, reject) => {
+							const reader = new FileReader();
+							reader.onloadend = () => resolve(reader.result);
+							reader.onerror = reject;
+							reader.readAsDataURL(blob);
+						})
+				);
+
+		function dataURLtoFile(dataurl, filename) {
+			var arr = dataurl.split(","),
+				mime = arr[0].match(/:(.*?);/)[1],
+				bstr = atob(arr[1]),
+				n = bstr.length,
+				u8arr = new Uint8Array(n);
+			while (n--) {
+				u8arr[n] = bstr.charCodeAt(n);
+			}
+			return new File([u8arr], filename, { type: mime });
+		}
+
+		const getProduto = async () => {
+			let response = await axios.post(
+				"http://localhost:8080/produto/pesquisar",
+				{
 					cod_produto: cod_produto,
+				}
+			);
+
+			setProduto(response.data);
+			let imagemPrincipal = response.data.imagem_principal;
+			let imagemSecundaria = response.data.imagem_secundaria;
+			console.log(response.data);
+
+			toDataURL(`/${imagemSecundaria}`).then((dataUrl) => {
+				var fileData = dataURLtoFile(dataUrl, imagemSecundaria);
+				console.log(fileData);
+				queuedImagesArray.push(fileData);
+			});
+
+			toDataURL(`/${imagemPrincipal}`)
+				.then((dataUrl) => {
+					var fileData = dataURLtoFile(dataUrl, imagemPrincipal);
+					console.log(fileData);
+					queuedImagesArray.push(fileData);
 				})
-				.then((resp) => {
-					setProduto(resp.data);
+				.then(() => {
+					displayQueuedImages();
 				});
-			setLoader(false);
 		};
-		getProduto();
+
+		getProduto().then(() => {
+			setLoader(false);
+		});
 	}, []);
 
 	const Visualizar = () => {
@@ -61,7 +108,7 @@ function AlterarProduto() {
 
 		console.log(ObjectForm);
 
-		navigate("/Produtos/Visualizar", { state: ObjectForm });
+		navigate("/VisualizarProduto", { state: ObjectForm });
 	};
 
 	const navigate = useNavigate();
@@ -81,13 +128,13 @@ function AlterarProduto() {
 				return item[0];
 			})
 			.join("");
-		console.log("ta indokk");
+
 		let nome_disco = fd.get("nome_disco").replaceAll(" ", "");
 
 		let cod_produto = abbr.concat(nome_disco, fd.get("ano"));
 		fd.append("cod_produto", cod_produto);
-		console.log(imagesArrayCopy);
 
+		fd.delete("images");
 		queuedImagesArray.forEach((image, index) => {
 			fd.append(`files${index}`, image);
 		});
@@ -101,22 +148,36 @@ function AlterarProduto() {
 		}
 
 		for (const pair of fd.entries()) {
-			console.log(pair[0], pair[1]);
 			if (pair[1] == "") {
 				window.alert(`${pair[0]} está vazio`);
 			}
 		}
-
+		fd.append(
+			"principal",
+			document.querySelector('input[name="principal"]:checked').value
+		);
 		const ObjectForm = Object.fromEntries(fd);
 		console.log(ObjectForm);
+		console.log(ObjectForm.files0);
 		axios
-			.put("http://localhost:8080/produto/alterar", ObjectForm)
-			.then((resp) => console.log(resp.data))
-			.then(navigate("/BackOffice"));
+			.put("http://localhost:8080/produto/alterar", fd)
+			.then((resp) => console.log(resp.data));
+		// .then(navigate("/BackOffice"));
+
+		axios
+			.post("http://localhost:8080/produto/updateProductImage", fd)
+			.then((resp) => {
+				console.log(resp.data);
+			});
+		axios
+			.post("http://localhost:8080/produto/uploadImageToFrontEnd", fd)
+			.then((resp) => {
+				console.log(resp.data);
+			});
 	};
 
 	const [imagesComponents, setImagesComponents] = useState([]);
-	const [imagesArrayCopy, setImageArrayCopy] = useState([]);
+	const [imagesArrayCopy] = useState([]);
 
 	const onSelectFile = (e) => {
 		console.log("on select, copy", imagesArrayCopy);

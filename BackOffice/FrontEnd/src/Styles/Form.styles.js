@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const MainFormContainer = styled.div`
+	background-color: var(--blue);
+
 	header {
 		display: flex;
 		gap: 1rem;
@@ -8,15 +10,22 @@ export const MainFormContainer = styled.div`
 	header img {
 		cursor: pointer;
 	}
+
+	textarea {
+		overflow: scroll;
+		height: 200px;
+		resize: none;
+	}
+
+	::-webkit-scrollbar {
+		display: none;
+	}
 `;
 
 export const ProdutoFormContainer = styled.form`
-	display: grid;
-	background-color: var(--blue);
 	padding: 1rem;
 	width: 55rem;
 	color: var(--white);
-	height: 80vh;
 
 	fieldset {
 		border: none;
@@ -26,11 +35,7 @@ export const ProdutoFormContainer = styled.form`
 	section {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-	}
-
-	img {
-		height: 200px;
-		aspect-ratio: 1/1;
+		margin: 0;
 	}
 
 	label img {
@@ -42,6 +47,11 @@ export const ProdutoFormContainer = styled.form`
 export const ImagesContainer = styled.div`
 	display: flex;
 	height: 300px;
+
+	img {
+		height: 200px;
+		aspect-ratio: 1/1;
+	}
 `;
 
 export const ImageFieldset = styled.fieldset`
