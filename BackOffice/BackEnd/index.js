@@ -280,7 +280,7 @@ app.put("/produto/alterar", uploadImage, (req, res) => {
 });
 
 //busca por um produto por id
-app.post("/produto/pesquisar", (req, res) => {
+app.post("/produto/:cod_produto", (req, res) => {
   let cod_produto = req.body.cod_produto;
   console.log(req.body);
   connection.query(

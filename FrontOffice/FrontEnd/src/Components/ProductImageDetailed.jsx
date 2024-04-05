@@ -4,42 +4,43 @@ import { useState } from "react";
 import { DetailedImage } from "../styles/ProductDetails.styles";
 import { useParams } from "react-router";
 function ProductImageDetailed() {
-	const imageFiles = [];
+  const imageFiles = [];
 
-	let { disco } = useParams();
-	// imageFiles.push(disco.files0);
-	// imageFiles.push(disco.files1);
-	console.log(imageFiles);
+  let disco = useParams();
+  console.log(disco);
+  // imageFiles.push(disco.files0);
+  // imageFiles.push(disco.files1);
+  console.log(imageFiles);
 
-	const [icon, setIcon] = useState(0);
-	const Icons = [];
-	for (let i = 0; i < imageFiles.length; i++) {
-		Icons.push(<DetailedImage src={URL.createObjectURL(imageFiles[i])} />);
-	}
+  const [icon, setIcon] = useState(0);
+  const Icons = [];
+  for (let i = 0; i < imageFiles.length; i++) {
+    Icons.push(<DetailedImage src={URL.createObjectURL(imageFiles[i])} />);
+  }
 
-	const nextImage = () => {
-		if (icon + 1 > Icons.length - 1) {
-			setIcon(0);
-		} else {
-			setIcon(icon + 1);
-		}
-	};
+  const nextImage = () => {
+    if (icon + 1 > Icons.length - 1) {
+      setIcon(0);
+    } else {
+      setIcon(icon + 1);
+    }
+  };
 
-	const previousImage = () => {
-		if (icon - 1 < 0) {
-			setIcon(Icons.length - 1);
-		} else {
-			setIcon(icon - 1);
-		}
-	};
+  const previousImage = () => {
+    if (icon - 1 < 0) {
+      setIcon(Icons.length - 1);
+    } else {
+      setIcon(icon - 1);
+    }
+  };
 
-	return (
-		<div>
-			<Icon path={mdiMenuLeft} size={5} onClick={previousImage} />
-			{Icons[icon]}
-			<Icon path={mdiMenuRight} size={5} onClick={nextImage} />
-		</div>
-	);
+  return (
+    <div>
+      <Icon path={mdiMenuLeft} size={5} onClick={previousImage} />
+      {Icons[icon]}
+      <Icon path={mdiMenuRight} size={5} onClick={nextImage} />
+    </div>
+  );
 }
 
 export default ProductImageDetailed;

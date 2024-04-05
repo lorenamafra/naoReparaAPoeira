@@ -23,8 +23,6 @@ export const NavContainer = styled.nav`
   }
 `;
 
-import styled from "styled-components";
-
 export const MainLoginContainer = styled.div`
   justify-content: center;
   align-items: center;
