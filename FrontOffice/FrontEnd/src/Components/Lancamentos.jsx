@@ -42,12 +42,15 @@ function Lancamentos() {
 
 	useEffect(() => {
 		const getLancamentos = async () => {
+			setTimeOut()
 			const data = await axios.get("http://localhost:8080/produtos");
 			// setProdutos(data.data);
 			console.log(data.data.produtos);
 			setProdutos(data.data.produtos);
+			setTimeout(() => {
+				setLoader(false);
 
-			setLoader(false);
+			  }, "3000");
 		};
 		getLancamentos().catch((err) => {
 			console.log(err);

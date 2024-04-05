@@ -19,11 +19,25 @@ function AlterarProduto() {
 	const [produto, setProduto] = useState({});
 	const [images, setImages] = useState([]);
 	const [loader, setLoader] = useState(true);
+	const currentUser = JSON.parse(sessionStorage.getItem("User"));
 
 	useEffect(() => {
 		queuedImagesArray = [];
 
-		const checkEstoquista = () => {};
+		const checkEstoquista = () => {
+			if(currentUser.grupo == "Estoquista"){
+				document.getElementById("nome_disco").setAttribute("disabled", "true")
+				document.getElementById("artista").setAttribute("disabled", "true")
+				document.getElementById("genero").setAttribute("disabled", "true")
+				document.getElementById("ano").setAttribute("disabled", "true")
+				document.getElementById("valor").setAttribute("disabled", "true")
+				document.getElementById("avaliacao").setAttribute("disabled", "true")
+				document.getElementById("descricao").setAttribute("disabled", "true")
+				document.getElementById("images").setAttribute("disabled", "true")
+			
+			}
+		};
+	
 		const toDataURL = (url) =>
 			fetch(url)
 				.then((response) => response.blob())
@@ -82,8 +96,12 @@ function AlterarProduto() {
 		getProduto().then(() => {
 			setLoader(false);
 		});
-	}, []);
 
+		setTimeout(()=>{
+			checkEstoquista()
+	
+	}, 5000)
+	}, []);
 	const Visualizar = () => {
 		var formElement = document.getElementById("myForm");
 		console.log(queuedImagesArray);
@@ -243,6 +261,7 @@ function AlterarProduto() {
 									<input
 										type="text"
 										name="nome_disco"
+										id="nome_disco"
 										required
 										defaultValue={produto.nome_disco}
 									/>
@@ -252,6 +271,7 @@ function AlterarProduto() {
 									<input
 										type="text"
 										name="artista"
+										id="artista"
 										required
 										defaultValue={produto.artista}
 									/>
@@ -260,6 +280,7 @@ function AlterarProduto() {
 									<label htmlFor=""> Generos </label>
 									<input
 										type="text"
+										id="genero"
 										name="genero"
 										required
 										defaultValue={produto.genero}
@@ -269,6 +290,7 @@ function AlterarProduto() {
 									<label htmlFor=""> Ano de Lançamento </label>
 									<InputQuantidade
 										type="number"
+										id="ano"
 										name="ano"
 										maxLength={4}
 										required
@@ -283,6 +305,7 @@ function AlterarProduto() {
 									<InputQuantidade
 										type="number"
 										name="estoque"
+										id="estoque"
 										defaultValue={produto.estoque}
 										required
 									/>
@@ -292,6 +315,7 @@ function AlterarProduto() {
 									<InputQuantidade
 										type="number"
 										name="valor"
+										id="valor"
 										required
 										defaultValue={produto.valor}
 									/>
@@ -301,6 +325,7 @@ function AlterarProduto() {
 									<select
 										type="select"
 										name="avaliacao"
+										id="avaliacao"
 										min={0}
 										max={5}
 										required
@@ -325,6 +350,7 @@ function AlterarProduto() {
 									<textarea
 										name="descricao"
 										required
+										id="descricao"
 										defaultValue={produto.descricao}
 									></textarea>
 								</fieldset>
@@ -337,6 +363,7 @@ function AlterarProduto() {
 								required
 								type="file"
 								name="images"
+								id="images"
 								onChange={(e) => onSelectFile(e)}
 								accept="image/jpeg, image/png, image/webp"
 							/>
