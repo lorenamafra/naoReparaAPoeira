@@ -28,11 +28,11 @@ imagem_principal varchar(255),
 imagem_secundaria varchar(255)
 );
 
-CREATE TABLE imagem (
-id_imagem INT AUTO_INCREMENT PRIMARY KEY,
-cod_produto VARCHAR(150),
-imagem_principal varchar(255),
-imagem_secundaria varchar(255),
-FOREIGN KEY (cod_produto) REFERENCES produto(cod_produto)
-);
+ALTER TABLE produto AUTO_INCREMENT = 0;
+drop table imagem;
+INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria) values 
+('KWMyBeautifulDarkTwistedFantasy2010','My Beautiful Dark Twisted Fantasy', 10, 250.00, 'Kanye West', 'Rap', 2010, 5, "Ativo", 'MBDTF', "KWMyBeautifulDarkTwistedFantasy20100.jpg", "KWMyBeautifulDarkTwistedFantasy20101.jpeg")
+INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria) values 
+('AmFavouriteWorstNightmare2007','Favourite Worst Nightmare', 15, 80.00, 'Arctic Monkeys', 'Rock', 2007, 4, "Ativo", 'Segundo álbum da banda', "AMFavouriteWorstNightmare20070.jpg", "AMFavouriteWorstNightmare20071.jpg");
+INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria) values ('KWGraduation20070','Graduation', 10, 250.00, 'Kanye West', 'Rap', 2007, 5, "Ativo", 'Ultimo álbum da trilogia sobre faculdades', "KWGraduation20070.jpg", "KWGraduation20071.jpg")
 
