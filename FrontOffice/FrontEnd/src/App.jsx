@@ -1,6 +1,3 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router";
@@ -9,13 +6,13 @@ import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
 
 const router = createBrowserRouter([
-	{ path: "/Login", Component: Login },
-	{ path: "/Cadastro", Component: Cadastro },
-	{ path: "/", Component: LandingPage },
+  { path: "/Login", Component: Login },
+  { path: "/Cadastro", Component: Cadastro },
+  { path: "/", Component: LandingPage },
 ]);
 
 function App() {
-	return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />;
 }
 
 export default App;

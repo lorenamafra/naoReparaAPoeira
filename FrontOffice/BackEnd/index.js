@@ -16,13 +16,13 @@ app.use(jsonParser);
 
 // setting up mysql connection with express
 var connection = mysql.createConnection({
-	host: "127.0.0.1",
-	user: "root",
-	password: "",
-	database: "projeto_pw",
-	port: "5002",
+  host: "127.0.0.1",
+  user: "root",
+  password: "TJrs4321@",
+  database: "projeto_pw",
+  port: "5002",
 });
 
 app.listen(port, (req, res) => {
-	console.log(`Server listening to port ${port}, BACK OFFICE`);
+  console.log(`Server listening to port ${port}, BACK OFFICE`);
 });
