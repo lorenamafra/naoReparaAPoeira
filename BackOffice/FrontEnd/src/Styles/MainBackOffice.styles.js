@@ -87,7 +87,9 @@ export const UsuarioInnerContainer = styled.div`
 		color: #f6f8ff;
 		width: 4rem;
 		text-align: center;
+
 		background-color: ${(props) => (props.status == "Ativo" ? "Green" : "Red")};
+
 		border-radius: 0.9rem;
 		padding: 0.3rem 0.5rem;
 	}

@@ -1,25 +1,21 @@
-import React from "react";
 import {
-  Container_CardPromocoes,
-  Container_Card_MainPromocoes,
-  MainContainer,
-  TituloLancamentos,
+	Container_InnerContainer,
+	MainContainer,
+	TituloLancamentos,
 } from "../styles/LandingPage.styles";
-import CardPromocoes from "./CardPromocoes";
+import CardLancamentos from "./CardLancamentos";
 
 function Promocoes() {
-  return (
-    <MainContainer>
-      <Container_Card_MainPromocoes>
-        <TituloLancamentos>Promoções</TituloLancamentos>
-        <Container_CardPromocoes>
-          <CardPromocoes />
-          <CardPromocoes />
-          <CardPromocoes />
-        </Container_CardPromocoes>
-      </Container_Card_MainPromocoes>
-    </MainContainer>
-  );
+	return (
+		<MainContainer>
+			<TituloLancamentos>Promoções</TituloLancamentos>
+			<Container_InnerContainer>
+				<CardLancamentos />
+				<CardLancamentos />
+				<CardLancamentos />
+			</Container_InnerContainer>
+		</MainContainer>
+	);
 }
 
 export default Promocoes;

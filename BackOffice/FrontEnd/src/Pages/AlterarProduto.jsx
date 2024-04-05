@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
 	ImageFieldset,
 	ImagesContainer,
-	ImgLabel,
 	InputQuantidade,
 	ProdutoFormContainer,
 	SubmitButton,
@@ -14,29 +13,95 @@ import { useLocation, useNavigate } from "react-router";
 import Icon from "@mdi/react";
 import { mdiTrashCanOutline } from "@mdi/js";
 
-var mainForm = document.getElementById("myForm");
 var queuedImagesArray = [];
 function AlterarProduto() {
 	const cod_produto = useLocation().state;
-	console.log(cod_produto);
 	const [produto, setProduto] = useState({});
 	const [images, setImages] = useState([]);
 	const [loader, setLoader] = useState(true);
+	const currentUser = JSON.parse(sessionStorage.getItem("User"));
 
 	useEffect(() => {
-		const getProduto = () => {
-			axios
-				.post("http://localhost:8080/produto/pesquisar", {
-					cod_produto: cod_produto,
-				})
-				.then((resp) => {
-					setProduto(resp.data);
-				});
-			setLoader(false);
-		};
-		getProduto();
-	}, []);
+		queuedImagesArray = [];
 
+		const checkEstoquista = () => {
+			if(currentUser.grupo == "Estoquista"){
+				document.getElementById("nome_disco").setAttribute("disabled", "true")
+				document.getElementById("artista").setAttribute("disabled", "true")
+				document.getElementById("genero").setAttribute("disabled", "true")
+				document.getElementById("ano").setAttribute("disabled", "true")
+				document.getElementById("valor").setAttribute("disabled", "true")
+				document.getElementById("avaliacao").setAttribute("disabled", "true")
+				document.getElementById("descricao").setAttribute("disabled", "true")
+				document.getElementById("images").setAttribute("disabled", "true")
+			
+			}
+		};
+	
+		const toDataURL = (url) =>
+			fetch(url)
+				.then((response) => response.blob())
+				.then(
+					(blob) =>
+						new Promise((resolve, reject) => {
+							const reader = new FileReader();
+							reader.onloadend = () => resolve(reader.result);
+							reader.onerror = reject;
+							reader.readAsDataURL(blob);
+						})
+				);
+
+		function dataURLtoFile(dataurl, filename) {
+			var arr = dataurl.split(","),
+				mime = arr[0].match(/:(.*?);/)[1],
+				bstr = atob(arr[1]),
+				n = bstr.length,
+				u8arr = new Uint8Array(n);
+			while (n--) {
+				u8arr[n] = bstr.charCodeAt(n);
+			}
+			return new File([u8arr], filename, { type: mime });
+		}
+
+		const getProduto = async () => {
+			let response = await axios.post(
+				"http://localhost:8080/produto/pesquisar",
+				{
+					cod_produto: cod_produto,
+				}
+			);
+
+			setProduto(response.data);
+			let imagemPrincipal = response.data.imagem_principal;
+			let imagemSecundaria = response.data.imagem_secundaria;
+			console.log(response.data);
+
+			toDataURL(`/${imagemSecundaria}`).then((dataUrl) => {
+				var fileData = dataURLtoFile(dataUrl, imagemSecundaria);
+				console.log(fileData);
+				queuedImagesArray.push(fileData);
+			});
+
+			toDataURL(`/${imagemPrincipal}`)
+				.then((dataUrl) => {
+					var fileData = dataURLtoFile(dataUrl, imagemPrincipal);
+					console.log(fileData);
+					queuedImagesArray.push(fileData);
+				})
+				.then(() => {
+					displayQueuedImages();
+				});
+		};
+
+		getProduto().then(() => {
+			setLoader(false);
+		});
+
+		setTimeout(()=>{
+			checkEstoquista()
+	
+	}, 5000)
+	}, []);
 	const Visualizar = () => {
 		var formElement = document.getElementById("myForm");
 		console.log(queuedImagesArray);
@@ -61,7 +126,7 @@ function AlterarProduto() {
 
 		console.log(ObjectForm);
 
-		navigate("/Produtos/Visualizar", { state: ObjectForm });
+		navigate("/VisualizarProduto", { state: ObjectForm });
 	};
 
 	const navigate = useNavigate();
@@ -81,13 +146,13 @@ function AlterarProduto() {
 				return item[0];
 			})
 			.join("");
-		console.log("ta indokk");
+
 		let nome_disco = fd.get("nome_disco").replaceAll(" ", "");
 
 		let cod_produto = abbr.concat(nome_disco, fd.get("ano"));
 		fd.append("cod_produto", cod_produto);
-		console.log(imagesArrayCopy);
 
+		fd.delete("images");
 		queuedImagesArray.forEach((image, index) => {
 			fd.append(`files${index}`, image);
 		});
@@ -101,22 +166,36 @@ function AlterarProduto() {
 		}
 
 		for (const pair of fd.entries()) {
-			console.log(pair[0], pair[1]);
 			if (pair[1] == "") {
 				window.alert(`${pair[0]} está vazio`);
 			}
 		}
-
+		fd.append(
+			"principal",
+			document.querySelector('input[name="principal"]:checked').value
+		);
 		const ObjectForm = Object.fromEntries(fd);
 		console.log(ObjectForm);
+		console.log(ObjectForm.files0);
 		axios
-			.put("http://localhost:8080/produto/alterar", ObjectForm)
-			.then((resp) => console.log(resp.data))
-			.then(navigate("/BackOffice"));
+			.put("http://localhost:8080/produto/alterar", fd)
+			.then((resp) => console.log(resp.data));
+		// .then(navigate("/BackOffice"));
+
+		axios
+			.post("http://localhost:8080/produto/updateProductImage", fd)
+			.then((resp) => {
+				console.log(resp.data);
+			});
+		axios
+			.post("http://localhost:8080/produto/uploadImageToFrontEnd", fd)
+			.then((resp) => {
+				console.log(resp.data);
+			});
 	};
 
 	const [imagesComponents, setImagesComponents] = useState([]);
-	const [imagesArrayCopy, setImageArrayCopy] = useState([]);
+	const [imagesArrayCopy] = useState([]);
 
 	const onSelectFile = (e) => {
 		console.log("on select, copy", imagesArrayCopy);
@@ -182,6 +261,7 @@ function AlterarProduto() {
 									<input
 										type="text"
 										name="nome_disco"
+										id="nome_disco"
 										required
 										defaultValue={produto.nome_disco}
 									/>
@@ -191,6 +271,7 @@ function AlterarProduto() {
 									<input
 										type="text"
 										name="artista"
+										id="artista"
 										required
 										defaultValue={produto.artista}
 									/>
@@ -199,6 +280,7 @@ function AlterarProduto() {
 									<label htmlFor=""> Generos </label>
 									<input
 										type="text"
+										id="genero"
 										name="genero"
 										required
 										defaultValue={produto.genero}
@@ -208,6 +290,7 @@ function AlterarProduto() {
 									<label htmlFor=""> Ano de Lançamento </label>
 									<InputQuantidade
 										type="number"
+										id="ano"
 										name="ano"
 										maxLength={4}
 										required
@@ -222,6 +305,7 @@ function AlterarProduto() {
 									<InputQuantidade
 										type="number"
 										name="estoque"
+										id="estoque"
 										defaultValue={produto.estoque}
 										required
 									/>
@@ -231,6 +315,7 @@ function AlterarProduto() {
 									<InputQuantidade
 										type="number"
 										name="valor"
+										id="valor"
 										required
 										defaultValue={produto.valor}
 									/>
@@ -240,6 +325,7 @@ function AlterarProduto() {
 									<select
 										type="select"
 										name="avaliacao"
+										id="avaliacao"
 										min={0}
 										max={5}
 										required
@@ -264,6 +350,7 @@ function AlterarProduto() {
 									<textarea
 										name="descricao"
 										required
+										id="descricao"
 										defaultValue={produto.descricao}
 									></textarea>
 								</fieldset>
@@ -276,6 +363,7 @@ function AlterarProduto() {
 								required
 								type="file"
 								name="images"
+								id="images"
 								onChange={(e) => onSelectFile(e)}
 								accept="image/jpeg, image/png, image/webp"
 							/>
