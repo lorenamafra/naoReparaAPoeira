@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import Icon from "@mdi/react";
 import { mdiMagnify, mdiPlusBoxOutline } from "@mdi/js";
 import {
+	BtnAlterar,
 	Pagination,
 	PaginationButton,
 	PaginationItem,
@@ -154,7 +155,8 @@ function ProductList() {
 														<ProdutoTd>{produto.valor}</ProdutoTd>
 
 														<ProdutoTd>
-															<button
+															<div
+																className="buttonTD"
 																onClick={() =>
 																	navigate("Alterar", {
 																		state: produto.cod_produto,
@@ -162,29 +164,31 @@ function ProductList() {
 																}
 															>
 																Alterar
-															</button>
+															</div>
 														</ProdutoTd>
 														<ProdutoTd>
-															<div
-																id="status"
+															<BtnAlterar
+																// eslint-disable-next-line react/no-unknown-property
+																status={produto.status_produto}
+																id="buttonStatus"
 																onClick={() =>
 																	handleAlterarStatusProdutos(index)
 																}
 															>
-																{" "}
 																{produto.status_produto}
-															</div>
+															</BtnAlterar>
 														</ProdutoTd>
 														<ProdutoTd>
-															<button
+															<div
+																className="buttonTD"
 																onClick={() =>
-																	navigate("/Produto/Visualizar", {
-																		state: produtos[index],
+																	navigate("/VisualizarProduto", {
+																		state: produto,
 																	})
 																}
 															>
 																Visualizar
-															</button>
+															</div>
 														</ProdutoTd>
 													</tr>
 												);

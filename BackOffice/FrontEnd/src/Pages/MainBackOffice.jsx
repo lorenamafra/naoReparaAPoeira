@@ -6,6 +6,7 @@ import {
 } from "../Styles/MainBackOffice.styles.js";
 
 import { Outlet } from "react-router";
+import { Link } from "react-router-dom";
 
 function MainBackOffice() {
 	const currentUser = JSON.parse(sessionStorage.getItem("User"));
@@ -17,6 +18,7 @@ function MainBackOffice() {
 			<aside>
 				<p> {currentUser.nome}</p>
 				<p> {currentUser.grupo} </p>
+				<Link to="/">Deslogar</Link>
 			</aside>
 
 			<OuterContainer>

@@ -40,7 +40,7 @@ function CadastrarProdutos() {
 
 		console.log(ObjectForm);
 
-		navigate("/VisualizarProduto", { state: ObjectForm });
+		// navigate("/VisualizarProduto", { state: ObjectForm });
 	};
 
 	const navigate = useNavigate();

@@ -25,19 +25,18 @@ function AlterarProduto() {
 		queuedImagesArray = [];
 
 		const checkEstoquista = () => {
-			if(currentUser.grupo == "Estoquista"){
-				document.getElementById("nome_disco").setAttribute("disabled", "true")
-				document.getElementById("artista").setAttribute("disabled", "true")
-				document.getElementById("genero").setAttribute("disabled", "true")
-				document.getElementById("ano").setAttribute("disabled", "true")
-				document.getElementById("valor").setAttribute("disabled", "true")
-				document.getElementById("avaliacao").setAttribute("disabled", "true")
-				document.getElementById("descricao").setAttribute("disabled", "true")
-				document.getElementById("images").setAttribute("disabled", "true")
-			
+			if (currentUser.grupo == "Estoquista") {
+				document.getElementById("nome_disco").setAttribute("disabled", "true");
+				document.getElementById("artista").setAttribute("disabled", "true");
+				document.getElementById("genero").setAttribute("disabled", "true");
+				document.getElementById("ano").setAttribute("disabled", "true");
+				document.getElementById("valor").setAttribute("disabled", "true");
+				document.getElementById("avaliacao").setAttribute("disabled", "true");
+				document.getElementById("descricao").setAttribute("disabled", "true");
+				document.getElementById("images").setAttribute("disabled", "true");
 			}
 		};
-	
+
 		const toDataURL = (url) =>
 			fetch(url)
 				.then((response) => response.blob())
@@ -97,10 +96,9 @@ function AlterarProduto() {
 			setLoader(false);
 		});
 
-		setTimeout(()=>{
-			checkEstoquista()
-	
-	}, 5000)
+		setTimeout(() => {
+			checkEstoquista();
+		}, 15);
 	}, []);
 	const Visualizar = () => {
 		var formElement = document.getElementById("myForm");
@@ -212,6 +210,7 @@ function AlterarProduto() {
 
 		console.log("array após enviar arquivo", imagesArrayCopy);
 		console.log(queuedImagesArray);
+
 		displayQueuedImages();
 	};
 
@@ -222,6 +221,7 @@ function AlterarProduto() {
 			images.push(
 				<ImageFieldset key={index}>
 					<img src={URL.createObjectURL(image)} alt="" />
+
 					<div>
 						<label htmlFor="principal">Main</label>
 						<input type="radio" name="principal" value={index} checked />
@@ -239,12 +239,14 @@ function AlterarProduto() {
 	};
 
 	const deleteQueuedImages = (index) => {
-		console.log(queuedImagesArray[index]);
+		if (!currentUser.grupo == "Estoquista") {
+			console.log(queuedImagesArray[index]);
 
-		// console.log(images);
-		queuedImagesArray.splice(index, 1);
-		imagesArrayCopy.splice(index, 1);
-		displayQueuedImages();
+			// console.log(images);
+			queuedImagesArray.splice(index, 1);
+			imagesArrayCopy.splice(index, 1);
+			displayQueuedImages();
+		}
 	};
 
 	return (

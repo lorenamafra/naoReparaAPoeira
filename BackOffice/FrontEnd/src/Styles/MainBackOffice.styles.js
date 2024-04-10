@@ -26,6 +26,11 @@ export const MainBackOfficeContainer = styled.div`
 		right: 0;
 		margin: 0;
 		padding-right: 3rem;
+
+		a {
+			all: unset;
+			cursor: pointer;
+		}
 	}
 `;
 
