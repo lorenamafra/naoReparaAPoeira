@@ -1,53 +1,61 @@
 import {
-  Textfield,
+  InputField,
   ImageContainer,
   MainCadastroContainer,
   CadastroContainer,
   ButtonCadastrar,
-} from "../styles/MainStyles.styles";
+  CadastroPage,
+} from "../styles/Cadastro.styles";
+import Logo from "../assets/Component5.png";
+import { Link } from "react-router-dom";
 
 function Cadastro() {
   return (
-    <MainCadastroContainer>
-      <CadastroContainer>
-        <h1>Registre-se</h1>
+    <CadastroPage>
+      <MainCadastroContainer>
+        <CadastroContainer>
+          <h1>Registre-se</h1>
 
-        <Textfield>
-          <label>Email</label>
-          <input type="email" name="email"></input>
-        </Textfield>
+          <InputField>
+            <label>Email</label>
+            <input type="email" name="email"></input>
+          </InputField>
 
-        <Textfield>
-          <label>Nome</label>
-          <input type="text" name="nome"></input>
-        </Textfield>
+          <InputField>
+            <label>Nome</label>
+            <input type="text" name="nome"></input>
+          </InputField>
 
-        <Textfield>
-          <label>CPF</label>
-          <input type="number" name="CPF"></input>
-        </Textfield>
+          <InputField>
+            <label>CPF</label>
+            <input type="number" name="CPF"></input>
+          </InputField>
 
-        <Textfield>
-          <label>Senha</label>
-          <input type="password" name="senha"></input>
-        </Textfield>
+          <InputField>
+            <label>Senha</label>
+            <input type="password" name="senha"></input>
+          </InputField>
 
-        <Textfield>
-          <label>Confirmar senha</label>
-          <input type="password" name="confirmar senha"></input>
-        </Textfield>
+          <InputField>
+            <label>Confirmar senha</label>
+            <input type="password" name="confirmar senha"></input>
+          </InputField>
 
-        <ButtonCadastrar>Registre-se</ButtonCadastrar>
+          <ButtonCadastrar>Confirmar</ButtonCadastrar>
 
-        <Textfield>
-          <label>ou faça</label> <button>login</button>
-          <label>se ja tiver uma conta</label>
-        </Textfield>
-      </CadastroContainer>
-      <ImageContainer>
-        <img src="../assets/Component5.png" alt="Logo NRP" />
-      </ImageContainer>
-    </MainCadastroContainer>
+          <span>
+            ou faça{" "}
+            <b>
+              <Link>login</Link>
+            </b>{" "}
+            se ja tiver uma conta
+          </span>
+        </CadastroContainer>
+        <ImageContainer>
+          <img src={Logo} alt="Logo NRP" />
+        </ImageContainer>
+      </MainCadastroContainer>
+    </CadastroPage>
   );
 }
 

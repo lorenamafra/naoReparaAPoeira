@@ -1,38 +1,47 @@
 import {
-  Textfield,
+  InputField,
   ImageContainer,
   MainLoginContainer,
   LoginContainer,
   ButtonLogar,
-} from "../styles/MainStyles.styles";
+  LoginPage,
+} from "../styles/Login.styles";
+import Logo from "../assets/Component5.png";
+import { Link } from "react-router-dom";
 
 function Login() {
   return (
-    <MainLoginContainer>
-      <LoginContainer>
-        <h1>login</h1>
+    <LoginPage>
+      <MainLoginContainer>
+        <LoginContainer>
+          <h1>login</h1>
 
-        <Textfield>
-          <label>Email</label>
-          <input type="email" name="email" />
-        </Textfield>
-        <Textfield>
-          <label>Senha</label>
-          <input type="password" name="password" />
-        </Textfield>
+          <InputField>
+            <label>Email</label>
+            <input type="email" name="email" />
+          </InputField>
 
-        <ButtonLogar>oi</ButtonLogar>
+          <InputField>
+            <label>Senha</label>
+            <input type="password" name="password" />
+          </InputField>
 
-        <Textfield>
-          <button onClick={() => navigate("Cadastro")}>Registre-se</button>{" "}
-          <label> se não tiver uma conta</label>
-        </Textfield>
-      </LoginContainer>
+          <ButtonLogar>Logar</ButtonLogar>
 
-      <ImageContainer>
-        <img src="../assets/Component5.png" alt="Logo NRP" />
-      </ImageContainer>
-    </MainLoginContainer>
+          <span>
+            <b>
+              {" "}
+              <Link to="/Cadastro">Registre-se</Link>{" "}
+            </b>
+            <label> se não tiver uma conta</label>
+          </span>
+        </LoginContainer>
+
+        <ImageContainer>
+          <img src={Logo} alt="Logo NRP" />
+        </ImageContainer>
+      </MainLoginContainer>
+    </LoginPage>
   );
 }
 
