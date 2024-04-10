@@ -4,13 +4,13 @@ import {
 	Foto,
 	Imagem_ContainerMaisVendidos,
 } from "../styles/LandingPage.styles";
-import Component6 from "../assets/Component6.png";
+import LoaderImg from "../assets/LoaderImg.png";
 
 function CardMaisVendidos() {
 	return (
 		<div>
 			<Imagem_ContainerMaisVendidos>
-				<Foto src={Component6} alt="" />
+				<Foto src={LoaderImg} alt="" />
 			</Imagem_ContainerMaisVendidos>
 			<DescricaoMaisVendidos>
 				Nome Álbum

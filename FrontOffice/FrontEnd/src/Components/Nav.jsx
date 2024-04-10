@@ -1,5 +1,5 @@
 import { NavContainer } from "../styles/MainStyles.styles";
-import Logo from "../assets/Component6.png";
+import Logo from "../assets/LoaderImg.png";
 import { Link } from "react-router-dom";
 function Nav() {
 	return (

@@ -37,10 +37,9 @@ export const Container_Card_MainPromocoes = styled.div``;
 
 export const Imagem_ContainerLancamentos = styled.div`
 	border-bottom: 0;
-	height: 20rem;
-	width: 20rem;
-	display: grid;
-	place-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
 export const Imagem_ContainerMaisVendidos = styled.div`
@@ -62,7 +61,7 @@ export const DescricaoLancamentos = styled.div`
 		padding: 0;
 		margin-bottom: 1rem;
 		justify-content: center;
-
+		height: 7rem;
 		h1 {
 			margin-bottom: 0;
 		}
@@ -75,7 +74,7 @@ export const DescricaoLancamentos = styled.div`
 
 export const CardLancamentosContainer = styled.div`
 	border: 5px solid black;
-	max-width: 25rem;
+	width: 20rem;
 `;
 
 export const DescricaoMaisVendidos = styled.div`
@@ -87,8 +86,7 @@ export const DescricaoMaisVendidos = styled.div`
 `;
 
 export const Foto = styled.img`
-	padding: 1rem;
-	width: 200px;
+	width: 100%;
 	aspect-ratio: 1/1;
 `;
 

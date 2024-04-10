@@ -11,9 +11,9 @@ function ProductImageDetailed() {
 
 	const [icon, setIcon] = useState(0);
 	const Icons = [];
-	for (let i = 0; i < imageFiles.length; i++) {
-		Icons.push(<DetailedImage src={URL.createObjectURL(imageFiles[i])} />);
-	}
+	// for (let i = 0; i < imageFiles.length; i++) {
+	// 	Icons.push(<DetailedImage src={URL.createObjectURL(imageFiles[i])} />);
+	// }
 
 	const nextImage = () => {
 		if (icon + 1 > Icons.length - 1) {
