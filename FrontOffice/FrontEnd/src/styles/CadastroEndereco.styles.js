@@ -24,7 +24,7 @@ export const MainCadastroEnderecoContainer = styled.div`
   border: 4px solid white;
 `;
 
-export const CadastroEnderecoContainer = styled.div`
+export const CadastroEnderecoContainer = styled.form`
   display: grid;
   place-items: center;
 `;

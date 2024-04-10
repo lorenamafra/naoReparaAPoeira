@@ -15,7 +15,7 @@ export const InputField = styled.div`
   margin-top: 10px;
 `;
 
-export const MainCadastroContainer = styled.div`
+export const MainCadastroContainer = styled.form`
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 40%;
@@ -29,11 +29,6 @@ export const CadastroContainer = styled.div`
   place-items: center;
 `;
 
-export const ButtonCadastrar = styled.button`
-  margin-top: 20px;
-  margin-bottom: 20px;
-`;
-
 export const ImageContainer = styled.div`
   display: grid;
   place-items: center;
@@ -43,4 +38,9 @@ export const ImageContainer = styled.div`
     height: 50%;
     aspect-ratio: 1/1;
   }
+`;
+
+export const ButtonLinkCE = styled.button`
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;

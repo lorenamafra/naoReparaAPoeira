@@ -23,6 +23,38 @@ var connection = mysql.createConnection({
   port: "5002",
 });
 
+// Rota para Login
+app.post("/usuario/login", (req, res) => {
+  const email = req.body.email;
+  const senha = req.body.senha;
+  connection.query(
+    "SELECT * FROM usuario WHERE email = ?",
+    email,
+    (err, result) => {
+      if (err) {
+        res.send({ err: err });
+      }
+      if (result) {
+        if (result.length > 0) {
+          console.log(result);
+          bcrypt.compare(senha, result[0].senha, (err, response) => {
+            if (err) {
+              console.log(err);
+            }
+            if (response) {
+              res.send(true);
+            }
+          });
+        } else {
+          res.send({
+            message: "Usuário inexistente",
+          });
+        }
+      }
+    }
+  );
+});
+
 app.listen(port, (req, res) => {
   console.log(`Server listening to port ${port}, BACK OFFICE`);
 });

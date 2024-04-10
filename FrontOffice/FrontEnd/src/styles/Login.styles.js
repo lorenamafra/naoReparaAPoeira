@@ -17,7 +17,7 @@ export const MainLoginContainer = styled.div`
   border: 4px solid white;
 `;
 
-export const LoginContainer = styled.div`
+export const LoginContainer = styled.form`
   display: grid;
   place-items: center;
 `;

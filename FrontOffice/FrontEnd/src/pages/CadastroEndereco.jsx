@@ -7,6 +7,16 @@ import {
   ImageContainer,
 } from "../styles/CadastroEndereco.styles";
 import Logo from "../assets/Component5.png";
+import { Link } from "react-router-dom";
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+
+  const fd = new FormData(event.target);
+  for (const value of fd.values()) {
+    console.log(value);
+  }
+};
 
 function CadastroEndereco() {
   return (
@@ -15,7 +25,7 @@ function CadastroEndereco() {
         <ImageContainer>
           <img src={Logo} alt="Logo NRP" />
         </ImageContainer>
-        <CadastroEnderecoContainer>
+        <CadastroEnderecoContainer onSubmit={handleSubmit}>
           <h1>Cadastrar endereço</h1>
 
           <InputField>
@@ -53,7 +63,7 @@ function CadastroEndereco() {
             <input type="text" name="UF"></input>
           </InputField>
 
-          <ButtonCadastrarEndereco>CadastrarEndereco</ButtonCadastrarEndereco>
+          <ButtonCadastrarEndereco>Finalizar Cadastro</ButtonCadastrarEndereco>
         </CadastroEnderecoContainer>
       </MainCadastroEnderecoContainer>
     </CadastroEnderecoPage>
