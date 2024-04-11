@@ -23,10 +23,32 @@ genero VARCHAR(150),
 ano INT,
 avaliacao DECIMAL,
 status_produto VARCHAR(50),
-descricao VARCHAR(150),
-imagem_principal varchar(255),
-imagem_secundaria varchar(255)
+descricao VARCHAR(150)
 );
+
+CREATE TABLE imagem (
+id_imagem INT AUTO_INCREMENT PRIMARY KEY,
+cod_produto VARCHAR(150),
+imagem varchar(255),
+FOREIGN KEY (cod_produto) REFERENCES produto(cod_produto)
+);
+
+CREATE TABLE cliente (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    cpf VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    nome_completo VARCHAR(255) NOT NULL,
+    data_nascimento DATE NOT NULL,
+    genero ENUM('M', 'F', 'Outro') NOT NULL,
+	endereco_faturamento VARCHAR(255) NOT NULL
+    );
+
+CREATE TABLE endereco_entrega(
+	id_endereco INT AUTO_INCREMENT PRIMARY KEY,
+    cpf VARCHAR(100),
+    endereco_completo VARCHAR(255) NOT NULL,
+    FOREIGN KEY (cpf) REFERENCES cliente(cpf)
+);    
 
 ALTER TABLE produto AUTO_INCREMENT = 0;
 drop table imagem;

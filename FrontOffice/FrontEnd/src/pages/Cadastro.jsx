@@ -3,17 +3,26 @@ import {
   ImageContainer,
   MainCadastroContainer,
   CadastroContainer,
-  ButtonCadastrar,
   CadastroPage,
+  ButtonLinkCE,
 } from "../styles/Cadastro.styles";
 import Logo from "../assets/Component5.png";
 import { Link } from "react-router-dom";
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+
+  const fd = new FormData(event.target);
+  for (const value of fd.values()) {
+    console.log(value);
+  }
+};
 
 function Cadastro() {
   return (
     <CadastroPage>
       <MainCadastroContainer>
-        <CadastroContainer>
+        <CadastroContainer onSubmit={handleSubmit}>
           <h1>Registre-se</h1>
 
           <InputField>
@@ -41,12 +50,14 @@ function Cadastro() {
             <input type="password" name="confirmar senha"></input>
           </InputField>
 
-          <ButtonCadastrar>Confirmar</ButtonCadastrar>
+          <ButtonLinkCE>
+            <Link to="/Cadastro/CadastroEndereco">Cadastrar endereço</Link>
+          </ButtonLinkCE>
 
           <span>
             ou faça{" "}
             <b>
-              <Link>login</Link>
+              <Link to="/Login">login</Link>
             </b>{" "}
             se ja tiver uma conta
           </span>

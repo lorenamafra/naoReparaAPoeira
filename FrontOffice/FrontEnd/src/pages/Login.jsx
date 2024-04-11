@@ -9,11 +9,20 @@ import {
 import Logo from "../assets/Component5.png";
 import { Link } from "react-router-dom";
 
+const handleSubmit = (event) => {
+  event.preventDefault();
+
+  const fd = new FormData(event.target);
+  for (const value of fd.values()) {
+    console.log(value);
+  }
+};
+
 function Login() {
   return (
     <LoginPage>
       <MainLoginContainer>
-        <LoginContainer>
+        <LoginContainer onSubmit={handleSubmit}>
           <h1>login</h1>
 
           <InputField>

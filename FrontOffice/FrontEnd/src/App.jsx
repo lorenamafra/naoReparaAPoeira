@@ -9,7 +9,7 @@ import CadastroEndereco from "./pages/CadastroEndereco";
 const router = createBrowserRouter([
 	{ path: "/Login", Component: Login },
 	{ path: "/Cadastro", Component: Cadastro },
-	{ path: "/CadastroEndereco", Component: CadastroEndereco },
+	{ path: "/Cadastro/CadastroEndereco", Component: CadastroEndereco },
 	{ path: "/", Component: LandingPage },
 	{ path: "/Produto/:cod_produto", Component: Produto },
 ]);
