@@ -203,7 +203,7 @@ const storageB = multer.diskStorage({
 const uploadImage = multer({ storage: storageA }).any();
 const uploadToFrontEnd = multer({ storage: storageB }).any();
 
-app.post("/produto/inserir", uploadImage, (req, res) => {
+app.post("/produto/inserir", (req, res) => {
 	console.log(req.body);
 	let nome_disco = req.body.nome_disco;
 	const estoque = req.body.estoque;
@@ -214,27 +214,45 @@ app.post("/produto/inserir", uploadImage, (req, res) => {
 	const avaliacao = req.body.avaliacao;
 	const descricao = req.body.descricao;
 	const cod_produto = req.body.cod_produto;
-	const principal = req.body.principal;
+	const principal = req.body.imagem_principal;
 
-	console.log("All Files:", req.files);
-	for (let i = 0; i < req.files.length; i++) {
-		console.log("AE AE", req.files[1]);
-	}
+	mensagens = [];
 
-	let mensagens = [];
-	let secundaria = 1 - principal;
 	connection.query(
-		`INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}', "${req.files[principal].filename}", "${req.files[secundaria].filename}")`,
+		`INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}', ${principal})`,
 		(err, result) => {
 			if (err) {
-				mensagens.push(err);
+				res.send(err);
 			}
 
 			if (result) {
-				mensagens.push("Produto adicionado com sucesso!");
+				res.send("Produto adicionado com sucesso!");
 			}
 		}
 	);
+});
+
+app.post("/produto/inserir/imagens", uploadImage, (req, res) => {
+	console.log(req.body);
+
+	mensagens = [];
+	if (req.files) {
+		for (let i = 0; i < req.files.length; i++) {
+			connection.query(
+				`INSERT INTO imagem (cod_produto, imagem) 
+		values(${req.body.cod_produto}, ${req.files[i].filename})`,
+				(err, result) => {
+					if (err) {
+						res.send(err);
+					}
+
+					if (result) {
+						res.send("Imagem adicionada com sucesso!");
+					}
+				}
+			);
+		}
+	}
 });
 
 app.post("/produto/uploadImageToFrontEnd", uploadToFrontEnd, (req, res) => {

@@ -27,6 +27,8 @@ function CadastrarProdutos() {
 			})
 			.join("");
 
+		abbr = abbr.toUpperCase();
+
 		let nome_disco = fd.get("nome_disco").replaceAll(" ", "");
 
 		let cod_produto = abbr.concat(nome_disco, fd.get("ano"));
@@ -60,6 +62,8 @@ function CadastrarProdutos() {
 				return item[0];
 			})
 			.join("");
+
+		abbr = abbr.toUpperCase();
 
 		let nome_disco = fd.get("nome_disco").replaceAll(" ", "");
 
