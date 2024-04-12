@@ -112,6 +112,8 @@ function AlterarProduto() {
 			})
 			.join("");
 
+		abbr = abbr.toUpperCase();
+
 		let nome_disco = fd.get("nome_disco").replaceAll(" ", "");
 
 		let cod_produto = abbr.concat(nome_disco, fd.get("ano"));
@@ -144,6 +146,8 @@ function AlterarProduto() {
 				return item[0];
 			})
 			.join("");
+
+		abbr = abbr.toUpperCase();
 
 		let nome_disco = fd.get("nome_disco").replaceAll(" ", "");
 
