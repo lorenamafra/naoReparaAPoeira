@@ -23,12 +23,32 @@ var connection = mysql.createConnection({
   port: "5002",
 });
 
-// Rota para Login
-app.post("/usuario/login", (req, res) => {
+//Rota para pegar um cliente
+app.post("/cliente", (req, res) => {
+  const email = req.body.email;
+  connection.query(
+    `SELECT * FROM cliente WHERE email = "${email}"`,
+
+    (err, result) => {
+      if (err) {
+        throw err;
+      }
+
+      if (result && result.length > 0) {
+        res.send(result[0]);
+      } else {
+        res.status(404).send("Email não encontrado");
+      }
+    }
+  );
+});
+
+// Rota para Login do cliente
+app.post("/cliente/login", (req, res) => {
   const email = req.body.email;
   const senha = req.body.senha;
   connection.query(
-    "SELECT * FROM usuario WHERE email = ?",
+    "SELECT * FROM cliente WHERE email = ?",
     email,
     (err, result) => {
       if (err) {
@@ -47,7 +67,7 @@ app.post("/usuario/login", (req, res) => {
           });
         } else {
           res.send({
-            message: "Usuário inexistente",
+            message: "Cliente inexistente",
           });
         }
       }

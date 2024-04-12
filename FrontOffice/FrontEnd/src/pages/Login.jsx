@@ -16,6 +16,21 @@ const handleSubmit = (event) => {
   for (const value of fd.values()) {
     console.log(value);
   }
+
+  axios.post("http://localhost:8080/cliente/login", fd).then((resp) => {
+    if (resp.data == true) {
+      axios.post("http://localhost:8080/cliente", fd).then((resp) => {
+        const currentClient = {
+          nome: resp.data.nome_completo,
+          email: resp.data.email,
+        };
+        sessionStorage.setItem("client", JSON.stringify(currentClient));
+        navigate("/");
+      });
+    } else {
+      setErro(resp.data.message);
+    }
+  });
 };
 
 function Login() {
