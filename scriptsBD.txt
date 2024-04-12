@@ -33,15 +33,19 @@ imagem varchar(255),
 FOREIGN KEY (cod_produto) REFERENCES produto(cod_produto)
 );
 
-CREATE TABLE cliente (
+
+ CREATE TABLE cliente (
     id_cliente INT AUTO_INCREMENT PRIMARY KEY,
     cpf VARCHAR(100) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     nome_completo VARCHAR(255) NOT NULL,
     data_nascimento DATE NOT NULL,
     genero ENUM('M', 'F', 'Outro') NOT NULL,
-	endereco_faturamento VARCHAR(255) NOT NULL
-    );
+	endereco_faturamento_cep VARCHAR(255) NOT NULL,
+    endereco_faturamento_numero varchar(255) NOT NULL,
+    endereco_faturamento_complemento varchar(255),
+    senha varchar(255) NOT NULL,
+);
 
 CREATE TABLE endereco_entrega(
 	id_endereco INT AUTO_INCREMENT PRIMARY KEY,
