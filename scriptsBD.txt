@@ -23,7 +23,8 @@ genero VARCHAR(150),
 ano INT,
 avaliacao DECIMAL,
 status_produto VARCHAR(50),
-descricao VARCHAR(150)
+descricao VARCHAR(150),
+imagem_principal VARCHAR(3)
 );
 
 CREATE TABLE imagem (
@@ -44,13 +45,16 @@ FOREIGN KEY (cod_produto) REFERENCES produto(cod_produto)
 	endereco_faturamento_cep VARCHAR(255) NOT NULL,
     endereco_faturamento_numero varchar(255) NOT NULL,
     endereco_faturamento_complemento varchar(255),
-    senha varchar(255) NOT NULL,
+    senha varchar(255) NOT NULL
 );
 
 CREATE TABLE endereco_entrega(
 	id_endereco INT AUTO_INCREMENT PRIMARY KEY,
     cpf VARCHAR(100),
-    endereco_completo VARCHAR(255) NOT NULL,
+    cep VARCHAR(255),
+    numero VARCHAR(10),
+    complemento varchar(255),
+    ativo boolean,
     FOREIGN KEY (cpf) REFERENCES cliente(cpf)
 );    
 
