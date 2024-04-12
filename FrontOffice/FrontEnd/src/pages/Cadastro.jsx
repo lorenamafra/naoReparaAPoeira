@@ -9,13 +9,17 @@ import {
 import Logo from "../assets/Component5.png";
 import { Link } from "react-router-dom";
 import ValidaCPF from "../testes/ValidaCPF";
+import { useNavigate } from "react-router-dom";
 
 const validation = () => {
+  const fd = new FormData(event.target);
+
   let isValid = true;
 
   let email = fd.get("email");
   let nome = fd.get("nome");
   let CPF = fd.get("CPF");
+  let genero = fd.get("genero");
   let senha = fd.get("senha");
   let confirmaSenha = fd.get("confirmar Senha");
 
@@ -38,11 +42,12 @@ const validation = () => {
   isValid = campoVazio(email, "Email");
   isValid = campoVazio(nome, "Nome");
   isValid = campoVazio(CPF, "Cpf");
+  isValid = campoVazio(genero, "genero");
   isValid = campoVazio(senha, "Senha");
   isValid = campoVazio(confirmaSenha, "confirmar Senha");
 
   confirmarSenha(senha, confirmaSenha);
-  if (!ValidaCPF(cpf)) {
+  if (!ValidaCPF(CPF)) {
     isValid = false;
     alert("CPF falso");
   }
@@ -56,8 +61,14 @@ const handleSubmit = (event) => {
   for (const value of fd.values()) {
     console.log(value);
   }
-};
 
+  const ObjectForm = Object.fromEntries(fd);
+
+  if (validation()) {
+    navigate("/Cadastro/CadastroEndereco", { state: ObjectForm });
+  }
+};
+let navigate = useNavigate();
 function Cadastro() {
   return (
     <CadastroPage>
@@ -81,6 +92,15 @@ function Cadastro() {
           </InputField>
 
           <InputField>
+            <label>Gênero</label>
+            <select name="genero" defaultValue="Selecione o gênero">
+              <option value="Feminino">Feminino</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Outros">Outros</option>
+            </select>
+          </InputField>
+
+          <InputField>
             <label>Senha</label>
             <input type="password" name="senha"></input>
           </InputField>
@@ -90,9 +110,7 @@ function Cadastro() {
             <input type="password" name="confirmar Senha"></input>
           </InputField>
 
-          <ButtonLinkCE>
-            <Link to="/Cadastro/CadastroEndereco">Cadastrar endereço</Link>
-          </ButtonLinkCE>
+          <ButtonLinkCE>Continuar</ButtonLinkCE>
 
           <span>
             ou faça{" "}
@@ -102,6 +120,7 @@ function Cadastro() {
             se ja tiver uma conta
           </span>
         </CadastroContainer>
+
         <ImageContainer>
           <img src={Logo} alt="Logo NRP" />
         </ImageContainer>
