@@ -55,10 +55,24 @@ CREATE TABLE endereco_entrega(
 );    
 
 ALTER TABLE produto AUTO_INCREMENT = 0;
-drop table imagem;
-INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria) values 
-('KWMyBeautifulDarkTwistedFantasy2010','My Beautiful Dark Twisted Fantasy', 10, 250.00, 'Kanye West', 'Rap', 2010, 5, "Ativo", 'MBDTF', "KWMyBeautifulDarkTwistedFantasy20100.jpg", "KWMyBeautifulDarkTwistedFantasy20101.jpeg")
-INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria) values 
-('AmFavouriteWorstNightmare2007','Favourite Worst Nightmare', 15, 80.00, 'Arctic Monkeys', 'Rock', 2007, 4, "Ativo", 'Segundo álbum da banda', "AMFavouriteWorstNightmare20070.jpg", "AMFavouriteWorstNightmare20071.jpg");
-INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria) values ('KWGraduation20070','Graduation', 10, 250.00, 'Kanye West', 'Rap', 2007, 5, "Ativo", 'Ultimo álbum da trilogia sobre faculdades', "KWGraduation20070.jpg", "KWGraduation20071.jpg")
 
+ // Cadastro padrões
+
+INSERT INTO usuario(nome, cpf, email, senha, status_cliente, grupo)
+values ("Estoquista", "00334833027", "estoquista@gmail.com", "$10$/R.I1IiUAIEGAsiJ9jI5NOYh4VH19yi0xBR0IAb2DXW4HoWqbq4I2", "Ativo", "Estoquista");
+INSERT INTO usuario(nome, cpf, email, senha, status_cliente, grupo)
+values ("Admin", "44714869000", "admin@gmail.com", "$10$/R.I1IiUAIEGAsiJ9jI5NOYh4VH19yi0xBR0IAb2DXW4HoWqbq4I2", "Ativo", "Admin");
+
+
+INSERT INTO cliente (cpf, email, nome_completo, data_nascimento, genero, endereco_faturamento_cep, endereco_faturamento_numero, endereco_faturamento_complemento)
+values ("12345678910", "lorena", "Lorena Mafra", "1999-04-05", "F","03477000", "191", "A");
+
+INSERT INTO endereco_entrega (cpf, cep, numero, complemento) 
+values ("12345678910","03254000", "191", "A");
+
+INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao) values 
+('AMFavouriteWorstNightmare2007','Favourite Worst Nightmare', 15, 80.00, 'Arctic Monkeys', 'Rock', 2007, 4, "Ativo", 'Segundo álbum da banda');
+INSERT INTO imagem (cod_produto, imagem)	
+values ("AMFavouriteWorstNightmare2007", "AMFavouriteWorstNightmare20070.png");
+INSERT INTO imagem (cod_produto, imagem)
+values ("AMFavouriteWorstNightmare2007", "AMFavouriteWorstNightmare20071.png");
