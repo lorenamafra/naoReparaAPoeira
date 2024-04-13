@@ -74,6 +74,7 @@ function CadastrarProdutos() {
 		fd.delete("images");
 		queuedImagesArray.forEach((image, index) => {
 			fd.append(`files${index}`, image);
+			console.log("Image", image);
 		});
 
 		if (
@@ -90,21 +91,25 @@ function CadastrarProdutos() {
 			}
 		}
 		fd.append(
-			"principal",
+			"imagem_principal",
 			document.querySelector('input[name="principal"]:checked').value
 		);
 		const ObjectForm = Object.fromEntries(fd);
 		console.log(ObjectForm);
 
-		axios
-			.post("http://localhost:8080/produto/inserir", fd)
-			.then((resp) => console.log(resp));
+		// axios
+		// 	.post("http://localhost:8080/produto/inserir", ObjectForm)
+		// 	.then((resp) => console.log(resp));
 
 		axios
-			.post("http://localhost:8080/produto/uploadImageToFrontEnd", fd)
-			.then((resp) => {
-				console.log(resp.data);
-			});
+			.post("http://localhost:8080/produto/inserir/imagens", fd)
+			.then((resp) => console.log(resp));
+
+		// axios
+		// 	.post("http://localhost:8080/produto/uploadImageToFrontEnd", fd)
+		// 	.then((resp) => {
+		// 		console.log(resp.data);
+		// 	});
 		// .then(navigate("/BackOffice"));
 	};
 

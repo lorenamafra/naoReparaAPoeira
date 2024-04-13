@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-multer = require("multer");
+const multer = require("multer");
 const path = require("path");
 // creating instances of the imports
 const app = new express();
@@ -172,10 +172,12 @@ app.post("/usuario/pesquisar", (req, res) => {
 //CADASTRAR PRODUTOS!!!!!!!!!!!!!!!!!!!!!!!!!!
 const storageA = multer.diskStorage({
 	destination: function (req, file, cb) {
+		console.log("oiii");
 		cb(null, "../FrontEnd/public");
 		console.log("File going to Storage A", file);
 	},
 	filename: function (req, file, cb) {
+		console.log(file);
 		cb(
 			null,
 			req.body.cod_produto +
@@ -189,6 +191,7 @@ const storageB = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, "../../FrontOffice/FrontEnd/public");
 		console.log("File going to StorageB", file);
+		console.log(req);
 	},
 	filename: function (req, file, cb) {
 		cb(
@@ -200,8 +203,8 @@ const storageB = multer.diskStorage({
 	},
 });
 
-const uploadImage = multer({ storage: storageA }).any();
-const uploadToFrontEnd = multer({ storage: storageB }).any();
+const uploadImage = multer({ storage: storageA });
+const uploadToFrontEnd = multer({ storage: storageB });
 
 app.post("/produto/inserir", (req, res) => {
 	console.log(req.body);
@@ -215,8 +218,6 @@ app.post("/produto/inserir", (req, res) => {
 	const descricao = req.body.descricao;
 	const cod_produto = req.body.cod_produto;
 	const principal = req.body.imagem_principal;
-
-	mensagens = [];
 
 	connection.query(
 		`INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}', ${principal})`,
@@ -232,40 +233,46 @@ app.post("/produto/inserir", (req, res) => {
 	);
 });
 
-app.post("/produto/inserir/imagens", uploadImage, (req, res) => {
-	console.log(req.body);
-
-	mensagens = [];
+app.post("/produto/inserir/imagens", uploadImage.any(), (req, res) => {
+	console.log("234", req.body);
+	console.log("235", req.files);
+	console.log(req.files.length);
+	let message = [];
 	if (req.files) {
 		for (let i = 0; i < req.files.length; i++) {
+			console.log("oi");
+			console.log(req.body.cod_produto);
+			console.log(req.files[i].filename);
 			connection.query(
-				`INSERT INTO imagem (cod_produto, imagem) 
-		values(${req.body.cod_produto}, ${req.files[i].filename})`,
+				`INSERT INTO imagem (cod_produto, imagem) values("${req.body.cod_produto}", "${req.files[i].filename}")`,
 				(err, result) => {
 					if (err) {
 						res.send(err);
 					}
 
 					if (result) {
-						res.send("Imagem adicionada com sucesso!");
+						message.push;
 					}
 				}
 			);
 		}
+
+		res.send("Imagem adicionada com sucesso!");
 	}
 });
 
-app.post("/produto/uploadImageToFrontEnd", uploadToFrontEnd, (req, res) => {
-	console.log("files", req.files);
-	console.log("UptoFrontEnd");
-});
+// app.post("/produto/uploadImageToFrontEnd", uploadToFrontEnd, (req, res) => {
+// 	console.log("files", req.files);
+// 	console.log("UptoFrontEnd");
+// });
 
-app.post("/produto/updateProductImage", uploadImage, (req, res) => {
-	console.log("Updating Image...");
-	console.log(req.files);
-});
+// app.post("/produto/updateProductImage", uploadImage, (req, res) => {
+// 	console.log("Updating Image...");
+// 	console.log(req.files);
+// });
+
 //ALTERAR PRODUTO!!!
-app.put("/produto/alterar", uploadImage, (req, res) => {
+app.put("/produto/alterar", uploadImage.any(), (req, res) => {
 	console.log("req body", req.body);
 
 	let nome_disco = req.body.nome_disco;
