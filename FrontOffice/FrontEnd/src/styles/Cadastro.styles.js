@@ -15,7 +15,7 @@ export const InputField = styled.div`
   margin-top: 10px;
 `;
 
-export const MainCadastroContainer = styled.form`
+export const MainCadastroContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 40%;
@@ -24,7 +24,7 @@ export const MainCadastroContainer = styled.form`
   border: 4px solid white;
 `;
 
-export const CadastroContainer = styled.div`
+export const CadastroContainer = styled.form`
   display: grid;
   place-items: center;
 `;
