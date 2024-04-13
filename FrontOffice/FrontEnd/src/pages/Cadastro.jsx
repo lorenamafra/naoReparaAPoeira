@@ -68,6 +68,7 @@ const handleSubmit = (event) => {
     navigate("/Cadastro/CadastroEndereco", { state: ObjectForm });
   }
 };
+
 let navigate = useNavigate();
 function Cadastro() {
   return (
