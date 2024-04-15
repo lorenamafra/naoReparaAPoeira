@@ -18,7 +18,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "80085",
+  password: "Lolo@2024",
   database: "nrp",
   port: "3306",
 });
@@ -137,4 +137,26 @@ values (${req.params.cpf},${cep}, ${numero}, ${complemento}, 1);`,
       }
     }
   );
+});
+
+app.put("/cliente/alterar", (req, res) => {
+  const email = req.body.email;
+  const nome_completo = req.body.nome_completo;
+  const senha = req.body.senha;
+  const cpf = req.body.cpf;
+  const genero = req.body.genero;
+
+  bcrypt.hash(senha, saltRounds, (err, hash) => {
+    connection.query(
+      `UPDATE cliente SET CPF = '${cpf}', EMAIL = '${email}', NOME_COMPLETO = '${nome_completo}', GENERO = '${genero}'`,
+      (err, result) => {
+        if (err) throw err;
+        if (result.affectedRows > 0) {
+          res.status(200).send("Atualizado com sucesso");
+        } else {
+          res.status(400).send("Impossibilitado de alteração ");
+        }
+      }
+    );
+  });
 });

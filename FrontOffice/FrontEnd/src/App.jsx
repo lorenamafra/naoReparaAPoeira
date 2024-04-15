@@ -7,6 +7,7 @@ import Cadastro from "./pages/Cadastro";
 import Produto from "./pages/Produto";
 import CadastroEndereco from "./pages/CadastroEndereco";
 import AlterarCliente from "./pages/AlterarCliente";
+import AlterarEnderecos from "./pages/AlterarEnderecos";
 const router = createBrowserRouter([
   { path: "/Login", Component: Login },
   { path: "/Cadastro", Component: Cadastro },
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
   { path: "/", Component: LandingPage },
   { path: "/Produto/:cod_produto", Component: Produto },
   { path: "/AlterarCliente", Component: AlterarCliente },
+  { path: "/AlterarEnderecos", Component: AlterarEnderecos },
 ]);
 
 function App() {
