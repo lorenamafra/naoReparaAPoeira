@@ -68,8 +68,8 @@ INSERT INTO usuario(nome, cpf, email, senha, status_cliente, grupo)
 values ("Admin", "44714869000", "admin@gmail.com", "$10$/R.I1IiUAIEGAsiJ9jI5NOYh4VH19yi0xBR0IAb2DXW4HoWqbq4I2", "Ativo", "Admin");
 
 
-INSERT INTO cliente (cpf, email, nome_completo, data_nascimento, genero, endereco_faturamento_cep, endereco_faturamento_numero, endereco_faturamento_complemento)
-values ("12345678910", "lorena", "Lorena Mafra", "1999-04-05", "F","03477000", "191", "A");
+INSERT INTO cliente (cpf, email, nome_completo, data_nascimento, genero, endereco_faturamento_cep, endereco_faturamento_numero, endereco_faturamento_complemento, senha)
+values ("12345678910", "lorena", "Lorena Mafra", "1999-04-05", "F","03477000", "191", "A", "$10$/R.I1IiUAIEGAsiJ9jI5NOYh4VH19yi0xBR0IAb2DXW4HoWqbq4I2");
 
 INSERT INTO endereco_entrega (cpf, cep, numero, complemento) 
 values ("12345678910","03254000", "191", "A");
