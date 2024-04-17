@@ -33,8 +33,7 @@ export const ContainerBotao = styled.div`
 `;
 
 export const ButtonConfirmar = styled.button`
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 5px;
   transition: all ease-in-out 0.15s;
   padding: 0.5rem 0.5rem;
   color: black;
@@ -51,6 +50,7 @@ export const ButtonConfirmar = styled.button`
 `;
 
 export const ButtonEndereco = styled.button`
+  margin-top: 5px;
   transition: all ease-in-out 0.15s;
   padding: 0.5rem 0.5rem;
   color: black;

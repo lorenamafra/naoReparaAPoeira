@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ButtonConfirmar,
   ButtonEndereco,
@@ -6,8 +6,13 @@ import {
   InputField,
 } from "../styles/AlterarCliente.styles";
 import axios from "axios";
+import { useLocation } from "react-router";
 
 function FormularioAlterarCadastro() {
+  let usuario = useLocation().state;
+  console.log(usuario);
+  const [user, setUser] = useState({});
+
   function HandleSubmit(event) {
     event.preventDefault();
     console.log(event.target);
@@ -60,28 +65,40 @@ function FormularioAlterarCadastro() {
     return isValid;
   };
 
+  useEffect(() => {
+    const getData = () => {
+      axios
+        .get(`http://localhost:8081/cliente/${usuario.email}`)
+        .then((resp) => {
+          setUser(resp.data);
+        });
+    };
+
+    getData();
+  }, []);
+
   return (
     <form onSubmit={(e) => HandleSubmit(e)}>
       <h1>Alterar Cadastro</h1>
 
       <InputField>
         <label>Email</label>
-        <input type="email" name={email}></input>
+        <input type="email" name="email" value={user.email}></input>
       </InputField>
 
       <InputField>
         <label>Nome</label>
-        <input type="text" name={nome}></input>
+        <input type="text" name="nome" value={user.nome}></input>
       </InputField>
 
       <InputField>
         <label>CPF</label>
-        <input type="number" name={cpf}></input>
+        <input type="number" name="cpf" value={user.cpf}></input>
       </InputField>
 
       <InputField>
         <label>Gênero</label>
-        <select name="genero" defaultValue="Selecione o gênero">
+        <select name="genero">
           <option value="Feminino">Feminino</option>
           <option value="Masculino">Masculino</option>
           <option value="Outros">Outros</option>
@@ -90,12 +107,12 @@ function FormularioAlterarCadastro() {
 
       <InputField>
         <label>Senha</label>
-        <input type="password" name={senha}></input>
+        <input type="password" name="senha"></input>
       </InputField>
 
       <InputField>
         <label>Confirmar senha</label>
-        <input type="password" name={confirmaSenha}></input>
+        <input type="password" name="confirmaSenha"></input>
       </InputField>
       <ContainerBotao>
         <ButtonConfirmar>Confirmar</ButtonConfirmar>
