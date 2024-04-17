@@ -55,23 +55,24 @@ const validation = () => {
 	return isValid;
 };
 
-const handleSubmit = (event) => {
-	event.preventDefault();
-
-	const fd = new FormData(event.target);
-	for (const value of fd.values()) {
-		console.log(value);
-	}
-
-	const ObjectForm = Object.fromEntries(fd);
-
-	if (validation()) {
-		navigate("/Cadastro/CadastroEndereco", { state: ObjectForm });
-	}
-};
-
 function Cadastro() {
-	let navigate = useNavigate();
+	const navigate = useNavigate();
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+
+		const fd = new FormData(event.target);
+		for (const value of fd.values()) {
+			console.log(value);
+		}
+
+		const ObjectForm = Object.fromEntries(fd);
+		console.log(ObjectForm);
+		if (validation()) {
+			navigate("/Cadastro/CadastroEndereco", { state: { user: ObjectForm } });
+		}
+	};
+
 	return (
 		<CadastroPage>
 			<MainCadastroContainer>
@@ -93,6 +94,9 @@ function Cadastro() {
 						<input type="number" name="cpf"></input>
 					</InputField>
 
+					<InputField>
+						<input type="date" name="data_nascimento" />
+					</InputField>
 					<InputField>
 						<label>Gênero</label>
 						<select name="genero" defaultValue="Selecione o gênero">
