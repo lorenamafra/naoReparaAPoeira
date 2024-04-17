@@ -43,60 +43,62 @@ function Login() {
     for (const value of fd.values()) {
       console.log(value);
     }
+    const ObjectData = Object.fromEntries(fd);
 
-    if (validation()) {
-      axios.post("http://localhost:8080/cliente/login", fd).then((resp) => {
+    axios
+      .post("http://localhost:8081/cliente/login", ObjectData)
+      .then((resp) => {
+        console.log(resp.data);
         if (resp.data == true) {
-          axios.post("http://localhost:8080/cliente", fd).then((resp) => {
-            const currentClient = {
-              nome: resp.data.nome_completo,
-              email: resp.data.email,
-            };
-            sessionStorage.setItem("client", JSON.stringify(currentClient));
-            navigate("/");
-          });
-        } else {
-          setErro(resp.data.message);
+          console.log("oii");
+          axios
+            .get(`http://localhost:8081/cliente/${ObjectData.email}`)
+            .then((resp) => {
+              console.log(resp.data);
+              const currentClient = {
+                nome: resp.data.nome_completo,
+                email: resp.data.email,
+              };
+              console.log(currentClient);
+              sessionStorage.setItem("User", JSON.stringify(currentClient));
+              navigate("/");
+            });
         }
       });
-    }
   };
+  return (
+    <LoginPage>
+      <MainLoginContainer>
+        <LoginContainer onSubmit={handleSubmit}>
+          <h1>login</h1>
 
-  function Login() {
-    return (
-      <LoginPage>
-        <MainLoginContainer>
-          <LoginContainer onSubmit={handleSubmit}>
-            <h1>Login</h1>
+          <InputField>
+            <label>Email</label>
+            <input type="email" name="email" />
+          </InputField>
 
-            <InputField>
-              <label>Email</label>
-              <input type="email" name="email" />
-            </InputField>
+          <InputField>
+            <label>Senha</label>
+            <input type="password" name="senha" />
+          </InputField>
 
-            <InputField>
-              <label>Senha</label>
-              <input type="password" name="senha" />
-            </InputField>
+          <ButtonLogar>Logar</ButtonLogar>
 
-            <ButtonLogar>Logar</ButtonLogar>
+          <span>
+            <b>
+              {" "}
+              <Link to="/Cadastro">Registre-se</Link>{" "}
+            </b>
+            <label> se não tiver uma conta</label>
+          </span>
+        </LoginContainer>
 
-            <span>
-              <b>
-                {" "}
-                <Link to="/Cadastro">Registre-se</Link>{" "}
-              </b>
-              <label> se não tiver uma conta</label>
-            </span>
-          </LoginContainer>
-
-          <ImageContainer>
-            <img src={Logo} alt="Logo NRP" />
-          </ImageContainer>
-        </MainLoginContainer>
-      </LoginPage>
-    );
-  }
+        <ImageContainer>
+          <img src={Logo} alt="Logo NRP" />
+        </ImageContainer>
+      </MainLoginContainer>
+    </LoginPage>
+  );
 }
 
 export default Login;
