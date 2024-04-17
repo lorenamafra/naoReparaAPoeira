@@ -10,7 +10,7 @@ export const Title = styled.h1``;
 export const Subtitle = styled.h3`
   text-align: left;
   margin: 0;
-  padding: 0 1rem;
+  padding: 1rem;
 `;
 
 export const ContainerEnderecos = styled.div`
@@ -73,7 +73,6 @@ export const BotaoInativar = styled.button`
   align-items: center;
   gap: 2px;
   margin-top: 20px;
-  margin-bottom: 20px;
   transition: all ease-in-out 0.15s;
   padding: 0.5rem 0.5rem;
   color: black;
@@ -95,7 +94,6 @@ export const BotaoPadrao = styled.button`
   align-items: center;
   gap: 2px;
   margin-top: 20px;
-  margin-bottom: 20px;
   transition: all ease-in-out 0.15s;
   padding: 0.5rem 0.5rem;
   color: black;

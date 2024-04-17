@@ -11,7 +11,6 @@ import {
   ContainerDescricao,
   ContainerEnderecos,
   ContainerEntrega,
-  ContainerFaturamento,
   MainMeusEnderecos,
   Subtitle,
   Title,

@@ -64,7 +64,7 @@ function Login() {
     <LoginPage>
       <MainLoginContainer>
         <LoginContainer onSubmit={handleSubmit}>
-          <h1>login</h1>
+          <h1>Login</h1>
 
           <InputField>
             <label>Email</label>
