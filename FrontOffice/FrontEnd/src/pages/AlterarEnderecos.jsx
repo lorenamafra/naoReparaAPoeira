@@ -1,11 +1,15 @@
 import React from "react";
-import {
-  ConteudoContainer,
-  MainAlterarCliente,
-} from "../styles/AlterarCliente.styles";
-
+import { MainAlterarEndereco } from "../styles/AlterarEndereco.styles";
+import { AlterarContainer } from "../styles/AlterarCliente.styles";
 function AlterarEnderecos() {
-  return <div></div>;
+  return (
+    <div>
+      <MainAlterarEndereco>
+        <h1>Alterar Endereço</h1>
+        <AlterarContainer></AlterarContainer>
+      </MainAlterarEndereco>
+    </div>
+  );
 }
 
 export default AlterarEnderecos;

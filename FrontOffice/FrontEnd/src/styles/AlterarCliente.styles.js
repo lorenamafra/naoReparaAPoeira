@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const MainAlterarCliente = styled.body`
+export const MainAlterarCliente = styled.div`
   display: flex;
   justify-content: center;
   height: 100vh;
@@ -51,14 +51,13 @@ export const ButtonConfirmar = styled.button`
 `;
 
 export const ButtonEndereco = styled.button`
-  margin-top: 20px;
-  margin-bottom: 20px;
   transition: all ease-in-out 0.15s;
   padding: 0.5rem 0.5rem;
   color: black;
   border: 1px solid #e8eef2;
   background-color: #e8eef2;
   font-size: 15px;
+
   cursor: pointer;
 
   &:hover {
