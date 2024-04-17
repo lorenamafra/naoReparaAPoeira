@@ -10,18 +10,39 @@ import {
 import Component5 from "../assets/Component5.png";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 function CardLancamentos(_props) {
-	// eslint-disable-next-line react/prop-types
-	// let { ...produto } = props.produto;
+	let imagem;
+	console.log(_props.produto.cod_produto);
+	const [Picture, setPic] = useState();
+	useEffect(() => {
+		axios
+			.get(
+				`http://localhost:8080/produto/${_props.produto.cod_produto}/imagens`
+			)
+			.then((resp) => {
+				setTimeout(() => {
+					imagem = resp.data;
+					console.log(_props.produto);
+					console.log(`IAI @${_props.produto.cod_produto}`, resp.data[0]);
+
+					console.log(
+						`iteração do ${_props.produto.cod_produto}`,
+						imagem[_props.produto.imagem_principal]
+					);
+					imagem = imagem[_props.produto.imagem_principal].imagem;
+					console.log("IMAGEM:", imagem);
+					setPic(<Foto src={`/${imagem}`} alt="" />);
+				}, 50);
+			});
+	}, []);
 
 	const disco = _props.produto;
 
 	return (
 		<CardLancamentosContainer>
-			<Imagem_ContainerLancamentos>
-				<Foto src={disco.imagem_principal} alt="" />
-			</Imagem_ContainerLancamentos>
+			<Imagem_ContainerLancamentos>{Picture}</Imagem_ContainerLancamentos>
 			<DescricaoLancamentos>
 				<span>
 					<h1>{disco.nome_disco}</h1>

@@ -70,7 +70,8 @@ const handleSubmit = (event) => {
 };
 
 function Cadastro() {
-	let navigate = useNavigate();
+	const navigate = useNavigate();
+
 	return (
 		<CadastroPage>
 			<MainCadastroContainer>

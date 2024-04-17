@@ -169,15 +169,61 @@ app.post("/usuario/pesquisar", (req, res) => {
 	);
 });
 
+//busca todos os produtos por ordem decrescente
+app.get("/produtos", function (req, res) {
+	connection.query(
+		`SELECT * FROM produto ORDER BY id_produto DESC`,
+		(err, rows) => {
+			if (err) throw err;
+
+			res.send({ produtos: rows });
+		}
+	);
+});
+
+app.get("/produtos/lancamentos", function (req, res) {
+	connection.query(
+		`SELECT * FROM produto WHERE status_produto = "Ativo" ORDER BY id_produto DESC limit 5`,
+		(err, rows) => {
+			if (err) throw err;
+
+			res.send({ produtos: rows });
+		}
+	);
+});
+
+app.get("/produto/:cod_produto", function (req, res) {
+	let cod_produto = req.params.cod_produto;
+	let produto;
+	connection.query(
+		`SELECT * FROM produto WHERE cod_produto = "${cod_produto}"`,
+		(err, rows) => {
+			if (err) throw err;
+			let result = JSON.parse(JSON.stringify(rows[0]));
+
+			res.send(result);
+		}
+	);
+});
+
+app.get("/produto/:cod_produto/imagens", function (req, res) {
+	let cod_produto = req.params.cod_produto;
+	connection.query(
+		`SELECT * FROM IMAGEM WHERE cod_produto = "${cod_produto}"`,
+		(err, rows) => {
+			if (err) throw err;
+
+			res.send(rows);
+		}
+	);
+});
+
 //CADASTRAR PRODUTOS!!!!!!!!!!!!!!!!!!!!!!!!!!
 const storageA = multer.diskStorage({
 	destination: function (req, file, cb) {
-		console.log("oiii");
 		cb(null, "../FrontEnd/public");
-		console.log("File going to Storage A", file);
 	},
 	filename: function (req, file, cb) {
-		console.log(file);
 		cb(
 			null,
 			req.body.cod_produto +
@@ -190,8 +236,6 @@ const storageA = multer.diskStorage({
 const storageB = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, "../../FrontOffice/FrontEnd/public");
-		console.log("File going to StorageB", file);
-		console.log(req);
 	},
 	filename: function (req, file, cb) {
 		cb(
@@ -206,7 +250,7 @@ const storageB = multer.diskStorage({
 const uploadImage = multer({ storage: storageA });
 const uploadToFrontEnd = multer({ storage: storageB });
 
-app.post("/produto/inserir", (req, res) => {
+app.post("/produto/inserir", uploadToFrontEnd.any(), (req, res) => {
 	console.log(req.body);
 	let nome_disco = req.body.nome_disco;
 	const estoque = req.body.estoque;
@@ -218,28 +262,24 @@ app.post("/produto/inserir", (req, res) => {
 	const descricao = req.body.descricao;
 	const cod_produto = req.body.cod_produto;
 	const principal = req.body.imagem_principal;
-
-	let mensagens = [];
-	let secundaria = 1 - principal;
+	console.log(req.body);
+	console.log(req.files);
 	connection.query(
-		`INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}', "${req.files[principal].filename}", "${req.files[secundaria].filename}")`,
+		`INSERT INTO produto (cod_produto, nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal) values ('${cod_produto}','${nome_disco}', ${estoque}, ${valor}, '${artista}', '${genero}', ${ano}, ${avaliacao}, "Ativo", '${descricao}', ${principal})`,
 		(err, result) => {
 			if (err) {
-				mensagens.push(err);
+				throw err;
 			}
-
 			if (result) {
-				mensagens.push("Produto adicionado com sucesso!");
+				res.send("Produto adicionado com sucesso!");
 			}
 		}
 	);
 });
 
+app.use("/fotos", express.static("../FrontEnd/public"));
+
 app.post("/produto/inserir/imagens", uploadImage.any(), (req, res) => {
-	console.log("234", req.body);
-	console.log("235", req.files);
-	console.log(req.files.length);
-	let message = [];
 	if (req.files) {
 		for (let i = 0; i < req.files.length; i++) {
 			console.log("oi");
@@ -248,81 +288,114 @@ app.post("/produto/inserir/imagens", uploadImage.any(), (req, res) => {
 			connection.query(
 				`INSERT INTO imagem (cod_produto, imagem) values("${req.body.cod_produto}", "${req.files[i].filename}")`,
 				(err, result) => {
-					if (err) {
-						res.send(err);
-					}
-
-					if (result) {
-						message.push;
-					}
+					if (err) throw err;
 				}
 			);
 		}
-
 		res.send("Imagem adicionada com sucesso!");
 	}
 });
 
-// app.post("/produto/uploadImageToFrontEnd", uploadToFrontEnd, (req, res) => {
-// 	console.log("files", req.files);
-// 	console.log("UptoFrontEnd");
-// });
+app.post(
+	"/produto/uploadImageToFrontEnd",
+	uploadToFrontEnd.any(),
+	(req, res) => {}
+);
 
-// app.post("/produto/updateProductImage", uploadImage, (req, res) => {
-// 	console.log("Updating Image...");
-// 	console.log(req.files);
-// });
+// deletar arquivos
+var fs = require("fs");
+app.post("/deleteFilesFromFolder", (req, res) => {
+	var imagens;
+	connection.query(
+		`
+	SELECT * FROM IMAGEM WHERE cod_produto = "${req.body.cod_produto}"`,
+		(err, result) => {
+			let result1 = Object.values(JSON.parse(JSON.stringify(result)));
+			result1.forEach((v) => {
+				fs.unlink(`../FrontEnd/public/${v.imagem}`, function (err) {
+					if (err) throw err;
+					console.log("File deleted!");
+				});
+				fs.unlink(
+					`../../FrontOffice/FrontEnd/public/${v.imagem}`,
+					function (err) {
+						if (err) throw err;
+						console.log("File deleted!");
+					}
+				);
+			});
+		}
+	);
+});
 
 //ALTERAR PRODUTO!!!
-app.put("/produto/alterar", uploadImage.any(), (req, res) => {
-	console.log("req body", req.body);
-
-	let nome_disco = req.body.nome_disco;
-
+app.put("/produto/alterar", (req, res) => {
 	let cod_produto = req.body.cod_produto;
 	let estoque = req.body.estoque;
 	let valor = req.body.valor;
-	let artista = req.body.artista;
 	let avaliacao = req.body.avaliacao;
 	let descricao = req.body.descricao;
-	const principal = req.body.principal;
+	let principal = req.body.imagem_principal;
 
-	let secundaria = 1 - principal;
-	// imagem_principal = "${req.files[principal].filename}", imagem_secundaria="${req.files[secundaria].filename}"
-
-	if (!req.files) {
-		connection.query(
-			`UPDATE produto SET estoque = '${estoque}', valor = '${valor}', nome_disco = "${nome_disco}", artista="${artista}",avaliacao = '${avaliacao}', descricao = '${descricao}' 
-      WHERE cod_produto = '${cod_produto}'`,
-			(err, result) => {
-				if (err) {
-					throw err;
-				}
-				if (result.affectedRows > 0) {
-					res.status(200).send("Atualizado com sucesso");
-				} else {
-					res.status(404).send("Nenhum dado atualizado");
-				}
+	connection.query(
+		`UPDATE produto SET estoque = '${estoque}', valor = '${valor}',avaliacao = '${avaliacao}', descricao = '${descricao}', imagem_principal ="${principal}"
+	  WHERE cod_produto = '${cod_produto}'`,
+		(err, result) => {
+			if (err) {
+				throw err;
 			}
-		);
-	}
 
-	// if (req.files) {
-	// 	connection.query(
-	// 		`UPDATE produto SET estoque = '${estoque}', valor = '${valor}', nome_disco = "${nome_disco}", artista="${artista}",avaliacao = '${avaliacao}', descricao = '${descricao}'
-	//     WHERE cod_produto = '${cod_produto}'`,
-	// 		(err, result) => {
-	// 			if (err) {
-	// 				throw err;
-	// 			}
-	// 			if (result.affectedRows > 0) {
-	// 				res.status(200).send("Atualizado com sucesso");
-	// 			} else {
-	// 				res.status(404).send("Nenhum dado atualizado");
-	// 			}
-	// 		}
-	// 	);
-	// }
+			if (result.affectedRows > 0) {
+				res.status(200).send("Atualizado com sucesso");
+			} else {
+				res.status(404).send("Nenhum dado atualizado");
+			}
+		}
+	);
+});
+
+app.delete("/produto/deletar/imagens/:cod_produto", (req, res) => {
+	console.log("aeae", req.params);
+	const cod_produto = req.params.cod_produto;
+
+	connection.query(
+		`DELETE from imagem WHERE cod_produto = "${cod_produto}"`,
+		(err, result) => {
+			if (err) throw err;
+
+			if (result) {
+				res.send(result);
+			}
+		}
+	);
+});
+app.put("/produto/alterar/quantidade", (req, res) => {
+	let quantidade = req.body.estoque;
+	let cod_produto = req.body.cod_produto;
+	connection.query(
+		`UPDATE produto set ESTOQUE = "${quantidade}" WHERE cod_produto = "${cod_produto}"`,
+		(err, result) => {
+			if (err) throw err;
+
+			if (result) {
+				res.status(200).send("Estoque atualizado com sucesso");
+			}
+		}
+	);
+});
+app.put("/produto/alterar/status", (req, res) => {
+	let status_produto = req.body.status_produto;
+	let cod_produto = req.body.cod_produto;
+	connection.query(
+		`UPDATE produto set status_produto = "${status_produto}" WHERE cod_produto = "${cod_produto}"`,
+		(err, result) => {
+			if (err) throw err;
+
+			if (result) {
+				res.status(200).send("Produto atualizado com sucesso");
+			}
+		}
+	);
 });
 
 //busca por um produto por id
@@ -356,190 +429,6 @@ app.post("/produtos/pesquisar", (req, res) => {
 		}
 	);
 });
-
-//busca todos os produtos por ordem decrescente
-app.get("/produtos", function (req, res) {
-	connection.query(
-		`SELECT * FROM produto ORDER BY id_produto DESC`,
-		(err, rows) => {
-			if (err) throw err;
-
-			res.send({ produtos: rows });
-		}
-	);
-});
-
-app.put("/produto/alterarStatusProduto", (req, res) => {
-	let status_produto = req.body.status_produto;
-	console.log(status_produto);
-	let cod_produto = req.body.cod_produto;
-	connection.query(
-		`UPDATE produto SET status_produto = '${status_produto}' WHERE cod_produto = '${cod_produto}'`,
-		(err, result) => {
-			if (err) {
-				throw err;
-			}
-			if (result.affectedRows > 0) {
-				res.status(200).send("Atualizado com sucesso");
-			} else {
-				res.status(404).send("Email não encontrado ou nenhum dado atualizado");
-			}
-		}
-	);
-});
-
-/*
-
-// listar os 10 primeiros itens da tabela (use essa rota só na página 1)
-app.get("/produtos", function (req, res) {
-  connection.query(
-    `SELECT nome_disco, estoque, valor, artista, genero, ano, avaliacao, status_produto, descricao, imagem_principal, imagem_secundaria FROM produto WHERE cod_produto = ?`,
-    (err, rows) => {
-      if (err) throw err;
-
-      res.send({ produtos: rows });
-    }
-  );
-});
-
-
-
-// listar os 10 primeiros itens da tabela (use essa rota só na página 1)
-app.get("/produtos", function (req, res) {
-  connection.query(`SELECT * FROM produto LIMIT 10`, (err, rows) => {
-    if (err) throw err;
-
-    res.send({ produtos: rows });
-  });
-});
-
-// listar os itens do 11 ao 20 (use essa rota só na página 2)
-app.get("/produtos", function (req, res) {
-  connection.query(`SELECT * FROM produto LIMIT 10 OFFSET 20`, (err, rows) => {
-    if (err) throw err;
-
-    res.send({ produtos: rows });
-  });
-});
-
-// listar os itens do 21 ao 30 (use essa rota só na página 3)
-app.get("/produtos", function (req, res) {
-  connection.query(`SELECT * FROM produto LIMIT 10 OFFSET 30`, (err, rows) => {
-    if (err) throw err;
-
-    res.send({ produtos: rows });
-  });
-});
-
-*/
-
-//Alterar Status produto
-
-// app.put("/alterar-nome", (req, res) => {
-// 	const email = req.body.email;
-// 	const nome = req.body.nome;
-
-// 	connection.query(
-// 		`UPDATE usuario SET nome = "${nome}" WHERE email = "${email}"`,
-// 		(err, result) => {
-// 			if (err) {
-// 				throw err;
-// 			}
-
-// 			if (result.affectedRows > 0) {
-// 				res.send("nome atualizado com sucesso");
-// 			} else {
-// 				res.status(404).send("Email não encontrado ou nenhum dado atualizado");
-// 			}
-// 		}
-// 	);
-// });
-
-// app.put("/alterar-cpf", (req, res) => {
-// 	const email = req.body.email;
-// 	const cpf = req.body.cpf;
-
-// 	connection.query(
-// 		`UPDATE usuario SET CPF = "${cpf}" WHERE email = "${email}"`,
-// 		(err, result) => {
-// 			if (err) {
-// 				throw err;
-// 			}
-
-// 			if (result.affectedRows > 0) {
-// 				res.send("CPF atualizado com sucesso");
-// 			} else {
-// 				res.status(404).send("Email não encontrado ou nenhum dado atualizado");
-// 			}
-// 		}
-// 	);
-// });
-
-// app.put("/alterar-senha", (req, res) => {
-// 	const email = req.body.email;
-// 	const senha = req.body.senha;
-
-// 	connection.query(
-// 		`UPDATE usuario SET SENHA = "${senha}" WHERE email = "${email}"`,
-// 		(err, result) => {
-// 			if (err) {
-// 				throw err;
-// 			}
-
-// 			if (result.affectedRows > 0) {
-// 				// Se a atualização for bem-sucedida, envie uma resposta de sucesso
-// 				res.send("Senha atualizada com sucesso");
-// 			} else {
-// 				// Se nenhum registro for afetado, pode significar que o email não foi encontrado
-// 				res.status(404).send("Email não encontrado ou nenhum dado atualizado");
-// 			}
-// 		}
-// 	);
-// });
-
-// app.put("/alterar-status", (req, res) => {
-// 	const email = req.body.email;
-// 	const status = req.body.status;
-
-// 	connection.query(
-// 		`UPDATE usuario SET STATUS_CLIENTE = "${status}" WHERE email = "${email}"`,
-// 		(err, result) => {
-// 			if (err) {
-// 				throw err;
-// 			}
-
-// 			if (result.affectedRows > 0) {
-// 				// Se a atualização for bem-sucedida, envie uma resposta de sucesso
-// 				res.send("Status atualizado com sucesso");
-// 			} else {
-// 				// Se nenhum registro for afetado, pode significar que o email não foi encontrado
-// 				res.status(404).send("Email não encontrado ou nenhum dado atualizado");
-// 			}
-// 		}
-// 	);
-// });
-
-// app.put("/alterar-status", (req, res) => {
-// 	const email = req.body.email;
-// 	const status = req.body.status;
-
-// 	connection.query(
-// 		`UPDATE usuario SET STATUS_CLIENTE = "${status}" WHERE email = "${email}"`,
-// 		(err, result) => {
-// 			if (err) {
-// 				throw err;
-// 			}
-
-// 			if (result.affectedRows > 0) {
-// 				// Se a atualização for bem-sucedida, envie uma resposta de sucesso
-// 				res.send("Status atualizado com sucesso");
-// 			} else {
-// 				// Se nenhum registro for afetado, pode significar que o email não foi encontrado
-// 				res.status(404).send("Email não encontrado ou nenhum dado atualizado");
-// 			}
-// 		}
-// 	);
-// });
 
 app.listen(port, (req, res) => {
 	console.log(`Server listening to port ${port}, BACK OFFICE`);

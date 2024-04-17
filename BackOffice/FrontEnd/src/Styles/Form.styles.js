@@ -42,6 +42,9 @@ export const ProdutoFormContainer = styled.form`
 		width: 50px;
 		height: 50px;
 	}
+	input:read-only {
+		background-color: #b3b3b3;
+	}
 `;
 
 export const ImagesContainer = styled.div`

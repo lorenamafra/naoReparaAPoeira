@@ -9,12 +9,16 @@ import {
 import { MainFormContainer } from "../Styles/Form.styles";
 import axios from "axios";
 import { RedirectText } from "../Styles/MainStyles.styles";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import Icon from "@mdi/react";
 import { mdiTrashCanOutline } from "@mdi/js";
+import { useEffect } from "react";
 
-var queuedImagesArray = [];
+let queuedImagesArray = [];
+
 function CadastrarProdutos() {
+	let location = useLocation();
+	console.log(location.state);
 	const Visualizar = () => {
 		var formElement = document.getElementById("myForm");
 		console.log(queuedImagesArray);
@@ -35,19 +39,47 @@ function CadastrarProdutos() {
 		fd.append("cod_produto", cod_produto);
 		console.log("imagens ao clicar", imagesArrayCopy);
 
-		queuedImagesArray.forEach((image, index) => {
-			fd.append(`files${index}`, image);
+		queuedImagesArray.forEach((image) => {
+			fd.append(`images`, image);
 		});
 		const ObjectForm = Object.fromEntries(fd);
-
+		ObjectForm.imagens = queuedImagesArray;
+		console.log(ObjectForm.imagens);
 		console.log(ObjectForm);
-
-		// navigate("/VisualizarProduto", { state: ObjectForm });
+		navigate("/VisualizarProduto", { state: ObjectForm });
 	};
 
 	const navigate = useNavigate();
 
-	//////
+	//////´
+
+	useEffect(() => {
+		queuedImagesArray = [];
+		console.log(location);
+		if (location.state) {
+			console.log("salve");
+			document.getElementsByName("artista")[0].value = location.state.artista;
+			document.getElementsByName("nome_disco")[0].value =
+				location.state.nome_disco;
+			document.getElementsByName("genero")[0].value = location.state.genero;
+			document.getElementsByName("estoque")[0].value = location.state.estoque;
+			document.getElementsByName("valor")[0].value = location.state.valor;
+			document.getElementsByName("avaliacao")[0].value =
+				location.state.avaliacao;
+			document.getElementsByName("ano")[0].value = location.state.ano;
+			document.getElementsByName("descricao")[0].value =
+				location.state.descricao;
+
+			console.log(location.state.imagens[0]);
+			for (let i = 0; i < location.state.imagens.length; i++) {
+				queuedImagesArray.push(location.state.imagens[i]);
+			}
+			console.log(queuedImagesArray);
+			displayQueuedImages();
+		} else {
+			console.log("ata");
+		}
+	}, []);
 
 	const handleSubmit = () => {
 		const formElement = document.getElementById("myForm");
@@ -90,31 +122,47 @@ function CadastrarProdutos() {
 				window.alert(`${pair[0]} está vazio`);
 			}
 		}
+
+		for (const pair of fd.entries()) {
+			console.log(pair);
+		}
+
 		fd.append(
 			"imagem_principal",
 			document.querySelector('input[name="principal"]:checked').value
 		);
+
+		console.log(fd.get("imagem_principal"));
+		console.log(queuedImagesArray);
+		console.log(queuedImagesArray[fd.get("imagem_principal")]);
 		const ObjectForm = Object.fromEntries(fd);
+		console.log(fd.get("files0"));
+		let principal = fd.get("imagem_principal");
+		let letras = `files${principal}`;
+		console.log(letras);
+		console.log(fd.get(letras));
+		console.log(fd.get("files0"));
 		console.log(ObjectForm);
 
-		// axios
-		// 	.post("http://localhost:8080/produto/inserir", ObjectForm)
-		// 	.then((resp) => console.log(resp));
+		axios
+			.post("http://localhost:8080/produto/inserir", ObjectForm)
+			.then((resp) => console.log(resp.data));
 
 		axios
 			.post("http://localhost:8080/produto/inserir/imagens", fd)
-			.then((resp) => console.log(resp));
+			.then((resp) => console.log(resp))
+			.then(navigate("/Home/Produtos"));
 
-		// axios
-		// 	.post("http://localhost:8080/produto/uploadImageToFrontEnd", fd)
-		// 	.then((resp) => {
-		// 		console.log(resp.data);
-		// 	});
-		// .then(navigate("/BackOffice"));
+		axios
+			.post("http://localhost:8080/produto/uploadImageToFrontEnd", fd)
+			.then((resp) => {
+				console.log(resp.data);
+			})
+			.then(navigate("/Home/Produtos"));
 	};
 
 	const [imagesComponents, setImagesComponents] = useState([]);
-	const [imagesArrayCopy] = useState([]);
+	let imagesArrayCopy = [];
 
 	const onSelectFile = (e) => {
 		console.log("on select, copy", imagesArrayCopy);
@@ -136,6 +184,8 @@ function CadastrarProdutos() {
 
 	const displayQueuedImages = () => {
 		var images = [];
+		setImagesComponents([]);
+
 		console.log(queuedImagesArray);
 		queuedImagesArray.forEach((image, index) => {
 			images.push(
@@ -160,7 +210,6 @@ function CadastrarProdutos() {
 	const deleteQueuedImages = (index) => {
 		console.log(queuedImagesArray[index]);
 
-		// console.log(images);
 		queuedImagesArray.splice(index, 1);
 		imagesArrayCopy.splice(index, 1);
 		displayQueuedImages();
