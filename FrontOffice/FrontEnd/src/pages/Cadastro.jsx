@@ -10,6 +10,7 @@ import Logo from "../assets/Component5.png";
 import { Link } from "react-router-dom";
 import ValidaCPF from "../testes/ValidaCPF";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const validation = () => {
 	const fd = new FormData(event.target);
@@ -18,10 +19,10 @@ const validation = () => {
 
 	let email = fd.get("email");
 	let nome = fd.get("nome");
-	let CPF = fd.get("CPF");
+	let cpf = fd.get("cpf");
 	let genero = fd.get("genero");
 	let senha = fd.get("senha");
-	let confirmaSenha = fd.get("confirmar Senha");
+	let confirmaSenha = fd.get("confirmarSenha");
 
 	const campoVazio = (campo, campoNome) => {
 		if (!campo || campo == "" || campo == " ") {
@@ -39,15 +40,15 @@ const validation = () => {
 		}
 	};
 
-	isValid = campoVazio(email, "Email");
-	isValid = campoVazio(nome, "Nome");
-	isValid = campoVazio(CPF, "Cpf");
+	isValid = campoVazio(email, "email");
+	isValid = campoVazio(nome, "nome");
+	isValid = campoVazio(cpf, "cpf");
 	isValid = campoVazio(genero, "genero");
-	isValid = campoVazio(senha, "Senha");
-	isValid = campoVazio(confirmaSenha, "confirmar Senha");
+	isValid = campoVazio(senha, "senha");
+	isValid = campoVazio(confirmaSenha, "confirmarSenha");
 
 	confirmarSenha(senha, confirmaSenha);
-	if (!ValidaCPF(CPF)) {
+	if (!ValidaCPF(cpf)) {
 		isValid = false;
 		alert("CPF falso");
 	}
@@ -70,8 +71,7 @@ const handleSubmit = (event) => {
 };
 
 function Cadastro() {
-	const navigate = useNavigate();
-
+	let navigate = useNavigate();
 	return (
 		<CadastroPage>
 			<MainCadastroContainer>
@@ -90,7 +90,7 @@ function Cadastro() {
 
 					<InputField>
 						<label>CPF</label>
-						<input type="number" name="CPF"></input>
+						<input type="number" name="cpf"></input>
 					</InputField>
 
 					<InputField>
@@ -109,7 +109,7 @@ function Cadastro() {
 
 					<InputField>
 						<label>Confirmar senha</label>
-						<input type="password" name="confirmar Senha"></input>
+						<input type="password" name="confirmarSenha"></input>
 					</InputField>
 
 					<ButtonLinkCE>Continuar</ButtonLinkCE>

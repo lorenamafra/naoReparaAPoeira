@@ -8,6 +8,30 @@ import {
 } from "../styles/Login.styles";
 import Logo from "../assets/Component5.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+const validation = () => {
+  const fd = new FormData(event.target);
+
+  let isValid = true;
+
+  let email = fd.get("email");
+  let senha = fd.get("senha");
+
+  const campoVazio = (campo, campoNome) => {
+    if (!campo || campo == "" || campo == " ") {
+      alert(`${campoNome} está vazio!`);
+
+      return false;
+    }
+    return true;
+  };
+
+  isValid = campoVazio(email, "email");
+  isValid = campoVazio(senha, "senha");
+
+  return isValid;
+};
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -17,20 +41,22 @@ const handleSubmit = (event) => {
     console.log(value);
   }
 
-  axios.post("http://localhost:8080/cliente/login", fd).then((resp) => {
-    if (resp.data == true) {
-      axios.post("http://localhost:8080/cliente", fd).then((resp) => {
-        const currentClient = {
-          nome: resp.data.nome_completo,
-          email: resp.data.email,
-        };
-        sessionStorage.setItem("client", JSON.stringify(currentClient));
-        navigate("/");
-      });
-    } else {
-      setErro(resp.data.message);
-    }
-  });
+  if (validation()) {
+    axios.post("http://localhost:8080/cliente/login", fd).then((resp) => {
+      if (resp.data == true) {
+        axios.post("http://localhost:8080/cliente", fd).then((resp) => {
+          const currentClient = {
+            nome: resp.data.nome_completo,
+            email: resp.data.email,
+          };
+          sessionStorage.setItem("client", JSON.stringify(currentClient));
+          navigate("/");
+        });
+      } else {
+        setErro(resp.data.message);
+      }
+    });
+  }
 };
 
 function Login() {
@@ -47,7 +73,7 @@ function Login() {
 
           <InputField>
             <label>Senha</label>
-            <input type="password" name="password" />
+            <input type="password" name="senha" />
           </InputField>
 
           <ButtonLogar>Logar</ButtonLogar>

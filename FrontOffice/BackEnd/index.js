@@ -18,7 +18,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "80085",
+  password: "TJrs4321@",
   database: "nrp",
   port: "3306",
 });
@@ -55,15 +55,17 @@ app.post("/cliente/login", (req, res) => {
   );
 });
 
-// Rota para cadastrar usuário
+// Rota para cadastrar cliente
 app.post("/cliente/cadastrar", (req, res) => {
-  const nome_completo = req.body.nome_completo;
   const cpf = req.body.cpf;
   const email = req.body.email;
-  const senha = req.body.senha;
-  const grupo = req.body.grupo;
+  const nome_completo = req.body.nome_completo;
   const data_nascimento = req.body.data_nascimento;
   const genero = req.body.genero;
+  const endereco_faturamento_cep = req.body.cep;
+  const endereco_faturamento_numero = req.body.numero;
+  const endereco_faturamento_complemento = req.body.complemento;
+  const senha = req.body.senha;
 
   console.log(req.body.email);
   bcrypt.hash(senha, saltRounds, (err, hash) => {
@@ -71,7 +73,7 @@ app.post("/cliente/cadastrar", (req, res) => {
       res.send({ err: err });
     }
     connection.query(
-      `INSERT INTO usuario (nome, cpf, email, senha, status_cliente, grupo) values ('${nome}','${cpf}' , '${email}', '${hash}', "Ativo", '${grupo}')`,
+      `INSERT INTO cliente (cpf, email, nome_completo, data_nascimento, genero, endereco_faturamento_cep, endereco_faturamento_numero, endereco_faturamento_complemento, senha) values ('${cpf}', '${email}', '${nome_completo}', '${data_nascimento}','${genero}', ${endereco_faturamento_cep}, '${endereco_faturamento_numero}', '${endereco_faturamento_complemento}', '${senha}' )`,
 
       (err, result) => {
         if (err) {
@@ -137,4 +139,26 @@ values (${req.params.cpf},${cep}, ${numero}, ${complemento}, 1);`,
       }
     }
   );
+});
+
+app.put("/cliente/alterar", (req, res) => {
+  const email = req.body.email;
+  const nome_completo = req.body.nome_completo;
+  const senha = req.body.senha;
+  const cpf = req.body.cpf;
+  const genero = req.body.genero;
+
+  bcrypt.hash(senha, saltRounds, (err, hash) => {
+    connection.query(
+      `UPDATE cliente SET CPF = '${cpf}', EMAIL = '${email}', NOME_COMPLETO = '${nome_completo}', GENERO = '${genero}'`,
+      (err, result) => {
+        if (err) throw err;
+        if (result.affectedRows > 0) {
+          res.status(200).send("Atualizado com sucesso");
+        } else {
+          res.status(400).send("Impossibilitado de alteração ");
+        }
+      }
+    );
+  });
 });

@@ -18,7 +18,7 @@ app.use(jsonParser);
 var connection = mysql.createConnection({
 	host: "127.0.0.1",
 	user: "root",
-	password: "80085",
+	password: "Lolo@2024",
 	database: "nrp",
 	port: "3306",
 });
@@ -165,6 +165,55 @@ app.post("/usuario/pesquisar", (req, res) => {
 			}
 
 			res.send(result);
+		}
+	);
+});
+
+//busca todos os produtos por ordem decrescente
+app.get("/produtos", function (req, res) {
+	connection.query(
+		`SELECT * FROM produto ORDER BY id_produto DESC`,
+		(err, rows) => {
+			if (err) throw err;
+
+			res.send({ produtos: rows });
+		}
+	);
+});
+
+app.get("/produtos/lancamentos", function (req, res) {
+	connection.query(
+		`SELECT * FROM produto WHERE status_produto = "Ativo" ORDER BY id_produto DESC limit 5`,
+		(err, rows) => {
+			if (err) throw err;
+
+			res.send({ produtos: rows });
+		}
+	);
+});
+
+app.get("/produto/:cod_produto", function (req, res) {
+	let cod_produto = req.params.cod_produto;
+	let produto;
+	connection.query(
+		`SELECT * FROM produto WHERE cod_produto = "${cod_produto}"`,
+		(err, rows) => {
+			if (err) throw err;
+			let result = JSON.parse(JSON.stringify(rows[0]));
+
+			res.send(result);
+		}
+	);
+});
+
+app.get("/produto/:cod_produto/imagens", function (req, res) {
+	let cod_produto = req.params.cod_produto;
+	connection.query(
+		`SELECT * FROM IMAGEM WHERE cod_produto = "${cod_produto}"`,
+		(err, rows) => {
+			if (err) throw err;
+
+			res.send(rows);
 		}
 	);
 });

@@ -1,0 +1,108 @@
+import React from "react";
+import {
+  ButtonConfirmar,
+  ButtonEndereco,
+  ContainerBotao,
+  InputField,
+} from "../styles/AlterarCliente.styles";
+import axios from "axios";
+
+function FormularioAlterarCadastro() {
+  function HandleSubmit(event) {
+    event.preventDefault();
+    console.log(event.target);
+    const fd = new FormData(event.target);
+    const ObjectForm = Object.fromEntries(fd);
+    console.log(ObjectForm);
+    axios.post("/cliente/alterar");
+  }
+
+  const validation = (event) => {
+    const fd = new FormData(event.target);
+
+    let isValid = true;
+
+    let email = fd.get("email");
+    let nome = fd.get("nome");
+    let CPF = fd.get("CPF");
+    let genero = fd.get("genero");
+    let senha = fd.get("senha");
+    let confirmaSenha = fd.get("confirmar Senha");
+
+    const campoVazio = (campo, campoNome) => {
+      if (!campo || campo == "" || campo == " ") {
+        alert(`${campoNome} está vazio!`);
+
+        return false;
+      }
+      return true;
+    };
+
+    const confirmarSenha = (senha, senha2) => {
+      if (senha != senha2) {
+        alert(`Senha não está igual`);
+        return false;
+      }
+    };
+
+    isValid = campoVazio(email, "Email");
+    isValid = campoVazio(nome, "Nome");
+    isValid = campoVazio(cpf, "Cpf");
+    isValid = campoVazio(genero, "genero");
+    isValid = campoVazio(senha, "Senha");
+    isValid = campoVazio(confirmaSenha, "confirmar Senha");
+
+    confirmarSenha(senha, confirmaSenha);
+    if (!ValidaCPF(cpf)) {
+      isValid = false;
+      alert("CPF falso");
+    }
+    return isValid;
+  };
+
+  return (
+    <form onSubmit={(e) => HandleSubmit(e)}>
+      <h1>Alterar Cadastro</h1>
+
+      <InputField>
+        <label>Email</label>
+        <input type="email" name={email}></input>
+      </InputField>
+
+      <InputField>
+        <label>Nome</label>
+        <input type="text" name={nome}></input>
+      </InputField>
+
+      <InputField>
+        <label>CPF</label>
+        <input type="number" name={cpf}></input>
+      </InputField>
+
+      <InputField>
+        <label>Gênero</label>
+        <select name="genero" defaultValue="Selecione o gênero">
+          <option value="Feminino">Feminino</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Outros">Outros</option>
+        </select>
+      </InputField>
+
+      <InputField>
+        <label>Senha</label>
+        <input type="password" name={senha}></input>
+      </InputField>
+
+      <InputField>
+        <label>Confirmar senha</label>
+        <input type="password" name={confirmaSenha}></input>
+      </InputField>
+      <ContainerBotao>
+        <ButtonConfirmar>Confirmar</ButtonConfirmar>
+        <ButtonEndereco>Endereços</ButtonEndereco>
+      </ContainerBotao>
+    </form>
+  );
+}
+
+export default FormularioAlterarCadastro;
