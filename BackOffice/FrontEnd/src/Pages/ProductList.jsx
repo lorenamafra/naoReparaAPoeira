@@ -46,11 +46,13 @@ function ProductList() {
 			});
 		};
 		fetchProdutos();
-	});
+		console.log(produtos);
+	}, []);
 
 	const handleFetchProdutos = () => {
-		if (nomeDisco == "") {
+		if (nomeDisco == "" || !nomeDisco) {
 			axios.get("http://localhost:8080/produtos").then((resp) => {
+				console.log("oii", resp);
 				const totalProdutos = resp.data.produtos.length;
 				const totalPages = Math.ceil(totalProdutos / limite);
 				const arrayPages = [];
@@ -85,11 +87,11 @@ function ProductList() {
 		console.log(produtos[index]);
 		if (confirm("Deseja alterar o status do produto?")) {
 			produtos[index].status_produto == "Ativo"
-				? axios.put("http://localhost:8080/produto/alterarStatusProduto", {
+				? axios.put("http://localhost:8080/produto/alterar/status", {
 						status_produto: "Inativo",
 						cod_produto: produtos[index].cod_produto,
 				  })
-				: axios.put("http://localhost:8080/produto/alterarStatusProduto", {
+				: axios.put("http://localhost:8080/produto/alterar/status", {
 						status_produto: "Ativo",
 						cod_produto: produtos[index].cod_produto,
 				  });
@@ -98,6 +100,20 @@ function ProductList() {
 		}
 	};
 
+	const handleVisualizar = (produto) => {
+		console.log(produto.cod_produto);
+
+		axios
+			.get(`http://localhost:8080/produto/${produto.cod_produto}/imagens`)
+			.then((resp) => {
+				produto.imagensCarregadas = resp.data;
+			})
+			.then(() => {
+				navigate("/VisualizarProduto", {
+					state: produto,
+				});
+			});
+	};
 	return (
 		<div>
 			{isLoaded ? (
@@ -181,11 +197,7 @@ function ProductList() {
 														<ProdutoTd>
 															<div
 																className="buttonTD"
-																onClick={() =>
-																	navigate("/VisualizarProduto", {
-																		state: produto,
-																	})
-																}
+																onClick={() => handleVisualizar(produto)}
 															>
 																Visualizar
 															</div>

@@ -1,40 +1,43 @@
 import {
-  InputField,
-  ImageContainer,
-  MainLoginContainer,
-  LoginContainer,
-  ButtonLogar,
-  LoginPage,
+	InputField,
+	ImageContainer,
+	MainLoginContainer,
+	LoginContainer,
+	ButtonLogar,
+	LoginPage,
 } from "../styles/Login.styles";
 import Logo from "../assets/Component5.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const validation = () => {
-  const fd = new FormData(event.target);
+	const fd = new FormData(event.target);
 
-  let isValid = true;
+	let isValid = true;
 
-  let email = fd.get("email");
-  let senha = fd.get("senha");
+	let email = fd.get("email");
+	let senha = fd.get("senha");
 
-  const campoVazio = (campo, campoNome) => {
-    if (!campo || campo == "" || campo == " ") {
-      alert(`${campoNome} está vazio!`);
+	const campoVazio = (campo, campoNome) => {
+		if (!campo || campo == "" || campo == " ") {
+			alert(`${campoNome} está vazio!`);
 
-      return false;
-    }
-    return true;
-  };
+			return false;
+		}
+		return true;
+	};
 
-  isValid = campoVazio(email, "email");
-  isValid = campoVazio(senha, "senha");
+	isValid = campoVazio(email, "email");
+	isValid = campoVazio(senha, "senha");
 
-  return isValid;
+	return isValid;
 };
 
-const handleSubmit = (event) => {
-  event.preventDefault();
+function Login() {
+	const navigate = useNavigate();
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
 
   const fd = new FormData(event.target);
   for (const value of fd.values()) {
@@ -64,35 +67,35 @@ function Login() {
     <LoginPage>
       <MainLoginContainer>
         <LoginContainer onSubmit={handleSubmit}>
-          <h1>Login</h1>
+          <h1>login</h1>
 
-          <InputField>
-            <label>Email</label>
-            <input type="email" name="email" />
-          </InputField>
+					<InputField>
+						<label>Email</label>
+						<input type="email" name="email" />
+					</InputField>
 
-          <InputField>
-            <label>Senha</label>
-            <input type="password" name="senha" />
-          </InputField>
+					<InputField>
+						<label>Senha</label>
+						<input type="password" name="senha" />
+					</InputField>
 
-          <ButtonLogar>Logar</ButtonLogar>
+					<ButtonLogar>Logar</ButtonLogar>
 
-          <span>
-            <b>
-              {" "}
-              <Link to="/Cadastro">Registre-se</Link>{" "}
-            </b>
-            <label> se não tiver uma conta</label>
-          </span>
-        </LoginContainer>
+					<span>
+						<b>
+							{" "}
+							<Link to="/Cadastro">Registre-se</Link>{" "}
+						</b>
+						<label> se não tiver uma conta</label>
+					</span>
+				</LoginContainer>
 
-        <ImageContainer>
-          <img src={Logo} alt="Logo NRP" />
-        </ImageContainer>
-      </MainLoginContainer>
-    </LoginPage>
-  );
+				<ImageContainer>
+					<img src={Logo} alt="Logo NRP" />
+				</ImageContainer>
+			</MainLoginContainer>
+		</LoginPage>
+	);
 }
 
 export default Login;

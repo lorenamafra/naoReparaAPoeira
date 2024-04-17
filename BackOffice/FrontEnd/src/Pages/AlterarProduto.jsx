@@ -17,7 +17,8 @@ var queuedImagesArray = [];
 function AlterarProduto() {
 	const cod_produto = useLocation().state;
 	const [produto, setProduto] = useState({});
-	const [images, setImages] = useState([]);
+	let images = [];
+
 	const [loader, setLoader] = useState(true);
 	const currentUser = JSON.parse(sessionStorage.getItem("User"));
 
@@ -26,24 +27,32 @@ function AlterarProduto() {
 
 		const checkEstoquista = () => {
 			if (currentUser.grupo == "Estoquista") {
-				document.getElementById("nome_disco").setAttribute("disabled", "true");
-				document.getElementById("artista").setAttribute("disabled", "true");
-				document.getElementById("genero").setAttribute("disabled", "true");
-				document.getElementById("ano").setAttribute("disabled", "true");
-				document.getElementById("valor").setAttribute("disabled", "true");
+				document.getElementById("nome_disco").setAttribute("readonly", "true");
+				document.getElementById("artista").setAttribute("readonly", "true");
+				document.getElementById("genero").setAttribute("readonly", "true");
+				document.getElementById("ano").setAttribute("readonly", "true");
+				document.getElementById("valor").setAttribute("readonly", "true");
 				document.getElementById("avaliacao").setAttribute("disabled", "true");
-				document.getElementById("descricao").setAttribute("disabled", "true");
+				document.getElementById("descricao").setAttribute("readonly", "true");
 				document.getElementById("images").setAttribute("disabled", "true");
+			} else {
+				document.getElementById("nome_disco").setAttribute("readonly", "true");
+				document.getElementById("artista").setAttribute("readonly", "true");
+				document.getElementById("ano").setAttribute("readonly", "true");
 			}
 		};
 
 		const toDataURL = (url) =>
 			fetch(url)
-				.then((response) => response.blob())
+				.then((response) => {
+					let boobs = response.blob();
+					return boobs;
+				})
 				.then(
 					(blob) =>
 						new Promise((resolve, reject) => {
 							const reader = new FileReader();
+
 							reader.onloadend = () => resolve(reader.result);
 							reader.onerror = reject;
 							reader.readAsDataURL(blob);
@@ -63,46 +72,51 @@ function AlterarProduto() {
 		}
 
 		const getProduto = async () => {
-			let response = await axios.post(
-				"http://localhost:8080/produto/pesquisar",
-				{
-					cod_produto: cod_produto,
-				}
-			);
-
-			setProduto(response.data);
-			let imagemPrincipal = response.data.imagem_principal;
-			let imagemSecundaria = response.data.imagem_secundaria;
-			console.log(response.data);
-
-			toDataURL(`/${imagemSecundaria}`).then((dataUrl) => {
-				var fileData = dataURLtoFile(dataUrl, imagemSecundaria);
-				console.log(fileData);
-				queuedImagesArray.push(fileData);
-			});
-
-			toDataURL(`/${imagemPrincipal}`)
-				.then((dataUrl) => {
-					var fileData = dataURLtoFile(dataUrl, imagemPrincipal);
-					console.log(fileData);
-					queuedImagesArray.push(fileData);
-				})
-				.then(() => {
-					displayQueuedImages();
+			await axios
+				.get(`http://localhost:8080/produto/${cod_produto}/`)
+				.then((resp) => {
+					setProduto(resp.data);
 				});
+
+			await axios
+				.get(`http://localhost:8080/produto/${cod_produto}/imagens`)
+				.then((resp) => {
+					var bufferData = resp.data;
+					console.log("87:", bufferData);
+					for (let i = 0; i < bufferData.length; i++) {
+						images.push(bufferData[i]);
+					}
+
+					console.log("quia", queuedImagesArray);
+				});
+
+			for (let i = 0; i < images.length; i++) {
+				toDataURL(`http://localhost:8080/fotos/${images[i].imagem}`).then(
+					(dataUrl) => {
+						var fileData = dataURLtoFile(dataUrl, images[i].imagem);
+
+						console.log(`Iteração ${i}`, fileData);
+						queuedImagesArray.push(fileData);
+						console.log(`Iteração ${i}`, queuedImagesArray);
+					}
+				);
+			}
 		};
 
 		getProduto().then(() => {
-			setLoader(false);
+			setTimeout(() => {
+				setLoader(false);
+				displayQueuedImages();
+			}, 50);
 		});
 
 		setTimeout(() => {
 			checkEstoquista();
-		}, 15);
+		}, 100);
 	}, []);
+
 	const Visualizar = () => {
 		var formElement = document.getElementById("myForm");
-		console.log(queuedImagesArray);
 		var fd = new FormData(formElement);
 		var abbr = fd
 			.get("artista")
@@ -118,26 +132,25 @@ function AlterarProduto() {
 
 		let cod_produto = abbr.concat(nome_disco, fd.get("ano"));
 		fd.append("cod_produto", cod_produto);
-		console.log("imagens ao clicar", imagesArrayCopy);
-		queuedImagesArray.forEach((image, index) => {
-			fd.append(`files${index}`, image);
+
+		queuedImagesArray.forEach((image) => {
+			fd.append(`images`, image);
 		});
 		const ObjectForm = Object.fromEntries(fd);
-
+		ObjectForm.imagens = queuedImagesArray;
+		console.log(ObjectForm.imagens);
+		if (currentUser.grupo == "Estoquista") {
+			ObjectForm.avaliacao = produto.avaliacao;
+		}
 		console.log(ObjectForm);
-
 		navigate("/VisualizarProduto", { state: ObjectForm });
 	};
-
 	const navigate = useNavigate();
-
-	//////
 
 	const handleSubmit = () => {
 		const formElement = document.getElementById("myForm");
-		console.log(queuedImagesArray);
 		const fd = new FormData(formElement);
-		console.log(fd);
+
 		let currentYear = new Date().getFullYear();
 		var abbr = fd
 			.get("artista")
@@ -153,10 +166,22 @@ function AlterarProduto() {
 
 		let cod_produto = abbr.concat(nome_disco, fd.get("ano"));
 		fd.append("cod_produto", cod_produto);
+		if (currentUser.grupo == "Estoquista") {
+			axios
+				.put("http://localhost:8080/produto/alterar/quantidade", {
+					estoque: fd.get("estoque"),
+					cod_produto: fd.get("cod_produto"),
+				})
+				.then((resp) => {
+					resp.status == 200 ? navigate("/Home/Produtos") : "";
+				});
+			return;
+		}
 
 		fd.delete("images");
 		queuedImagesArray.forEach((image, index) => {
 			fd.append(`files${index}`, image);
+			console.log("Image", image);
 		});
 
 		if (
@@ -172,32 +197,55 @@ function AlterarProduto() {
 				window.alert(`${pair[0]} está vazio`);
 			}
 		}
+
+		for (const pair of fd.entries()) {
+			console.log(pair);
+		}
+
 		fd.append(
-			"principal",
+			"imagem_principal",
 			document.querySelector('input[name="principal"]:checked').value
 		);
-		const ObjectForm = Object.fromEntries(fd);
-		console.log(ObjectForm);
-		console.log(ObjectForm.files0);
-		axios
-			.put("http://localhost:8080/produto/alterar", fd)
-			.then((resp) => console.log(resp.data));
-		// .then(navigate("/BackOffice"));
 
+		console.log(fd.get("imagem_principal"));
+		console.log(queuedImagesArray);
+		console.log(queuedImagesArray[fd.get("imagem_principal")]);
+		const ObjectForm = Object.fromEntries(fd);
+		console.log(fd.get("files0"));
+		let principal = fd.get("imagem_principal");
+		let letras = `files${principal}`;
+		console.log(letras);
+		console.log(fd.get(letras));
+		console.log(fd.get("files0"));
+		console.log(ObjectForm);
+
+		// axios
+		// 	.put("http://localhost:8080/produto/alterar", ObjectForm)
+		// 	.then((resp) => {
+		// 		console.log(resp);
+		// 		// resp.status == 200 ? navigate("/Home/Produtos") : "";
+		// 	});
+		let cod = fd.get("cod_produto");
+
+		axios.post("http://localhost:8080/deleteFilesFromFolder", ObjectForm);
 		axios
-			.post("http://localhost:8080/produto/updateProductImage", fd)
-			.then((resp) => {
-				console.log(resp.data);
-			});
-		axios
-			.post("http://localhost:8080/produto/uploadImageToFrontEnd", fd)
-			.then((resp) => {
-				console.log(resp.data);
+			.delete(`http://localhost:8080/produto/deletar/imagens/${cod}`)
+			.then(() => {
+				axios
+					.post("http://localhost:8080/produto/inserir/imagens", fd)
+					.then((resp) => console.log(resp));
+
+				axios
+					.post("http://localhost:8080/produto/uploadImageToFrontEnd", fd)
+					.then((resp) => {
+						console.log(resp.data);
+					})
+					.then(navigate("/Home/Produtos"));
 			});
 	};
 
 	const [imagesComponents, setImagesComponents] = useState([]);
-	const [imagesArrayCopy] = useState([]);
+	let imagesArrayCopy = [];
 
 	const onSelectFile = (e) => {
 		console.log("on select, copy", imagesArrayCopy);
@@ -214,16 +262,17 @@ function AlterarProduto() {
 
 		console.log("array após enviar arquivo", imagesArrayCopy);
 		console.log(queuedImagesArray);
-
 		displayQueuedImages();
 	};
 
 	const displayQueuedImages = () => {
 		var images = [];
-		console.log(queuedImagesArray);
+		setImagesComponents([]);
+		console.log("ata", queuedImagesArray[0]);
 		queuedImagesArray.forEach((image, index) => {
 			images.push(
 				<ImageFieldset key={index}>
+					{/* <img src={`http://localhost:8080/fotos/`} alt="" /> */}
 					<img src={URL.createObjectURL(image)} alt="" />
 
 					<div>
@@ -243,7 +292,8 @@ function AlterarProduto() {
 	};
 
 	const deleteQueuedImages = (index) => {
-		if (!currentUser.grupo == "Estoquista") {
+		console.log(currentUser.grupo);
+		if (currentUser.grupo != "Estoquista") {
 			console.log(queuedImagesArray[index]);
 
 			// console.log(images);
@@ -251,6 +301,7 @@ function AlterarProduto() {
 			imagesArrayCopy.splice(index, 1);
 			displayQueuedImages();
 		}
+		console.log("oi");
 	};
 
 	return (

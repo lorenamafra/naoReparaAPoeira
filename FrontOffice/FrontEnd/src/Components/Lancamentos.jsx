@@ -44,17 +44,21 @@ function Lancamentos() {
 
 	useEffect(() => {
 		const getLancamentos = async () => {
-			const data = await axios.get("http://localhost:8080/produtos");
+			const data = await axios.get(
+				"http://localhost:8080/produtos/lancamentos"
+			);
+
 			console.log(data.data.produtos);
 			setProdutos(data.data.produtos);
 		};
+
 		getLancamentos().catch((err) => {
 			console.log(err);
 		});
 		setTimeout(() => {
 			setLoader(false);
 			console.log(produtos);
-		}, 3000);
+		}, 500);
 	}, []);
 
 	return (
