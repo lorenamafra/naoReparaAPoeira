@@ -49,7 +49,6 @@ export const ButtonCadastrarEndereco = styled.button`
 export const ImageContainer = styled.div`
   display: grid;
   place-items: center;
-
   img {
     height: 50%;
     aspect-ratio: 1/1;

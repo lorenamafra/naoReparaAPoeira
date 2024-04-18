@@ -5,17 +5,18 @@ import {
   CadastroEnderecoPage,
   MainCadastroEnderecoContainer,
 } from "../styles/CadastroEndereco.styles";
-import { ImageContainer } from "../styles/MainStyles.styles";
 import { InputField } from "../styles/Login.styles";
+import Logo from "../assets/Component5.png";
+import { ImageContainer } from "../styles/Login.styles";
 
 function AdicionarEndereco() {
   return (
     <CadastroEnderecoPage>
-      <MainCadastroEnderecoContainer onSubmit={(e) => handleSubmit(e)}>
+      <MainCadastroEnderecoContainer>
         <ImageContainer>
           <img src={Logo} alt="Logo NRP" />
         </ImageContainer>
-        <CadastroEnderecoContainer onSubmit={handleSubmit}>
+        <CadastroEnderecoContainer>
           <h1>Cadastrar endereço</h1>
 
           <InputField>
@@ -32,12 +33,7 @@ function AdicionarEndereco() {
 
           <InputField>
             <label>Logradouro</label>
-            <input
-              type="text"
-              name="logradouro"
-              value={address.logradouro}
-              readOnly
-            ></input>
+            <input type="text" name="logradouro"></input>
           </InputField>
 
           <InputField>
@@ -52,27 +48,17 @@ function AdicionarEndereco() {
 
           <InputField>
             <label>Bairro</label>
-            <input
-              type="text"
-              name="bairro"
-              value={address.bairro}
-              readOnly
-            ></input>
+            <input type="text" name="bairro"></input>
           </InputField>
 
           <InputField>
             <label>Cidade</label>
-            <input
-              type="text"
-              name="cidade"
-              value={address.localidade}
-              readOnly
-            ></input>
+            <input type="text" name="cidade"></input>
           </InputField>
 
           <InputField>
             <label>UF</label>
-            <input type="text" name="uf" value={address.uf} readOnly></input>
+            <input type="text" name="uf"></input>
           </InputField>
 
           <ButtonConfirmar>Confirmar</ButtonConfirmar>

@@ -19,7 +19,7 @@ const router = createBrowserRouter([
   { path: "/AlterarCliente", Component: AlterarCliente },
   { path: "/MeusEnderecos", Component: MeusEnderecos },
   { path: "/AlterarCliente/AlterarSenha", Component: AlterarSenha },
-  { path: "/AlterarCliente/AlterarSenha", Component: AdicionarEndereco },
+  { path: "/AdicionarEndereco", Component: AdicionarEndereco },
 ]);
 
 function App() {
