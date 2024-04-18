@@ -183,16 +183,37 @@ app.put("/cliente/alterarSenha", (req, res) => {
   });
 });
 
-app.put("/meusEnderecos", (req, res) => {
-  (err, rows) => {
-    if (err) {
-      res.send(err);
-    }
+app.put("/endereco/inativar", (req, res) => {
+  console.log(req.body);
+  const id_endereco = req.body.id_endereco;
+  connection.query(
+    `UPDATE endereco_entrega set ATIVO = false WHERE id_endereco = '${id_endereco}'`,
+    (err, rows) => {
+      if (err) {
+        res.send(err);
+      }
 
-    if (rows) {
-      res.send("Endereço Alterado!");
+      if (rows) {
+        res.send("Endereço Alterado!");
+      }
     }
-  };
+  );
+});
+app.put("/endereco/alterar/padrao", (req, res) => {
+  console.log(req.body);
+  const id_endereco = req.body.id_endereco;
+  connection.query(
+    `UPDATE endereco_entrega set PADRAO = true WHERE id_endereco = '${id_endereco}'`,
+    (err, rows) => {
+      if (err) {
+        res.send(err);
+      }
+
+      if (rows) {
+        res.send("Endereço Alterado!");
+      }
+    }
+  );
 });
 
 // essa sempre tem que ficar ABAIXO de tudo gurizada

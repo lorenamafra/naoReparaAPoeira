@@ -9,6 +9,7 @@ import CadastroEndereco from "./pages/CadastroEndereco";
 import AlterarCliente from "./pages/AlterarCliente";
 import MeusEnderecos from "./pages/MeusEnderecos";
 import AlterarSenha from "./pages/AlterarSenha";
+import AdicionarEndereco from "./pages/AdicionarEndereco";
 const router = createBrowserRouter([
   { path: "/Login", Component: Login },
   { path: "/Cadastro", Component: Cadastro },
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
   { path: "/AlterarCliente", Component: AlterarCliente },
   { path: "/MeusEnderecos", Component: MeusEnderecos },
   { path: "/AlterarCliente/AlterarSenha", Component: AlterarSenha },
+  { path: "/AlterarCliente/AlterarSenha", Component: AdicionarEndereco },
 ]);
 
 function App() {
