@@ -163,6 +163,38 @@ app.put("/cliente/alterar", (req, res) => {
   });
 });
 
+app.put("/cliente/alterarSenha", (req, res) => {
+  const email = req.body.email;
+  const senhaNova = req.body.senhaNova;
+
+  bcrypt.hash(senhaNova, saltRounds, (err, hash) => {
+    connection.query(
+      `UPDATE cliente SET SENHA = '${hash}' WHERE EMAIL = '${email}'`,
+      (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        if (result.affectedRows > 0) {
+          res.status(200).send("Atualizado com sucesso");
+        } else {
+          res.status(400).send("Impossibilitado de alteração ");
+        }
+      }
+    );
+  });
+});
+
+app.put("/meusEnderecos", (req, res) => {
+  (err, rows) => {
+    if (err) {
+      res.send(err);
+    }
+
+    if (rows) {
+      res.send("Endereço Alterado!");
+    }
+  };
+});
+
 // essa sempre tem que ficar ABAIXO de tudo gurizada
 app.listen(port, (req, res) => {
   console.log(`Server listening to port ${port}, FRONT OFFICE`);

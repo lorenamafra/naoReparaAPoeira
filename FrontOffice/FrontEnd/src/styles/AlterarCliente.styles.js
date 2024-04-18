@@ -6,6 +6,19 @@ export const MainAlterarCliente = styled.div`
   height: 100vh;
   align-items: center;
   background-color: black;
+
+  #container_alterarsenha {
+    background-color: white;
+    height: 20rem;
+    aspect-ratio: 1/1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    form {
+      display: grid;
+      gap: 0.5rem;
+    }
+  }
 `;
 
 export const AlterarContainer = styled.div`
