@@ -71,6 +71,7 @@ app.post("/usuario/login", (req, res) => {
               console.log(err);
             }
             if (response) {
+              console.log(response);
               res.send(true);
             }
           });

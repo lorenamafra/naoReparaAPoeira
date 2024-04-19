@@ -7,9 +7,11 @@ import {
 import Icon from "@mdi/react";
 import { mdiArrowLeftBoldCircle } from "@mdi/js";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 function AlterarSenha() {
+  const user = useLocation().state.user;
+  console.log(user);
   let navigate = useNavigate();
   const handleTrocarSenha = (e) => {
     e.preventDefault();
@@ -17,8 +19,9 @@ function AlterarSenha() {
     const fd = new FormData(e.target);
     console.log(fd);
     const ObjectForm = Object.fromEntries(fd);
+    ObjectForm.email = user.email;
+    console.log(user);
     console.log(ObjectForm);
-    ObjectForm.email = "denisls02@Outlook.com";
 
     if (ObjectForm.senhaNova == ObjectForm.senhaNovaConfirma) {
       console.log("passaramkk");
@@ -27,6 +30,7 @@ function AlterarSenha() {
         .then((resp) => {
           console.log("Senha bateu");
           if (resp.data == true) {
+            console.log(resp.data);
             console.log("Senha aceita");
             axios
               .put("http://localhost:8081/cliente/AlterarSenha", ObjectForm)
@@ -36,6 +40,8 @@ function AlterarSenha() {
                   navigate("/");
                 }
               });
+          } else {
+            console.log("Senha antiga está errada");
           }
         });
     }

@@ -22,6 +22,15 @@ function Nav() {
             {" "}
             Alterar Cadastro
           </p>
+          <p
+            onClick={() => {
+              sessionStorage.removeItem("User");
+              navigate("/");
+            }}
+          >
+            {" "}
+            Sair
+          </p>
         </div>
       ) : (
         <div>

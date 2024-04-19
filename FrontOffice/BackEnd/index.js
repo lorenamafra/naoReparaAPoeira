@@ -28,15 +28,18 @@ app.post("/cliente/login", (req, res) => {
   const email = req.body.email;
   const senha = req.body.senha;
   console.log(req.body);
+  console.log("Oii");
   connection.query(
     "SELECT * FROM cliente WHERE email = ?",
     email,
     (err, result) => {
+      console.log(result);
       if (err) {
         res.send({ err: err });
       }
       if (result) {
         if (result.length > 0) {
+          console.log(result);
           bcrypt.compare(senha, result[0].senha, (err, response) => {
             if (err) {
               console.log(err);
@@ -65,6 +68,7 @@ app.post("/cliente/cadastrar", (req, res) => {
   const endereco_faturamento_cep = req.body.cep;
   const endereco_faturamento_numero = req.body.numero;
   const endereco_faturamento_complemento = req.body.complemento;
+  const endereco_faturamento_logradouro = req.body.logradouro;
   const senha = req.body.senha;
 
   console.log(req.body.data_nascimento);
@@ -73,7 +77,7 @@ app.post("/cliente/cadastrar", (req, res) => {
       res.send({ err: err });
     }
     connection.query(
-      `INSERT INTO cliente (cpf, email, nome_completo, data_nascimento, genero, endereco_faturamento_cep, endereco_faturamento_numero, endereco_faturamento_complemento, senha) values ('${cpf}', '${email}', '${nome_completo}', '${data_nascimento}','${genero}', ${endereco_faturamento_cep}, '${endereco_faturamento_numero}', '${endereco_faturamento_complemento}', '${hash}' )`,
+      `INSERT INTO cliente (cpf, email, nome_completo, data_nascimento, genero, endereco_faturamento_cep, endereco_faturamento_numero, endereco_faturamento_complemento, endereco_faturamento_logradouro senha) values ('${cpf}', '${email}', '${nome_completo}', '${data_nascimento}','${genero}', ${endereco_faturamento_cep}, '${endereco_faturamento_numero}', '${endereco_faturamento_complemento}', ${endereco_faturamento_logradouro}, '${hash}' )`,
 
       (err, result) => {
         if (err) {
@@ -112,7 +116,7 @@ app.get("/cliente/:cpf/enderecos", (req, res) => {
   const cpf = req.params.cpf;
 
   connection.query(
-    `SELECT * FROM ENDERECO_ENTREGA WHERE CPF = ${cpf}`,
+    `SELECT * FROM ENDERECO_ENTREGA WHERE CPF = "${cpf}" AND ativo = 1`,
     (err, rows) => {
       if (err) throw err;
 
@@ -127,8 +131,8 @@ app.post("/cliente/:cpf/endereco", (req, res) => {
   const complemento = req.body.complemento;
 
   connection.query(
-    `INSERT INTO endereco_entrega (cpf, cep, numero, complemento, ativo) 
-values (${req.params.cpf},${cep}, ${numero}, ${complemento}, 1);`,
+    `INSERT INTO endereco_entrega (cpf, cep, numero, complemento, logradouro, ativo) 
+values (${req.params.cpf}, '${cep}', '${numero}', '${complemento}', '${req.body.logradouro}', 1)`,
     (err, rows) => {
       if (err) {
         res.send(err);
@@ -199,6 +203,18 @@ app.put("/endereco/inativar", (req, res) => {
     }
   );
 });
+app.put("/endereco/alterar/despadronizar", (req, res) => {
+  const cpf = req.body.cpf;
+  console.log(cpf);
+  connection.query(
+    `UPDATE endereco_entrega set PADRAO = false WHERE cpf = '${cpf}'`,
+    (err, rows) => {
+      if (err) {
+        res.send(err);
+      }
+    }
+  );
+});
 app.put("/endereco/alterar/padrao", (req, res) => {
   console.log(req.body);
   const id_endereco = req.body.id_endereco;
@@ -215,6 +231,45 @@ app.put("/endereco/alterar/padrao", (req, res) => {
     }
   );
 });
+app.put("/cliente/:cpf/endereco/alterar/faturamento", (req, res) => {
+  console.log("oi", req.body);
+  console.log(req.params);
+  const endereco_faturamento_cep = req.body.cep;
+  const endereco_faturamento_numero = req.body.numero;
+  const endereco_faturamento_complemento = req.body.complemento;
+
+  connection.query(
+    `UPDATE cliente set endereco_faturamento_cep = "${endereco_faturamento_cep}", endereco_faturamento_numero = "${endereco_faturamento_numero}", endereco_faturamento_complemento = "${endereco_faturamento_complemento}", endereco_faturamento_logradouro = "${req.body.logradouro}" where cpf = "${req.params.cpf}"`,
+    (err, rows) => {
+      if (err) {
+        res.send(err);
+      }
+      if (rows) {
+        res.send("Endereço se tornou de Faturamento com Sucesso!");
+      }
+    }
+  );
+});
+app.post("endereco/adicionar"),
+  (req, res) => {
+    console.log(req.body);
+    const endereco_faturamento_cep = req.body.endereco_faturamento_cep;
+    const endereco_faturamento_numero = req.body.numero;
+    const endereco_faturamento_complemento = req.body.complemento;
+
+    connection.query(
+      `INSERT INTO cliente (endereco_faturamento_cep, endereco_faturamento_numero, endereco_faturamento_complemento) 
+      values (${req.params.cpf},${endereco_faturamento_cep}, ${endereco_faturamento_numero}, ${endereco_faturamento_complemento}, 1);`,
+      (err, rows) => {
+        if (err) {
+          res.send(err);
+        }
+        if (rows) {
+          res.send("Endereço Cadastrado com Sucesso!");
+        }
+      }
+    );
+  };
 
 // essa sempre tem que ficar ABAIXO de tudo gurizada
 app.listen(port, (req, res) => {

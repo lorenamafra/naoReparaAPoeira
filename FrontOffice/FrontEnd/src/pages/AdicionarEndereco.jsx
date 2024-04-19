@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ButtonConfirmar } from "../styles/AlterarCliente.styles";
 import {
   CadastroEnderecoContainer,
@@ -6,11 +6,48 @@ import {
   InputField,
   MainCadastroEnderecoContainer,
 } from "../styles/AdicionarEndereco";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router";
 
 function AdicionarEndereco() {
+  const navigate = useNavigate();
+  const user = useLocation().state.user;
+  const [address, setAddress] = useState({});
+  const handleCEP = (e) => {
+    console.log(e.target.value);
+    axios
+      .get(`https://viacep.com.br/ws/${e.target.value}/json/`)
+      .then((resp) => {
+        console.log("oi");
+        setAddress(resp.data);
+        console.log(address);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+
+    const ObjectData = Object.fromEntries(fd);
+    console.log(ObjectData);
+    console.log(user);
+    ObjectData.cpf = user.cpf;
+    console.log(ObjectData);
+
+    axios
+      .post(
+        `http://localhost:8081/cliente/${ObjectData.cpf}/endereco`,
+        ObjectData
+      )
+      .then((resp) => {
+        if (resp.status == 200) {
+          navigate(-1);
+        }
+      });
+  };
   return (
     <CadastroEnderecoPage>
-      <MainCadastroEnderecoContainer>
+      <MainCadastroEnderecoContainer onSubmit={handleSubmit}>
         <CadastroEnderecoContainer>
           <h1>Cadastrar endereço</h1>
           <InputField>
@@ -27,7 +64,11 @@ function AdicionarEndereco() {
 
           <InputField>
             <label>Logradouro</label>
-            <input type="text" name="logradouro"></input>
+            <input
+              type="text"
+              name="logradouro"
+              value={address.logradouro}
+            ></input>
           </InputField>
 
           <InputField>
@@ -42,17 +83,17 @@ function AdicionarEndereco() {
 
           <InputField>
             <label>Bairro</label>
-            <input type="text" name="bairro"></input>
+            <input type="text" name="bairro" value={address.bairro}></input>
           </InputField>
 
           <InputField>
             <label>Cidade</label>
-            <input type="text" name="cidade"></input>
+            <input type="text" name="cidade" value={address.localidade}></input>
           </InputField>
 
           <InputField>
             <label>UF</label>
-            <input type="text" name="uf"></input>
+            <input type="text" name="uf" value={address.uf}></input>
           </InputField>
 
           <ButtonConfirmar>Confirmar</ButtonConfirmar>

@@ -6,9 +6,10 @@ import {
   InputField,
 } from "../styles/AlterarCliente.styles";
 import axios from "axios";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 function FormularioAlterarCadastro() {
+  let navigate = useNavigate();
   let usuario = useLocation().state;
   console.log(usuario);
   const [user, setUser] = useState({});
@@ -88,7 +89,7 @@ function FormularioAlterarCadastro() {
 
       <InputField>
         <label>Nome</label>
-        <input type="text" name="nome" value={user.nome}></input>
+        <input type="text" name="nome" value={user.nome_completo}></input>
       </InputField>
 
       <InputField>
@@ -105,18 +106,20 @@ function FormularioAlterarCadastro() {
         </select>
       </InputField>
 
-      <InputField>
-        <label>Senha</label>
-        <input type="password" name="senha"></input>
-      </InputField>
-
-      <InputField>
-        <label>Confirmar senha</label>
-        <input type="password" name="confirmaSenha"></input>
-      </InputField>
       <ContainerBotao>
         <ButtonConfirmar>Confirmar</ButtonConfirmar>
-        <ButtonEndereco>Endereços</ButtonEndereco>
+        <ButtonConfirmar
+          onClick={() =>
+            navigate("/AlterarCliente/AlterarSenha", { state: { user: user } })
+          }
+        >
+          Alterar senha
+        </ButtonConfirmar>
+        <ButtonEndereco
+          onClick={() => navigate("/MeusEnderecos", { state: { user: user } })}
+        >
+          Endereços
+        </ButtonEndereco>
       </ContainerBotao>
     </form>
   );
