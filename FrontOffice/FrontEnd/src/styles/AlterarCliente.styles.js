@@ -8,8 +8,10 @@ export const MainAlterarCliente = styled.div`
   background-color: black;
 
   #container_alterarsenha {
-    background-color: white;
+    background-color: black;
+    border: 2px solid white;
     height: 20rem;
+    color: white;
     aspect-ratio: 1/1;
     justify-content: center;
     align-items: center;

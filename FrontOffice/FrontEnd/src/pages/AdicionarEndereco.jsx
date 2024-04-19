@@ -3,22 +3,16 @@ import { ButtonConfirmar } from "../styles/AlterarCliente.styles";
 import {
   CadastroEnderecoContainer,
   CadastroEnderecoPage,
+  InputField,
   MainCadastroEnderecoContainer,
-} from "../styles/CadastroEndereco.styles";
-import { InputField } from "../styles/Login.styles";
-import Logo from "../assets/Component5.png";
-import { ImageContainer } from "../styles/Login.styles";
+} from "../styles/AdicionarEndereco";
 
 function AdicionarEndereco() {
   return (
     <CadastroEnderecoPage>
       <MainCadastroEnderecoContainer>
-        <ImageContainer>
-          <img src={Logo} alt="Logo NRP" />
-        </ImageContainer>
         <CadastroEnderecoContainer>
           <h1>Cadastrar endereço</h1>
-
           <InputField>
             <label>CEP</label>
             <input
