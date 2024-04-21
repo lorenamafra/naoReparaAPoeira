@@ -388,8 +388,7 @@ app.put("/produto/alterar", (req, res) => {
   let principal = req.body.imagem_principal;
 
   connection.query(
-    `UPDATE produto SET estoque = '${estoque}', valor = '${valor}',avaliacao = '${avaliacao}', descricao = '${descricao}', imagem_principal ="${principal}"
-	  WHERE cod_produto = '${cod_produto}'`,
+    `UPDATE produto SET estoque = '${estoque}', valor = '${valor}',avaliacao = '${avaliacao}', descricao = '${descricao}', imagem_principal ="${principal}" WHERE cod_produto = '${cod_produto}'`,
     (err, result) => {
       if (err) {
         throw err;

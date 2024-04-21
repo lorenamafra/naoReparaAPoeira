@@ -85,7 +85,7 @@ function Cadastro() {
           }
         }
       }
-      // navigate("/Cadastro/CadastroEndereco", { state: { user: ObjectForm } });
+      navigate("/Cadastro/CadastroEndereco", { state: { user: ObjectForm } });
     }
   };
 

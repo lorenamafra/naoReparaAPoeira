@@ -70,14 +70,14 @@ app.post("/cliente/cadastrar", (req, res) => {
   const endereco_faturamento_complemento = req.body.complemento;
   const endereco_faturamento_logradouro = req.body.logradouro;
   const senha = req.body.senha;
-
+  console.log(req.body);
   console.log(req.body.data_nascimento);
   bcrypt.hash(senha, saltRounds, (err, hash) => {
     if (err) {
       res.send({ err: err });
     }
     connection.query(
-      `INSERT INTO cliente (cpf, email, nome_completo, data_nascimento, genero, endereco_faturamento_cep, endereco_faturamento_numero, endereco_faturamento_complemento, endereco_faturamento_logradouro senha) values ('${cpf}', '${email}', '${nome_completo}', '${data_nascimento}','${genero}', ${endereco_faturamento_cep}, '${endereco_faturamento_numero}', '${endereco_faturamento_complemento}', ${endereco_faturamento_logradouro}, '${hash}' )`,
+      `INSERT INTO cliente (cpf, email, nome_completo, data_nascimento, genero, endereco_faturamento_cep, endereco_faturamento_numero, endereco_faturamento_complemento, endereco_faturamento_logradouro, senha) values ('${cpf}', '${email}', '${nome_completo}', '${data_nascimento}','${genero}', '${endereco_faturamento_cep}', '${endereco_faturamento_numero}', '${endereco_faturamento_complemento}', '${endereco_faturamento_logradouro}', '${hash}' )`,
 
       (err, result) => {
         if (err) {

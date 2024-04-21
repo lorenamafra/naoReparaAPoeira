@@ -77,7 +77,7 @@ function CadastroEndereco() {
       axios
         .post("http://localhost:8081/cliente/cadastrar", ObjectForm)
         .then((resp) => {
-          console.log(resp);
+          console.log(resp.data);
           if (resp.status == 200) {
             navigate("/");
           }
