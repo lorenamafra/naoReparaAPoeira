@@ -3,12 +3,12 @@ import {
   ImageContainer,
   MainLoginContainer,
   LoginContainer,
-  ButtonLogar,
   LoginPage,
 } from "../styles/Login.styles";
 import Logo from "../assets/Component5.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { BotaoLogar } from "../styles/MainStyles.styles";
 
 const validation = () => {
   const fd = new FormData(event.target);
@@ -82,7 +82,7 @@ function Login() {
             <input type="password" name="senha" />
           </InputField>
 
-          <ButtonLogar>Logar</ButtonLogar>
+          <BotaoLogar>Logar</BotaoLogar>
 
           <span>
             <b>

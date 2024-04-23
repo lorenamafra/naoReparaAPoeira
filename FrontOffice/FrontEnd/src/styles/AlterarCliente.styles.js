@@ -47,41 +47,6 @@ export const ContainerBotao = styled.div`
   justify-content: center;
 `;
 
-export const ButtonConfirmar = styled.button`
-  margin-top: 5px;
-  transition: all ease-in-out 0.15s;
-  padding: 0.5rem 0.5rem;
-  color: black;
-  border: 1px solid #ccd7c5;
-  background-color: #ccd7c5;
-  font-size: 15px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: white;
-    color: black;
-    border: 0.1rem solid black;
-  }
-`;
-
-export const ButtonEndereco = styled.button`
-  margin-top: 5px;
-  transition: all ease-in-out 0.15s;
-  padding: 0.5rem 0.5rem;
-  color: black;
-  border: 1px solid #e8eef2;
-  background-color: #e8eef2;
-  font-size: 15px;
-
-  cursor: pointer;
-
-  &:hover {
-    background-color: white;
-    color: black;
-    border: 0.1rem solid black;
-  }
-`;
-
 export const ImgContainer = styled.div`
   display: flex;
   padding: 2rem;

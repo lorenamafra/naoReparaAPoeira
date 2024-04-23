@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  ButtonConfirmar,
-  ButtonEndereco,
-  ContainerBotao,
-  InputField,
-} from "../styles/AlterarCliente.styles";
+import { ContainerBotao, InputField } from "../styles/AlterarCliente.styles";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router";
+import { ButtonConfirmar, ButtonEndereco } from "../styles/MainStyles.styles";
 
 function FormularioAlterarCadastro() {
   let navigate = useNavigate();

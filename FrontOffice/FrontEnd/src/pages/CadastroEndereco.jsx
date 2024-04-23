@@ -2,7 +2,6 @@ import {
   MainCadastroEnderecoContainer,
   CadastroEnderecoPage,
   CadastroEnderecoContainer,
-  ButtonCadastrarEndereco,
   InputField,
   ImageContainer,
 } from "../styles/CadastroEndereco.styles";
@@ -10,6 +9,7 @@ import Logo from "../assets/Component5.png";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router";
 import { useState } from "react";
+import { ButtonCadastrarEndereco } from "../styles/MainStyles.styles";
 
 const validation = () => {
   const fd = new FormData(event.target);

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ButtonConfirmar } from "../styles/AlterarCliente.styles";
 import {
   CadastroEnderecoContainer,
   CadastroEnderecoPage,
@@ -8,6 +7,7 @@ import {
 } from "../styles/AdicionarEndereco";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router";
+import { ButtonConfirmar } from "../styles/MainStyles.styles";
 
 function AdicionarEndereco() {
   const navigate = useNavigate();

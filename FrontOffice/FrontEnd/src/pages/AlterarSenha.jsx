@@ -1,13 +1,11 @@
 import React from "react";
-import {
-  ButtonConfirmar,
-  MainAlterarCliente,
-} from "../styles/AlterarCliente.styles";
+import { MainAlterarCliente } from "../styles/AlterarCliente.styles";
 
 import Icon from "@mdi/react";
 import { mdiArrowLeftBoldCircle } from "@mdi/js";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router";
+import { ButtonConfirmar } from "../styles/MainStyles.styles";
 
 function AlterarSenha() {
   const user = useLocation().state.user;
