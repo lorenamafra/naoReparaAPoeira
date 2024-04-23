@@ -4,6 +4,7 @@ import {
   CadastroEnderecoContainer,
   InputField,
   ImageContainer,
+  ContainerBotao,
 } from "../styles/CadastroEndereco.styles";
 import Logo from "../assets/Component5.png";
 import axios from "axios";
@@ -160,8 +161,11 @@ function CadastroEndereco() {
             <label>UF</label>
             <input type="text" name="uf" value={address.uf} readOnly></input>
           </InputField>
-
-          <ButtonCadastrarEndereco>Finalizar Cadastro</ButtonCadastrarEndereco>
+          <ContainerBotao>
+            <ButtonCadastrarEndereco>
+              Finalizar Cadastro
+            </ButtonCadastrarEndereco>
+          </ContainerBotao>
         </CadastroEnderecoContainer>
       </MainCadastroEnderecoContainer>
     </CadastroEnderecoPage>

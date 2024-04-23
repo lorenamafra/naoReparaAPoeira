@@ -134,7 +134,7 @@ function MeusEnderecos() {
                   <BotaoPadrao
                     onClick={() => handlePadrao(endereco.id_endereco)}
                   >
-                    Tornar Padrão
+                    <b>Endereço Padrão</b>
                   </BotaoPadrao>
                   <BotaoPadrao onClick={() => handleFaturamento(endereco)}>
                     Tornar Faturamento

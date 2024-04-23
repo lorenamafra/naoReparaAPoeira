@@ -8,7 +8,7 @@ import {
 import Logo from "../assets/Component5.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BotaoLogar } from "../styles/MainStyles.styles";
+import { ButtonConfirmar } from "../styles/MainStyles.styles";
 
 const validation = () => {
   const fd = new FormData(event.target);
@@ -70,7 +70,7 @@ function Login() {
     <LoginPage>
       <MainLoginContainer>
         <LoginContainer onSubmit={handleSubmit}>
-          <h1>login</h1>
+          <h1>Login</h1>
 
           <InputField>
             <label>Email</label>
@@ -82,7 +82,7 @@ function Login() {
             <input type="password" name="senha" />
           </InputField>
 
-          <BotaoLogar>Logar</BotaoLogar>
+          <ButtonConfirmar>Logar</ButtonConfirmar>
 
           <span>
             <b>

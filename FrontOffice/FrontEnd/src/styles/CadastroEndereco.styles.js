@@ -31,8 +31,16 @@ export const CadastroEnderecoContainer = styled.div`
 export const ImageContainer = styled.div`
   display: grid;
   place-items: center;
+
   img {
     height: 50%;
     aspect-ratio: 1/1;
   }
+`;
+
+export const ContainerBotao = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.5rem;
 `;

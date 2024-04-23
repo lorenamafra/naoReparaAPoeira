@@ -1,17 +1,18 @@
 import styled from "styled-components";
 
 export const MainAlterarCliente = styled.div`
-  display: flex;
+  display: grid;
   justify-content: center;
-  height: 100vh;
+  height: 80vh;
   align-items: center;
-  background-color: black;
+  background-color: white;
 
   #container_alterarsenha {
-    background-color: black;
-    border: 2px solid white;
+    background-color: white;
+    border: 1px solid black;
+    box-shadow: 2px -1px 5px grey;
     height: 20rem;
-    color: white;
+    color: black;
     aspect-ratio: 1/1;
     justify-content: center;
     align-items: center;
@@ -25,36 +26,26 @@ export const MainAlterarCliente = styled.div`
 
 export const AlterarContainer = styled.div`
   display: flex;
-  border: 2px solid white;
+  border: 1px solid black;
+  box-shadow: 2px -1px 10px grey;
   padding: 2rem;
 `;
 
 export const ConteudoContainer = styled.div`
   display: grid;
-  padding: 2rem;
-  color: white;
+  color: black;
 `;
 
 export const InputField = styled.div`
   text-align: left;
   display: grid;
   margin-top: 10px;
+  padding: 0.5rem;
 `;
 
 export const ContainerBotao = styled.div`
   display: flex;
   gap: 1rem;
   justify-content: center;
-`;
-
-export const ImgContainer = styled.div`
-  display: flex;
-  padding: 2rem;
-  align-items: center;
-`;
-
-export const StyledImage = styled.img`
-  width: 300px;
-  height: 300px;
-  aspect-ratio: 1/1;
+  padding: 1rem;
 `;

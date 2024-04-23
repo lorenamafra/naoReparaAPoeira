@@ -5,7 +5,7 @@ function AlterarEnderecos() {
   return (
     <div>
       <MainAlterarEndereco>
-        <h1>Alterar Endereço</h1>
+        <h1>Cadastrar Endereço</h1>
         <AlterarContainer></AlterarContainer>
       </MainAlterarEndereco>
     </div>

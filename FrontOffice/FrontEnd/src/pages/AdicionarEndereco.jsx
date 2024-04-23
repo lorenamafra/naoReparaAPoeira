@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   CadastroEnderecoContainer,
   CadastroEnderecoPage,
+  ContainerBotao,
   InputField,
   MainCadastroEnderecoContainer,
 } from "../styles/AdicionarEndereco";
@@ -96,7 +97,9 @@ function AdicionarEndereco() {
             <input type="text" name="uf" value={address.uf}></input>
           </InputField>
 
-          <ButtonConfirmar>Confirmar</ButtonConfirmar>
+          <ContainerBotao>
+            <ButtonConfirmar>Confirmar</ButtonConfirmar>
+          </ContainerBotao>
         </CadastroEnderecoContainer>
       </MainCadastroEnderecoContainer>
     </CadastroEnderecoPage>

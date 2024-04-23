@@ -26,3 +26,10 @@ export const CadastroEnderecoContainer = styled.div`
   place-items: center;
   color: black;
 `;
+
+export const ContainerBotao = styled.div`
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+`;

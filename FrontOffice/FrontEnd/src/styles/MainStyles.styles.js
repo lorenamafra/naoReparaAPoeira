@@ -107,21 +107,21 @@ export const BotaoInativar = styled.button`
 export const BotaoPadrao = styled.button`
   display: flex;
   align-items: center;
-  gap: 2px;
-  margin-top: 20px;
+  gap: 0.1rem;
   transition: all ease-in-out 0.15s;
-  padding: 0.5rem 0.5rem;
-  color: black;
-  border: 1px solid #e8eef2;
-  background-color: #e8eef2;
+  padding: 0.5rem;
+  color: #4a4a4d;
+  border: 1px solid #c6c6c7;
+  border-radius: 5px;
+  background-color: #c6c6c7;
   font-size: 15px;
+  height: fit-content;
   cursor: pointer;
-  width: fit-content;
 
   &:hover {
     background-color: white;
-    color: black;
-    outline: 0.1rem solid black;
+    color: #4a4a4d;
+    outline: 1px solid black;
   }
 `;
 
@@ -185,7 +185,7 @@ export const ButtonConfirmar = styled.button`
   gap: 0.1rem;
   transition: all ease-in-out 0.15s;
   padding: 0.5rem;
-  color: black;
+  color: #06592d;
   border: 1px solid #ccd7c5;
   border-radius: 5px;
   background-color: #ccd7c5;
@@ -195,25 +195,7 @@ export const ButtonConfirmar = styled.button`
 
   &:hover {
     background-color: white;
-    color: black;
+    color: #06592d;
     outline: 1px solid black;
-  }
-`;
-
-export const ButtonEndereco = styled.button`
-  margin-top: 5px;
-  transition: all ease-in-out 0.15s;
-  padding: 0.5rem 0.5rem;
-  color: black;
-  border: 1px solid #e8eef2;
-  background-color: #e8eef2;
-  font-size: 15px;
-
-  cursor: pointer;
-
-  &:hover {
-    background-color: white;
-    color: black;
-    border: 0.1rem solid black;
   }
 `;

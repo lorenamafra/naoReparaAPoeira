@@ -6,7 +6,9 @@ export const MainMeusEnderecos = styled.div`
   height: 80vh;
 `;
 
-export const Title = styled.h1``;
+export const Title = styled.h1`
+  padding: 0px;
+`;
 
 export const Subtitle = styled.h3`
   text-align: left;
@@ -27,7 +29,7 @@ export const ContainerEntrega = styled.div`
 `;
 
 export const ContainerFaturamento = styled.div`
-  border: 2px solid black;
+  border: 1px solid black;
   box-shadow: 2px -1px 10px grey;
   padding: 1rem 0;
 `;
@@ -40,11 +42,11 @@ export const ContainerDescricao = styled.div`
 export const ContainerBotaoAdd = styled.div`
   display: flex;
   justify-content: center;
-  gap: 1rem;
 `;
 
 export const ContainerBotao = styled.div`
   display: flex;
-  justify-content: left;
+  justify-content: center;
   gap: 1rem;
+  padding: 0.5rem;
 `;
