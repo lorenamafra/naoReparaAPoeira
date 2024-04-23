@@ -20,12 +20,14 @@ export const ContainerEnderecos = styled.div`
 `;
 
 export const ContainerEntrega = styled.div`
-  border: 2px solid black;
+  border: 1px solid black;
+  box-shadow: 2px -1px 5px grey;
   padding: 1rem 0;
 `;
 
 export const ContainerFaturamento = styled.div`
   border: 2px solid black;
+  box-shadow: 2px -1px 10px grey;
   padding: 1rem 0;
 `;
 
@@ -52,10 +54,10 @@ export const BotaoAdicionar = styled.button`
   gap: 2px;
   margin-top: 20px;
   margin-bottom: 20px;
+  border-radius: 5px;
   transition: all ease-in-out 0.15s;
   padding: 0.5rem 0.5rem;
   color: black;
-  border: 1px solid #ccd7c5;
   background-color: #ccd7c5;
   font-size: 15px;
   cursor: pointer;
@@ -64,7 +66,7 @@ export const BotaoAdicionar = styled.button`
   &:hover {
     background-color: white;
     color: black;
-    outline: 0.1rem solid black;
+    outline: 0.1rem solid white;
   }
 `;
 

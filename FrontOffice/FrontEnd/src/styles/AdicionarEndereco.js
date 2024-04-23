@@ -16,7 +16,8 @@ export const InputField = styled.div`
 `;
 
 export const MainCadastroEnderecoContainer = styled.form`
-  border: 2px solid black;
+  border: 1px solid black;
+  box-shadow: 2px -1px 5px grey;
   padding: 2rem;
 `;
 
