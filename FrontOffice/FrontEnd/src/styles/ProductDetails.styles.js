@@ -56,6 +56,7 @@ export const DetailedImage = styled.img`
 `;
 
 export const ProductInfoContainer = styled.div`
+	text-align: left;
 	h1,
 	h2,
 	h3 {

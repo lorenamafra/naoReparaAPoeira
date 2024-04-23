@@ -10,20 +10,28 @@ import AlterarCliente from "./pages/AlterarCliente";
 import MeusEnderecos from "./pages/MeusEnderecos";
 import AlterarSenha from "./pages/AlterarSenha";
 import AdicionarEndereco from "./pages/AdicionarEndereco";
+import MainPage from "./pages/MainPage";
+
 const router = createBrowserRouter([
-  { path: "/Login", Component: Login },
-  { path: "/Cadastro", Component: Cadastro },
-  { path: "/Cadastro/CadastroEndereco", Component: CadastroEndereco },
-  { path: "/", Component: LandingPage },
-  { path: "/Produto/:cod_produto", Component: Produto },
-  { path: "/AlterarCliente", Component: AlterarCliente },
-  { path: "/MeusEnderecos", Component: MeusEnderecos },
-  { path: "/AlterarCliente/AlterarSenha", Component: AlterarSenha },
-  { path: "/AdicionarEndereco", Component: AdicionarEndereco },
+	{ path: "/Login", Component: Login },
+	{ path: "/Cadastro", Component: Cadastro },
+	{ path: "/Cadastro/CadastroEndereco", Component: CadastroEndereco },
+	{
+		path: "/",
+		Component: MainPage,
+		children: [
+			{ path: "/", Component: LandingPage },
+			{ path: "Produto/:cod_produto", Component: Produto },
+			{ path: "/AlterarCliente", Component: AlterarCliente },
+			{ path: "/MeusEnderecos", Component: MeusEnderecos },
+			{ path: "/AlterarCliente/AlterarSenha", Component: AlterarSenha },
+			{ path: "/AdicionarEndereco", Component: AdicionarEndereco },
+		],
+	},
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+	return <RouterProvider router={router} />;
 }
 
 export default App;
