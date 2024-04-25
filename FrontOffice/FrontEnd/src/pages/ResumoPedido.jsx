@@ -3,6 +3,7 @@ import {
   ContainerLeft,
   ContainerPedido,
   ContainerPrincipal,
+  ContainerRight,
   DescricaoProduto,
   MainResumoPedido,
   PrecoProduto,
@@ -18,6 +19,13 @@ function ResumoPedido() {
             <DescricaoProduto>Nome do Disco</DescricaoProduto>
             <PrecoProduto>R$ 199.90</PrecoProduto>
           </ContainerLeft>
+          <ContainerRight>
+            Pagamento via: PIX
+            <br />
+            Frete: Nuvem Voadora
+            <br />
+            **1 dia útil: 90.90
+          </ContainerRight>
         </ContainerPedido>
       </ContainerPrincipal>
     </MainResumoPedido>
