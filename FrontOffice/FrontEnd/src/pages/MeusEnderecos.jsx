@@ -3,9 +3,6 @@ import { mdiPlusCircleOutline } from "@mdi/js";
 import { mdiAlertCircleOutline } from "@mdi/js";
 import React, { useEffect, useState } from "react";
 import {
-  BotaoAdicionar,
-  BotaoInativar,
-  BotaoPadrao,
   ContainerBotao,
   ContainerBotaoAdd,
   ContainerDescricao,
@@ -17,6 +14,12 @@ import {
 } from "../styles/MeusEnderecos";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router";
+import {
+  BotaoInativar,
+  BotaoPadrao,
+  ButtonConfirmar,
+} from "../styles/MainStyles.styles";
+
 function MeusEnderecos() {
   const prevUser = useLocation().state.user;
   const [user, setUser] = useState({});
@@ -91,13 +94,13 @@ function MeusEnderecos() {
     <MainMeusEnderecos>
       <Title>Meus Endereços</Title>
       <ContainerBotaoAdd>
-        <BotaoAdicionar
+        <ButtonConfirmar
           onClick={() =>
             navigate("/AdicionarEndereco", { state: { user: user } })
           }
         >
           <b>Add</b> <Icon path={mdiPlusCircleOutline} size={1} />
-        </BotaoAdicionar>
+        </ButtonConfirmar>
       </ContainerBotaoAdd>
 
       <div>
@@ -131,7 +134,7 @@ function MeusEnderecos() {
                   <BotaoPadrao
                     onClick={() => handlePadrao(endereco.id_endereco)}
                   >
-                    Tornar Padrão
+                    <b>Endereço Padrão</b>
                   </BotaoPadrao>
                   <BotaoPadrao onClick={() => handleFaturamento(endereco)}>
                     Tornar Faturamento

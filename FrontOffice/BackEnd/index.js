@@ -131,6 +131,44 @@ app.post("/check/email", (req, res) => {
 	);
 });
 
+app.post("/check/cpf", (req, res) => {
+  console.log(req.body.cpf);
+  var mensagens = [];
+  connection.query(
+    `SELECT * FROM CLIENTE WHERE CPF = ${req.body.cpf}`,
+    (err, rows) => {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      }
+      if (rows.length > 0) {
+        res.send(true);
+      } else {
+        res.send(false);
+      }
+    }
+  );
+  console.log(mensagens);
+});
+
+app.post("/check/email", (req, res) => {
+  connection.query(
+    `SELECT * FROM CLIENTE WHERE email = "${req.body.email}"`,
+    (err, rows) => {
+      console.log(rows);
+      if (err) {
+        console.log(err);
+        res.send(err);
+      }
+      if (rows.length > 0) {
+        res.send(true);
+      } else {
+        res.send(false);
+      }
+    }
+  );
+});
+
 app.get("/clientes", (req, res) => {
 	connection.query(`SELECT * FROM CLIENTE`, (err, rows) => {
 		if (err) throw err;

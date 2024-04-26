@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { ButtonConfirmar } from "../styles/AlterarCliente.styles";
 import {
   CadastroEnderecoContainer,
   CadastroEnderecoPage,
+  ContainerBotao,
   InputField,
   MainCadastroEnderecoContainer,
 } from "../styles/AdicionarEndereco";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router";
+import { ButtonConfirmar } from "../styles/MainStyles.styles";
 
 function AdicionarEndereco() {
   const navigate = useNavigate();
@@ -96,7 +97,9 @@ function AdicionarEndereco() {
             <input type="text" name="uf" value={address.uf}></input>
           </InputField>
 
-          <ButtonConfirmar>Confirmar</ButtonConfirmar>
+          <ContainerBotao>
+            <ButtonConfirmar>Confirmar</ButtonConfirmar>
+          </ContainerBotao>
         </CadastroEnderecoContainer>
       </MainCadastroEnderecoContainer>
     </CadastroEnderecoPage>

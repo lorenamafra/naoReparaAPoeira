@@ -4,6 +4,10 @@ export const MainContainer = styled.div`
 	display: grid;
 	place-items: center;
 	padding: 1rem;
+
+	#h2 {
+		padding: 0;
+	}
 `;
 
 export const InnerContainer = styled.div`
