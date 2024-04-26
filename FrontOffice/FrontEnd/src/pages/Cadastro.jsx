@@ -1,154 +1,181 @@
 import {
-  InputField,
-  ImageContainer,
-  MainCadastroContainer,
-  CadastroContainer,
-  CadastroPage,
-  ButtonLinkCE,
+	InputField,
+	ImageContainer,
+	MainCadastroContainer,
+	CadastroContainer,
+	CadastroPage,
+	ButtonLinkCE,
 } from "../styles/Cadastro.styles";
 import Logo from "../assets/Component5.png";
 import { Link } from "react-router-dom";
 import ValidaCPF from "../testes/ValidaCPF";
 import { useNavigate } from "react-router-dom";
+import { Toaster, toast } from "sonner";
+import CampoVazio from "../testes/CampoVazio";
 import axios from "axios";
+const infoStyles = {
+	backgroundColor: "white",
+	color: "red",
+};
 
 const validation = () => {
-  const fd = new FormData(event.target);
+	const fd = new FormData(event.target);
 
-  let isValid = true;
+	let isValid = true;
 
-  let email = fd.get("email");
-  let nome = fd.get("nome");
-  let cpf = fd.get("cpf");
-  let genero = fd.get("genero");
-  let senha = fd.get("senha");
-  let confirmaSenha = fd.get("confirmarSenha");
+	let email = fd.get("email");
+	let nome = fd.get("nome");
+	let cpf = fd.get("cpf");
+	let genero = fd.get("genero");
+	let senha = fd.get("senha");
+	let confirmaSenha = fd.get("confirmarSenha");
+	let data_nascimento = fd.get("data_nascimento");
+	if (cpf.toString().length > 11) {
+		toast.warning("CPF tem mais de 11 digitos", { style: infoStyles });
+	}
+	const confirmarSenha = (senha, senha2) => {
+		if (senha != senha2) {
+			toast.warning(`Senha não está igual`, { style: infoStyles });
+			return false;
+		}
+	};
 
-  const campoVazio = (campo, campoNome) => {
-    if (!campo || campo == "" || campo == " ") {
-      alert(`${campoNome} está vazio!`);
+	if (isValid == true) isValid = CampoVazio(email, "Email");
+	if (isValid == true) isValid = CampoVazio(nome, "Nome");
+	if (isValid == true)
+		isValid = CampoVazio(data_nascimento, "Data de Nascimento");
+	if (isValid == true) isValid = CampoVazio(cpf, "CPF");
+	if (isValid == true) isValid = CampoVazio(genero, "Genero");
+	if (isValid == true) isValid = CampoVazio(senha, "Senha");
+	if (isValid == true) isValid = CampoVazio(confirmaSenha, "Senha Confirmada");
 
-      return false;
-    }
-    return true;
-  };
+	confirmarSenha(senha, confirmaSenha);
 
-  const confirmarSenha = (senha, senha2) => {
-    if (senha != senha2) {
-      alert(`Senha não está igual`);
-      return false;
-    }
-  };
+	if (!ValidaCPF(cpf)) {
+		isValid = false;
+		toast.warning("CPF inválido!", { style: infoStyles });
+	}
 
-  isValid = campoVazio(email, "email");
-  isValid = campoVazio(nome, "nome");
-  isValid = campoVazio(cpf, "cpf");
-  isValid = campoVazio(genero, "genero");
-  isValid = campoVazio(senha, "senha");
-  isValid = campoVazio(confirmaSenha, "confirmarSenha");
+	const myArray = nome.trim().split(" ");
 
-  confirmarSenha(senha, confirmaSenha);
-  if (!ValidaCPF(cpf)) {
-    isValid = false;
-    alert("CPF falso");
-  }
-  return isValid;
+	if (myArray.length <= 1) {
+		toast.warning("Insira o nome completo");
+		isValid = false;
+	} else {
+		for (let i = 0; i < myArray.length; i++) {
+			if (myArray[i].length < 3) {
+				toast.warning("Cada nome tem que ter pelo menos tres letras");
+				isValid = false;
+			}
+		}
+	}
+
+	return isValid;
 };
 
 function Cadastro() {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+	const handleSubmit = () => {
+		event.preventDefault();
+		const fd = new FormData(event.target);
+		const ObjectForm = Object.fromEntries(fd);
 
-    const fd = new FormData(event.target);
-    for (const value of fd.values()) {
-      console.log(value);
-    }
+		const checkExistence = async (valid) => {
+			await axios
+				.post("http://localhost:8081/check/cpf", ObjectForm)
+				.then((resp) => {
+					if (resp.data == true) {
+						toast.warning("CPF Já cadastrado", { style: infoStyles });
+						valid = false;
+					}
+				});
 
-    const ObjectForm = Object.fromEntries(fd);
+			await axios
+				.post("http://localhost:8081/check/email", ObjectForm)
+				.then((resp) => {
+					if (resp.data == true) {
+						toast.warning("Email Já cadastrado", { style: infoStyles });
+						valid = false;
+					}
+				});
 
-    console.log(ObjectForm);
-    const myArray = ObjectForm.nome.split(" ");
-    console.log(myArray.length);
-    if (validation()) {
-      if (myArray.length <= 1) {
-        window.alert("Insira o nome completo");
-        return;
-      } else {
-        for (let i = 0; i < myArray.length; i++) {
-          if (myArray[i].length <= 3) {
-            window.alert("Cada nome tem que ter pelo menos tres letras");
-            window.alert("Me desculpa se você for chines ou coreano");
-            window.alert("Liga pro SAC se você não for bot");
-            return;
-          }
-        }
-      }
-      navigate("/Cadastro/CadastroEndereco", { state: { user: ObjectForm } });
-    }
-  };
+			return valid;
+		};
+		let valid = true;
+		if (validation()) {
+			checkExistence(valid).then((r) => {
+				if (r == true) {
+					toast.info("da pra ir nengue");
+					navigate("/Cadastro/CadastroEndereco", {
+						state: { user: ObjectForm },
+					});
+				}
+			});
+		}
+	};
 
-  return (
-    <CadastroPage>
-      <MainCadastroContainer>
-        <CadastroContainer onSubmit={handleSubmit}>
-          <h1>Registre-se</h1>
+	return (
+		<CadastroPage>
+			<MainCadastroContainer>
+				<CadastroContainer onSubmit={handleSubmit}>
+					<h1>Registre-se</h1>
 
-          <InputField>
-            <label>Email</label>
-            <input type="email" name="email"></input>
-          </InputField>
+					<InputField>
+						<label>Email</label>
+						<input type="email" name="email"></input>
+					</InputField>
 
-          <InputField>
-            <label>Nome</label>
-            <input type="text" name="nome"></input>
-          </InputField>
+					<InputField>
+						<label>Nome</label>
+						<input type="text" name="nome"></input>
+					</InputField>
 
-          <InputField>
-            <label>CPF</label>
-            <input type="number" name="cpf"></input>
-          </InputField>
+					<InputField>
+						<label>CPF</label>
+						<input type="number" name="cpf"></input>
+					</InputField>
 
-          <InputField>
-            <input type="date" name="data_nascimento" />
-          </InputField>
-          <InputField>
-            <label>Gênero</label>
-            <select name="genero" defaultValue="Selecione o gênero">
-              <option value="Feminino">Feminino</option>
-              <option value="Masculino">Masculino</option>
-              <option value="Outros">Outros</option>
-            </select>
-          </InputField>
+					<InputField>
+						<input type="date" name="data_nascimento" />
+					</InputField>
+					<InputField>
+						<label>Gênero</label>
+						<select name="genero" defaultValue="Selecione o gênero">
+							<option value="Feminino">Feminino</option>
+							<option value="Masculino">Masculino</option>
+							<option value="Outros">Outros</option>
+						</select>
+					</InputField>
 
-          <InputField>
-            <label>Senha</label>
-            <input type="password" name="senha"></input>
-          </InputField>
+					<InputField>
+						<label>Senha</label>
+						<input type="password" name="senha"></input>
+					</InputField>
 
-          <InputField>
-            <label>Confirmar senha</label>
-            <input type="password" name="confirmarSenha"></input>
-          </InputField>
+					<InputField>
+						<label>Confirmar senha</label>
+						<input type="password" name="confirmarSenha"></input>
+					</InputField>
 
-          <ButtonLinkCE>Continuar</ButtonLinkCE>
+					<ButtonLinkCE>Continuar</ButtonLinkCE>
 
-          <span>
-            ou faça{" "}
-            <b>
-              <Link to="/Login">login</Link>
-            </b>{" "}
-            se ja tiver uma conta
-          </span>
-        </CadastroContainer>
+					<span>
+						ou faça{" "}
+						<b>
+							<Link to="/Login">login</Link>
+						</b>{" "}
+						se ja tiver uma conta
+					</span>
+				</CadastroContainer>
 
-        <ImageContainer>
-          <img src={Logo} alt="Logo NRP" />
-        </ImageContainer>
-      </MainCadastroContainer>
-    </CadastroPage>
-  );
+				<ImageContainer>
+					<img src={Logo} alt="Logo NRP" />
+				</ImageContainer>
+			</MainCadastroContainer>
+			<Toaster expand={true} visibleToasts={10} />
+		</CadastroPage>
+	);
 }
 
 export default Cadastro;

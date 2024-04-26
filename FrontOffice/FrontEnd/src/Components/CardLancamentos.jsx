@@ -14,7 +14,6 @@ import axios from "axios";
 
 function CardLancamentos(_props) {
 	let imagem;
-	console.log(_props.produto.cod_produto);
 	const [Picture, setPic] = useState();
 	useEffect(() => {
 		axios
@@ -24,15 +23,8 @@ function CardLancamentos(_props) {
 			.then((resp) => {
 				setTimeout(() => {
 					imagem = resp.data;
-					console.log(_props.produto);
-					console.log(`IAI @${_props.produto.cod_produto}`, resp.data[0]);
 
-					console.log(
-						`iteração do ${_props.produto.cod_produto}`,
-						imagem[_props.produto.imagem_principal]
-					);
 					imagem = imagem[_props.produto.imagem_principal].imagem;
-					console.log("IMAGEM:", imagem);
 					setPic(<Foto src={`/${imagem}`} alt="" />);
 				}, 50);
 			});

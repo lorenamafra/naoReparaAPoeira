@@ -1,10 +1,15 @@
 import DetalhesProduto from "../Components/DetalhesProduto";
 import FooterProduto from "../Components/FooterProduto";
-import Nav from "../Components/Nav";
 function Produto() {
 	return (
-		<div>
-			<Nav />
+		<div
+			style={{
+				height: "80vh",
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+			}}
+		>
 			<DetalhesProduto />
 			<FooterProduto />
 		</div>

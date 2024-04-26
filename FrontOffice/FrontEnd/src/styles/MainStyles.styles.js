@@ -6,6 +6,7 @@ export const NavContainer = styled.nav`
 	display: flex;
 	justify-content: space-between;
 	color: white;
+	padding-right: 1rem;
 
 	div {
 		display: flex;

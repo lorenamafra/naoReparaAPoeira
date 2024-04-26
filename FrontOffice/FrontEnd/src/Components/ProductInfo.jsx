@@ -21,6 +21,7 @@ function ProductInfo() {
 				setDisco(resp.data);
 			});
 	}, []);
+
 	return (
 		<ProductInfoContainer>
 			<h1>{disco.nome_disco}</h1>

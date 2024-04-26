@@ -13,7 +13,6 @@ import Loader from "./Loader.jsx";
 import axios from "axios";
 function Lancamentos() {
 	const [produtos, setProdutos] = useState([]);
-	let cards = [];
 	const [isLoading, setLoader] = useState(true);
 	const settings = {
 		infinite: true,
@@ -48,16 +47,12 @@ function Lancamentos() {
 				"http://localhost:8080/produtos/lancamentos"
 			);
 
-			console.log(data.data.produtos);
 			setProdutos(data.data.produtos);
 		};
 
-		getLancamentos().catch((err) => {
-			console.log(err);
-		});
+		getLancamentos().catch((err) => {});
 		setTimeout(() => {
 			setLoader(false);
-			console.log(produtos);
 		}, 500);
 	}, []);
 
