@@ -16,11 +16,19 @@ app.use(jsonParser);
 
 // setting up mysql connection with express
 var connection = mysql.createConnection({
+<<<<<<< Updated upstream
 	host: "127.0.0.1",
 	user: "root",
 	password: "80085",
 	database: "nrp",
 	port: "3306",
+=======
+  host: "127.0.0.1",
+  user: "root",
+  password: "TJrs4321@",
+  database: "nrp",
+  port: "3306",
+>>>>>>> Stashed changes
 });
 
 // Rota para Login
