@@ -10,7 +10,7 @@ import AlterarCliente from "./pages/AlterarCliente";
 import MeusEnderecos from "./pages/MeusEnderecos";
 import AlterarSenha from "./pages/AlterarSenha";
 import AdicionarEndereco from "./pages/AdicionarEndereco";
-import Carrinho from "./Components/Carrinho";
+import Carrinho from "./pages/Carrinho";
 
 import MainPage from "./pages/MainPage";
 import ResumoPedido from "./pages/ResumoPedido";

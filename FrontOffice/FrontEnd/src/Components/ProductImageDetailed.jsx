@@ -22,9 +22,7 @@ function ProductImageDetailed() {
 				.then((resp) => console.log(resp.data.imagem_principal));
 		};
 		getPrincipal();
-		getImages().then(() => {
-			Z;
-		});
+		getImages();
 	}, []);
 
 	const [icon, setIcon] = useState(0);

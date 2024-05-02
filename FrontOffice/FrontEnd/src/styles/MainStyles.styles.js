@@ -2,26 +2,124 @@ import styled from "styled-components";
 
 export const NavContainer = styled.nav`
 	background-color: black;
-	height: 5rem;
+	height: 6rem;
 	display: flex;
-	justify-content: space-between;
 	color: white;
 	padding-right: 1rem;
-
-	div {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin: 0 1rem;
-		gap: 4rem;
-
-		a {
-			cursor: pointer;
-		}
-	}
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
 	img {
 		cursor: pointer;
+		height: 150px;
 	}
+`;
+
+export const UnloggedDiv = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 1rem;
+	gap: 4rem;
+
+	a:hover {
+		cursor: pointer;
+	}
+`;
+export const LoggedDiv = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 5rem;
+	padding: 0 2rem;
+
+	p,
+	a {
+		cursor: pointer;
+	}
+`;
+
+export const DropdownDivContainer = styled.div`
+	display: none !important;
+	background-color: black;
+	z-index: 1;
+	position: absolute;
+	min-width: 150px;
+	margin-top: 1.45rem;
+
+	p {
+		float: left;
+		font-size: 16px;
+		color: white;
+		text-align: center;
+		padding: 14px 16px;
+		text-decoration: none;
+	}
+
+	ul {
+		all: unset;
+	}
+	p:hover {
+		background-color: white;
+		color: black;
+	}
+	&:hover {
+		display: block !important;
+
+		cursor: pointer;
+	}
+`;
+
+export const CarrinhoDropdown = styled.div`
+	display: none !important;
+	background-color: black;
+	z-index: 1;
+	position: absolute;
+	margin-right: 100rem;
+	p {
+		float: left;
+		font-size: 16px;
+		color: white;
+		text-align: center;
+		padding: 14px 16px;
+		text-decoration: none;
+	}
+
+	ul {
+		all: unset;
+	}
+	p:hover {
+		background-color: white;
+		color: black;
+	}
+	&:hover {
+		display: block !important;
+
+		cursor: pointer;
+	}
+`;
+
+export const DropdownDiv = styled.div`
+	float: left;
+	overflow: hidden;
+	padding: 5rem 0;
+	button {
+		font-size: 16px;
+		border: none;
+		outline: none;
+		color: white;
+		padding: 14px 16px;
+		background-color: inherit;
+		cursor: pointer;
+
+		font-family: inherit; /* Important for vertical align on mobile phones */
+		margin: 0; /* Important for vertical align on mobile phones */
+	}
+
+	&:hover div {
+		display: block !important;
+	}
+	cursor: pointer;
 `;
 
 export const LoaderStyles = styled.img`
@@ -111,19 +209,25 @@ export const BotaoPadrao = styled.button`
 	gap: 0.1rem;
 	transition: all ease-in-out 0.15s;
 	padding: 0.5rem;
-	color: #4a4a4d;
+	color: ${(props) => (props.theme == "black" ? "white" : "#4a4a4d")};
 	border: 1px solid #c6c6c7;
 	border-radius: 5px;
-	background-color: #c6c6c7;
+	background-color: ${(props) => (props.theme ? props.theme : "#c6c6c7")};
 	font-size: 15px;
 	height: fit-content;
 	cursor: pointer;
 
 	&:hover {
 		background-color: white;
-		color: #4a4a4d;
+		color: ${(props) => (props.theme ? props.theme : "#c6c6c7")};
 		outline: 1px solid black;
 	}
+`;
+
+export const BotaoContinuar = styled(BotaoPadrao)`
+	font-size: 26px;
+	text-align: center;
+	padding: 1rem 5rem;
 `;
 
 export const BotaoLogar = styled.button`
@@ -200,3 +304,5 @@ export const ButtonConfirmar = styled.button`
 		outline: 1px solid black;
 	}
 `;
+
+export const mainPage = styled.main``;

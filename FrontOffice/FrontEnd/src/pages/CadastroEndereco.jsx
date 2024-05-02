@@ -2,7 +2,6 @@ import {
 	MainCadastroEnderecoContainer,
 	CadastroEnderecoPage,
 	CadastroEnderecoContainer,
-	ButtonCadastrarEndereco,
 	InputField,
 	ImageContainer,
 } from "../styles/CadastroEndereco.styles";

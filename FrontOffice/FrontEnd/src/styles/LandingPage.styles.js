@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 export const TituloLancamentos = styled.h1`
-	margin: 0;
-	font-size: 48px;
+	margin: 1rem;
 `;
 
 export const MainLandingPageContainer = styled.main`
 	width: 100%;
+	height: 100%;
+	padding: 0;
 `;
 
 export const TituloMaisVendidos = styled.h1`
@@ -15,12 +16,11 @@ export const TituloMaisVendidos = styled.h1`
 `;
 
 export const MainContainer = styled.div`
-	height: 80vh;
 	background-color: ${(props) => (props.Dark ? "black" : "white")};
 	display: flex;
 	flex-direction: column;
-	gap: 10rem;
-	padding: 4rem;
+	padding: 2rem;
+	height: 80vh;
 `;
 
 export const Container_Card_MainLancamentos = styled.div`
@@ -74,7 +74,7 @@ export const DescricaoLancamentos = styled.div`
 
 export const CardLancamentosContainer = styled.div`
 	border: 5px solid black;
-	width: 20rem;
+	width: 15rem;
 `;
 
 export const DescricaoMaisVendidos = styled.div`
