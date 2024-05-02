@@ -7,6 +7,7 @@ function LandingPage() {
 	return (
 		<MainLandingPageContainer>
 			<Lancamentos />
+			<Footer />
 		</MainLandingPageContainer>
 	);
 }

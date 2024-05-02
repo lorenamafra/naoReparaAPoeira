@@ -50,7 +50,7 @@ function Lancamentos() {
 			setProdutos(data.data.produtos);
 		};
 
-		getLancamentos().catch((err) => {});
+		getLancamentos().catch(() => {});
 		setTimeout(() => {
 			setLoader(false);
 		}, 500);

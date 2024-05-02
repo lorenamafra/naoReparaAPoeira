@@ -7,12 +7,13 @@ import {
 	Foto,
 	Imagem_ContainerLancamentos,
 } from "../styles/LandingPage.styles";
-import Component5 from "../assets/Component5.png";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { addToContextCart } from "../Context/CartFunctions";
 
 function CardLancamentos(_props) {
+	const context = useOutletContext();
 	let imagem;
 	const [Picture, setPic] = useState();
 	useEffect(() => {
@@ -51,7 +52,14 @@ function CardLancamentos(_props) {
 						Ver detalhes
 					</Link>
 				</BotaoCarrinho>
-				<BotaoCarrinho theme={"Light"}>
+				<BotaoCarrinho
+					theme={"Light"}
+					// onClick={() =>
+					onClick={() => {
+						disco.imagem = Picture.props.src;
+						addToContextCart(disco, context);
+					}}
+				>
 					<Icon path={mdiCartOutline} size={1.5} />
 				</BotaoCarrinho>
 			</span>
