@@ -21,12 +21,12 @@ export const OpPagamentoContainer = styled.div`
   flex-direction: row;
   justify-content: space-around;
   height: 100px;
-  width: 400px;
+  width: 500px;
   align-items: center;
 `;
 
 export const OpPagamentoButton = styled.button`
-  font-size: 18px;
+  font-size: 23px;
   font-weight: 400;
   background-color: white;
   color: black;
@@ -43,6 +43,7 @@ export const OpPagamentoButton = styled.button`
 `;
 
 export const DadosCartaoContainer = styled.div`
+  font-size: 25px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -51,10 +52,20 @@ export const DadosCartaoContainer = styled.div`
   align-items: center;
   border: 1px solid black;
 
-  div {
-    display: flex;
-    flex-direction: column;
+  input {
+    width: 400px;
+    height: 30px;
   }
 `;
 
-export const ButtonContinuar = styled.button``;
+export const ButtonContinuar = styled.button`
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px 150px;
+  font-size: 25px;
+
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+`;

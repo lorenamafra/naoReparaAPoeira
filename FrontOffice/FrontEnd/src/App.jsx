@@ -13,43 +13,7 @@ import AdicionarEndereco from "./pages/AdicionarEndereco";
 import Carrinho from "./Components/Carrinho";
 
 import MainPage from "./pages/MainPage";
-<<<<<<< Updated upstream
 import ResumoPedido from "./pages/ResumoPedido";
-
-const router = createBrowserRouter([
-	{ path: "/Login", Component: Login },
-	{ path: "/Cadastro", Component: Cadastro },
-	{ path: "/Cadastro/CadastroEndereco", Component: CadastroEndereco },
-	{
-		path: "/",
-		Component: MainPage,
-		children: [
-			{ path: "/", Component: LandingPage },
-			{ path: "Produto/:cod_produto", Component: Produto },
-			{ path: "/AlterarCliente", Component: AlterarCliente },
-			{ path: "/MeusEnderecos", Component: MeusEnderecos },
-			{ path: "/AlterarCliente/AlterarSenha", Component: AlterarSenha },
-			{ path: "/AdicionarEndereco", Component: AdicionarEndereco },
-			{ path: "/Carrinho", Component: Carrinho },
-		],
-	},
-	{ path: "/Login", Component: Login },
-	{ path: "/Cadastro", Component: Cadastro },
-	{ path: "/Cadastro/CadastroEndereco", Component: CadastroEndereco },
-	{
-		path: "/",
-		Component: MainPage,
-		children: [
-			{ path: "/", Component: LandingPage },
-			{ path: "Produto/:cod_produto", Component: Produto },
-			{ path: "/AlterarCliente", Component: AlterarCliente },
-			{ path: "/MeusEnderecos", Component: MeusEnderecos },
-			{ path: "/AlterarCliente/AlterarSenha", Component: AlterarSenha },
-			{ path: "/AdicionarEndereco", Component: AdicionarEndereco },
-		],
-	},
-	{ path: "/ResumoPedido", Component: ResumoPedido },
-=======
 import Frete from "./pages/Frete";
 import Pagamento from "./pages/Pagamento";
 
@@ -69,9 +33,25 @@ const router = createBrowserRouter([
       { path: "/MeusEnderecos", Component: MeusEnderecos },
       { path: "/AlterarCliente/AlterarSenha", Component: AlterarSenha },
       { path: "/AdicionarEndereco", Component: AdicionarEndereco },
+      { path: "/Carrinho", Component: Carrinho },
     ],
   },
->>>>>>> Stashed changes
+  { path: "/Login", Component: Login },
+  { path: "/Cadastro", Component: Cadastro },
+  { path: "/Cadastro/CadastroEndereco", Component: CadastroEndereco },
+  {
+    path: "/",
+    Component: MainPage,
+    children: [
+      { path: "/", Component: LandingPage },
+      { path: "Produto/:cod_produto", Component: Produto },
+      { path: "/AlterarCliente", Component: AlterarCliente },
+      { path: "/MeusEnderecos", Component: MeusEnderecos },
+      { path: "/AlterarCliente/AlterarSenha", Component: AlterarSenha },
+      { path: "/AdicionarEndereco", Component: AdicionarEndereco },
+    ],
+  },
+  { path: "/ResumoPedido", Component: ResumoPedido },
 ]);
 
 function App() {

@@ -24,12 +24,9 @@ function CalculoFrete() {
         <OpcoesFreteContainer>
           <OpFretediv onClick={() => {}}>
             <div>
-              <input type="radio" name="Frete" value="Frete Comum" /> Frete
-              Comum
+              <input type="radio" name="Frete" value="Frete Comum" />
+              <span> Frete Comum</span>
               <br />
-            </div>
-
-            <div>
               <label> 5 dias úteis</label>
             </div>
 
@@ -39,12 +36,10 @@ function CalculoFrete() {
           </OpFretediv>
 
           <OpFretediv>
-            u
             <div>
-              <input type="radio" name="Frete" value="" /> Frete Plus
+              <input type="radio" name="Frete" value="" />{" "}
+              <span> Frete Plus</span>
               <br />
-            </div>
-            <div>
               <label> 3 dias úteis</label>
             </div>
             <div>
@@ -54,12 +49,9 @@ function CalculoFrete() {
 
           <OpFretediv>
             <div>
-              <input type="radio" name="Frete" value="frete premium" /> Frete
-              Premium
+              <input type="radio" name="Frete" value="frete premium" />{" "}
+              <span>Frete Premium</span>
               <br />
-            </div>
-
-            <div>
               <label> 1 dia útil</label>
             </div>
 
@@ -70,9 +62,11 @@ function CalculoFrete() {
         </OpcoesFreteContainer>
 
         <ResumoFreteContainer>
-          <label>Produtos: valorTotalProdutos</label>
-          <label>Frete: valorTotalFrete</label>
-          <label>Subtotal: valorTotalFinal</label>
+          <div>
+            <label>Produtos: valorTotalProdutos</label>
+            <label>Frete: valorTotalFrete</label>
+            <label>Subtotal: valorTotalFinal</label>
+          </div>
 
           <ButtonContinuar>Continuar</ButtonContinuar>
         </ResumoFreteContainer>

@@ -18,22 +18,17 @@ function FormaPagamento() {
       </OpPagamentoContainer>
 
       <DadosCartaoContainer>
-        <div>
-          <label>Número do Cartão</label>
-          <input type="number" name="NumeroCartao" value=""></input>
-        </div>
-        <div>
-          <label>Nome do Titular</label>
-          <input type="text" name="NomeTitular" value=""></input>
-        </div>
-        <div>
-          <label>CVV</label>
-          <input type="number" name="CVV" value=""></input>
-        </div>
-        <div>
-          <label>Validade</label>
-          <input type="number" name="Validade" value=""></input>
-        </div>
+        <label>Número do Cartão</label>
+        <input type="number" name="NumeroCartao" value=""></input>
+
+        <label>Nome do Titular</label>
+        <input type="text" name="NomeTitular" value=""></input>
+
+        <label>CVV</label>
+        <input type="number" name="CVV" value=""></input>
+
+        <label>Validade</label>
+        <input type="number" name="Validade" value=""></input>
 
         <ButtonContinuar> Continuar</ButtonContinuar>
       </DadosCartaoContainer>
