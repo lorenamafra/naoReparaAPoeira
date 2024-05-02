@@ -13,6 +13,7 @@ import AdicionarEndereco from "./pages/AdicionarEndereco";
 import Carrinho from "./pages/Carrinho";
 
 import MainPage from "./pages/MainPage";
+<<<<<<< Updated upstream
 import ResumoPedido from "./pages/ResumoPedido";
 
 const router = createBrowserRouter([
@@ -48,10 +49,33 @@ const router = createBrowserRouter([
 		],
 	},
 	{ path: "/ResumoPedido", Component: ResumoPedido },
+=======
+import Frete from "./pages/Frete";
+import Pagamento from "./pages/Pagamento";
+
+const router = createBrowserRouter([
+  { path: "/Login", Component: Login },
+  { path: "/Cadastro", Component: Cadastro },
+  { path: "/Frete", Component: Frete },
+  { path: "/Pagamento", Component: Pagamento },
+  { path: "/Cadastro/CadastroEndereco", Component: CadastroEndereco },
+  {
+    path: "/",
+    Component: MainPage,
+    children: [
+      { path: "/", Component: LandingPage },
+      { path: "Produto/:cod_produto", Component: Produto },
+      { path: "/AlterarCliente", Component: AlterarCliente },
+      { path: "/MeusEnderecos", Component: MeusEnderecos },
+      { path: "/AlterarCliente/AlterarSenha", Component: AlterarSenha },
+      { path: "/AdicionarEndereco", Component: AdicionarEndereco },
+    ],
+  },
+>>>>>>> Stashed changes
 ]);
 
 function App() {
-	return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />;
 }
 
 export default App;
