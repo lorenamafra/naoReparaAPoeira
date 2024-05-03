@@ -63,6 +63,8 @@ export const ButtonContinuar = styled.button`
   border: 1px solid black;
   padding: 5px 150px;
   font-size: 25px;
+  margin-bottom: 20px;
+  margin-top: 10px;
 
   &:hover {
     background-color: black;

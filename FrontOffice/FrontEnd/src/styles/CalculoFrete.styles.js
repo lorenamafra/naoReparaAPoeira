@@ -75,10 +75,14 @@ export const ResumoFreteContainer = styled.div`
   box-shadow: 7px 7px 3px #c0c0c0;
 
   div {
+    margin-top: 10px;
     display: flex;
-    font-size: 0px;
-
-    justify-content: left;
+    font-size: 20px;
+    height: 400px;
+    width: 400px;
+    flex-direction: column;
+    align-items: space-b;
+    margin-top: 20px;
   }
 `;
 
@@ -94,6 +98,7 @@ export const ButtonContinuar = styled.button`
   border: 1px solid black;
   padding: 5px 150px;
   font-size: 25px;
+  margin-bottom: 25px;
 
   &:hover {
     background-color: black;

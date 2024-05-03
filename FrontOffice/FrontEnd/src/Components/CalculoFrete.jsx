@@ -63,9 +63,15 @@ function CalculoFrete() {
 
         <ResumoFreteContainer>
           <div>
-            <label>Produtos: valorTotalProdutos</label>
-            <label>Frete: valorTotalFrete</label>
-            <label>Subtotal: valorTotalFinal</label>
+            <div>
+              <label>Produtos: valorTotalProdutos</label>
+            </div>
+            <div>
+              <label>Frete: valorTotalFrete</label>
+            </div>
+            <div>
+              <label>Subtotal: valorTotalFinal</label>
+            </div>
           </div>
 
           <ButtonContinuar>Continuar</ButtonContinuar>
