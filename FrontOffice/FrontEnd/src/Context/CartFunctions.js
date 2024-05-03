@@ -3,19 +3,6 @@ const infoStyles = {
 	backgroundColor: "white",
 	color: "red",
 };
-// export const loadCart = () => {
-// 	let cart = [];
-
-// 	if (localStorage.getItem("cart")) {
-// 		cart = JSON.parse(localStorage.getItem("cart"));
-// 		return cart;
-// 	} else {
-// 		console.log("nn tinha");
-// 		localStorage.setItem("cart", JSON.stringify(cart));
-// 		console.log(JSON.parse(localStorage.getItem("cart")));
-// 		return cart;
-// 	}
-// };
 
 export function EraseAll() {
 	localStorage.removeItem("cart");
