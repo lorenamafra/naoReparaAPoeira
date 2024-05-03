@@ -16,19 +16,11 @@ app.use(jsonParser);
 
 // setting up mysql connection with express
 var connection = mysql.createConnection({
-<<<<<<< Updated upstream
 	host: "127.0.0.1",
 	user: "root",
 	password: "80085",
 	database: "nrp",
 	port: "3306",
-=======
-  host: "127.0.0.1",
-  user: "root",
-  password: "TJrs4321@",
-  database: "nrp",
-  port: "3306",
->>>>>>> Stashed changes
 });
 
 // Rota para Login
@@ -140,41 +132,41 @@ app.post("/check/email", (req, res) => {
 });
 
 app.post("/check/cpf", (req, res) => {
-  console.log(req.body.cpf);
-  var mensagens = [];
-  connection.query(
-    `SELECT * FROM CLIENTE WHERE CPF = ${req.body.cpf}`,
-    (err, rows) => {
-      if (err) {
-        console.log(err);
-        res.send(err);
-      }
-      if (rows.length > 0) {
-        res.send(true);
-      } else {
-        res.send(false);
-      }
-    }
-  );
-  console.log(mensagens);
+	console.log(req.body.cpf);
+	var mensagens = [];
+	connection.query(
+		`SELECT * FROM CLIENTE WHERE CPF = ${req.body.cpf}`,
+		(err, rows) => {
+			if (err) {
+				console.log(err);
+				res.send(err);
+			}
+			if (rows.length > 0) {
+				res.send(true);
+			} else {
+				res.send(false);
+			}
+		}
+	);
+	console.log(mensagens);
 });
 
 app.post("/check/email", (req, res) => {
-  connection.query(
-    `SELECT * FROM CLIENTE WHERE email = "${req.body.email}"`,
-    (err, rows) => {
-      console.log(rows);
-      if (err) {
-        console.log(err);
-        res.send(err);
-      }
-      if (rows.length > 0) {
-        res.send(true);
-      } else {
-        res.send(false);
-      }
-    }
-  );
+	connection.query(
+		`SELECT * FROM CLIENTE WHERE email = "${req.body.email}"`,
+		(err, rows) => {
+			console.log(rows);
+			if (err) {
+				console.log(err);
+				res.send(err);
+			}
+			if (rows.length > 0) {
+				res.send(true);
+			} else {
+				res.send(false);
+			}
+		}
+	);
 });
 
 app.get("/clientes", (req, res) => {
@@ -191,6 +183,7 @@ app.get("/cliente/:email", (req, res) => {
 		`SELECT * FROM CLIENTE WHERE email = "${email}"`,
 		(err, rows) => {
 			if (err) throw err;
+			delete rows[0].senha;
 			res.send(rows[0]);
 		}
 	);

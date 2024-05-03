@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router";
+import { useNavigate, useOutletContext } from "react-router";
 import { CarrinhoTotalContainer } from "../styles/Carrinho.styles";
 import axios from "axios";
-import { BotaoContinuar, BotaoPadrao } from "../styles/MainStyles.styles";
+import { BotaoContinuar } from "../styles/MainStyles.styles";
 function CarrinhoTotal() {
+	const navigate = useNavigate();
 	const context = useOutletContext();
 	const [total, setTotal] = useState(0);
-
+	const [user, setUser] = useState();
 	useEffect(() => {
 		let price = 0;
 		for (let i = 0; i < context.cart.length; i++) {
@@ -19,8 +20,8 @@ function CarrinhoTotal() {
 		const items = context.cart;
 		const valor = {
 			subTotal: total,
-			tipoFrete: "",
 			valorFrete: 0,
+			total: 0,
 		};
 		let cliente = JSON.parse(sessionStorage.getItem("User")) || undefined;
 		const getCliente = async () => {
@@ -28,20 +29,28 @@ function CarrinhoTotal() {
 				await axios
 					.get(`http://localhost:8081/cliente/${cliente.email}`)
 					.then((resp) => {
-						return resp.data;
+						setUser(resp.data);
 					});
+			} else {
+				return undefined;
 			}
 		};
-		getCliente().then((resp) => {
-			console.log(resp);
-		});
+		getCliente();
+		cliente = user;
+		console.log(user);
+
+		console.log(user);
 		const pedido = {
 			items: items,
 			valor: valor,
 			cliente: cliente,
+			frete: { tipoFrete: "", valorFrete: "" },
+			formaPagamento: "" }
 		};
 
 		console.log(pedido);
+
+		navigate("/Frete", { state: { pedido: pedido } });
 	};
 
 	return (
