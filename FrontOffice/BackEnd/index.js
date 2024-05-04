@@ -16,11 +16,19 @@ app.use(jsonParser);
 
 // setting up mysql connection with express
 var connection = mysql.createConnection({
+<<<<<<< HEAD
   host: "127.0.0.1",
   user: "root",
   password: "Lolo@2024",
   database: "nrp",
   port: "3306",
+=======
+	host: "127.0.0.1",
+	user: "root",
+	password: "80085",
+	database: "nrp",
+	port: "3306",
+>>>>>>> fdbba347356d6d19b07e361464cb71c1c97b8c47
 });
 
 // Rota para Login
@@ -132,41 +140,41 @@ app.post("/check/email", (req, res) => {
 });
 
 app.post("/check/cpf", (req, res) => {
-  console.log(req.body.cpf);
-  var mensagens = [];
-  connection.query(
-    `SELECT * FROM CLIENTE WHERE CPF = ${req.body.cpf}`,
-    (err, rows) => {
-      if (err) {
-        console.log(err);
-        res.send(err);
-      }
-      if (rows.length > 0) {
-        res.send(true);
-      } else {
-        res.send(false);
-      }
-    }
-  );
-  console.log(mensagens);
+	console.log(req.body.cpf);
+	var mensagens = [];
+	connection.query(
+		`SELECT * FROM CLIENTE WHERE CPF = ${req.body.cpf}`,
+		(err, rows) => {
+			if (err) {
+				console.log(err);
+				res.send(err);
+			}
+			if (rows.length > 0) {
+				res.send(true);
+			} else {
+				res.send(false);
+			}
+		}
+	);
+	console.log(mensagens);
 });
 
 app.post("/check/email", (req, res) => {
-  connection.query(
-    `SELECT * FROM CLIENTE WHERE email = "${req.body.email}"`,
-    (err, rows) => {
-      console.log(rows);
-      if (err) {
-        console.log(err);
-        res.send(err);
-      }
-      if (rows.length > 0) {
-        res.send(true);
-      } else {
-        res.send(false);
-      }
-    }
-  );
+	connection.query(
+		`SELECT * FROM CLIENTE WHERE email = "${req.body.email}"`,
+		(err, rows) => {
+			console.log(rows);
+			if (err) {
+				console.log(err);
+				res.send(err);
+			}
+			if (rows.length > 0) {
+				res.send(true);
+			} else {
+				res.send(false);
+			}
+		}
+	);
 });
 
 app.get("/clientes", (req, res) => {
@@ -178,6 +186,7 @@ app.get("/clientes", (req, res) => {
 });
 
 app.get("/cliente/:email", (req, res) => {
+<<<<<<< HEAD
   const email = req.params.email;
   connection.query(
     `SELECT * FROM CLIENTE WHERE email = "${email}"`,
@@ -186,6 +195,17 @@ app.get("/cliente/:email", (req, res) => {
       res.send(rows[0]);
     }
   );
+=======
+	const email = req.params.email;
+	connection.query(
+		`SELECT * FROM CLIENTE WHERE email = "${email}"`,
+		(err, rows) => {
+			if (err) throw err;
+			delete rows[0].senha;
+			res.send(rows[0]);
+		}
+	);
+>>>>>>> fdbba347356d6d19b07e361464cb71c1c97b8c47
 });
 
 app.get("/cliente/:cpf/enderecos", (req, res) => {
