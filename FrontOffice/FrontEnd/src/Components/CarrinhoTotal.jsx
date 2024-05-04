@@ -16,13 +16,7 @@ function CarrinhoTotal() {
 		setTotal(price);
 	}, [context.cart]);
 
-	const handleSubmit = () => {
-		const items = context.cart;
-		const valor = {
-			subTotal: total,
-			valorFrete: 0,
-			total: 0,
-		};
+	useEffect(() => {
 		let cliente = JSON.parse(sessionStorage.getItem("User")) || undefined;
 		const getCliente = async () => {
 			if (cliente != undefined) {
@@ -36,16 +30,23 @@ function CarrinhoTotal() {
 			}
 		};
 		getCliente();
-		cliente = user;
-		console.log(user);
+	});
+
+	const handleSubmit = () => {
+		const items = context.cart;
+		const valor = {
+			subTotal: total,
+			valorFrete: 0,
+			total: 0,
+		};
 
 		console.log(user);
 		const pedido = {
 			items: items,
 			valor: valor,
-			cliente: cliente,
+			cliente: user,
 			frete: { tipoFrete: "", valorFrete: "" },
-			formaPagamento: "" }
+			formaPagamento: "",
 		};
 
 		console.log(pedido);
