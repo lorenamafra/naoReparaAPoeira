@@ -8,7 +8,6 @@ function CarrinhoTotal() {
 	const context = useOutletContext();
 	const [total, setTotal] = useState(0);
 	const [user, setUser] = useState();
-
 	useEffect(() => {
 		let price = 0;
 		for (let i = 0; i < context.cart.length; i++) {
@@ -17,25 +16,6 @@ function CarrinhoTotal() {
 		setTotal(price);
 	}, [context.cart]);
 
-	useEffect(() => {
-		const getCliente = () => {
-			let cliente = JSON.parse(sessionStorage.getItem("User")) || undefined;
-
-			if (cliente != undefined) {
-				axios
-					.get(`http://localhost:8081/cliente/${cliente.email}`)
-					.then((resp) => {
-						setUser(resp.data);
-						return resp.data;
-					});
-			} else {
-				return undefined;
-			}
-		};
-
-		getCliente();
-	});
-
 	const handleSubmit = () => {
 		const items = context.cart;
 		const valor = {
@@ -43,17 +23,34 @@ function CarrinhoTotal() {
 			valorFrete: 0,
 			total: 0,
 		};
+		let cliente = JSON.parse(sessionStorage.getItem("User")) || undefined;
+		const getCliente = async () => {
+			if (cliente != undefined) {
+				await axios
+					.get(`http://localhost:8081/cliente/${cliente.email}`)
+					.then((resp) => {
+						setUser(resp.data);
+					});
+			} else {
+				return undefined;
+			}
+		};
+		getCliente();
+		cliente = user;
+		console.log(user);
 
+		console.log(user);
 		const pedido = {
 			items: items,
 			valor: valor,
-			cliente: user,
+			cliente: cliente,
 			frete: { tipoFrete: "", valorFrete: "" },
-			formaPagamento: "",
+			formaPagamento: "" }
 		};
+
 		console.log(pedido);
 
-		// navigate("/Frete", { state: { pedido: pedido } });
+		navigate("/Frete", { state: { pedido: pedido } });
 	};
 
 	return (
