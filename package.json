@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "multer": "^1.4.5-lts.1",
-    "styled-components": "^6.1.8"
-  }
-}
