@@ -18,15 +18,19 @@ export const ContainerPedido = styled.div`
 `;
 
 export const ContainerLeft = styled.div`
-  display: flex;
-  padding: 5rem;
+  display: grid;
   align-items: center;
+  padding: 3rem;
   border-right: 1px solid grey;
-  gap: 1rem;
+`;
+
+export const PagamentoContainer = styled.div`
+  display: grid;
 `;
 
 export const DescricaoProduto = styled.div`
   display: flex;
+  justify-content: center;
   padding: 1rem;
   background: repeating-linear-gradient(
     25deg,
@@ -40,6 +44,14 @@ export const DescricaoProduto = styled.div`
 
 export const PrecoProduto = styled.div`
   display: flex;
+  align-items: center;
+`;
+
+export const ProdutoContainer = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  margin: 1rem;
+  gap: 1rem;
 `;
 
 export const ContainerRight = styled.div`
