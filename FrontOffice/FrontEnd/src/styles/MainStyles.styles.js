@@ -305,25 +305,25 @@ export const ButtonConfirmar = styled.button`
   }
 `;
 
-export const ButtonConfirmarBranco = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.1rem;
-  transition: all ease-in-out 0.15s;
-  padding: 0.5rem;
-  color: black;
-  border: 1px solid white;
-  background-color: white;
-  font-size: 15px;
-  height: fit-content;
-  cursor: pointer;
+// export const ButtonConfirmarBranco = styled.button`
+//   display: flex;
+//   align-items: center;
+//   gap: 0.1rem;
+//   transition: all ease-in-out 0.15s;
+//   padding: 0.5rem;
+//   color: black;
+//   border: 1px solid white;
+//   background-color: white;
+//   font-size: 15px;
+//   height: fit-content;
+//   cursor: pointer;
 
-  &:hover {
-    background-color: #d5dfe5;
-    color: black;
-    outline: 1px solid black;
-  }
-`;
+//   &:hover {
+//     background-color: #d5dfe5;
+//     color: black;
+//     outline: 1px solid black;
+//   }
+// `;
 
 export const ContainerButton = styled.div`
   display: flex;

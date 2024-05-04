@@ -4,10 +4,13 @@ import {
   ContainerPedido,
   ContainerPrincipal,
   ContainerRight,
+  ContainerTotal,
   DescricaoProduto,
+  DescricaoTotal,
   MainResumoPedido,
   PrecoProduto,
 } from "../styles/ResumoPedido";
+import { BotaoContinuar, ContainerButton } from "../styles/MainStyles.styles";
 
 function ResumoPedido() {
   return (
@@ -27,6 +30,12 @@ function ResumoPedido() {
             **1 dia útil: 90.90
           </ContainerRight>
         </ContainerPedido>
+        <ContainerTotal>
+          <DescricaoTotal>Total: 90.90</DescricaoTotal>
+          <ContainerButton>
+            <BotaoContinuar>Finalizar</BotaoContinuar>
+          </ContainerButton>
+        </ContainerTotal>
       </ContainerPrincipal>
     </MainResumoPedido>
   );

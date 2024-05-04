@@ -13,7 +13,7 @@ export const ContainerPrincipal = styled.div``;
 export const ContainerPedido = styled.div`
   display: flex;
   border: 1px solid black;
-  box-shadow: 2px 2px black;
+  box-shadow: 2px 2px grey;
   margin: 0;
 `;
 
@@ -21,7 +21,7 @@ export const ContainerLeft = styled.div`
   display: flex;
   padding: 5rem;
   align-items: center;
-  border-right: 1px solid black;
+  border-right: 1px solid grey;
   gap: 1rem;
 `;
 
@@ -47,4 +47,19 @@ export const ContainerRight = styled.div`
   padding: 5rem;
   gap: 1rem;
   align-items: center;
+`;
+
+export const ContainerTotal = styled.div`
+  display: flex;
+  padding: 1rem;
+  margin: 2rem 0;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid black;
+  background-color: black;
+  box-shadow: 2px 2px grey;
+`;
+
+export const DescricaoTotal = styled.div`
+  color: white;
 `;
