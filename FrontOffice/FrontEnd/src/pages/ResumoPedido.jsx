@@ -114,7 +114,7 @@ function ResumoPedido() {
           </ContainerRight>
         </ContainerPedido>
         <ContainerTotal>
-          <DescricaoTotal>Total: 90.90</DescricaoTotal>
+          <DescricaoTotal>Total: R$ 90.90</DescricaoTotal>
           <ContainerButton>
             <ButtonConfirmarBranco>Finalizar</ButtonConfirmarBranco>
           </ContainerButton>
