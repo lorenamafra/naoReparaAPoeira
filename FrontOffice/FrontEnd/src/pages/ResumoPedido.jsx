@@ -7,6 +7,7 @@ import {
   ContainerTotal,
   DescricaoProduto,
   DescricaoTotal,
+  FormaPagamento,
   MainResumoPedido,
   PagamentoContainer,
   PrecoProduto,
@@ -100,6 +101,13 @@ function ResumoPedido() {
               <PagamentoContainer>
                 <p>
                   <b>Pagamento via:</b> {item.formaPagamento}
+                </p>
+                <FormaPagamento>
+                  {item.formaPagamento == "Cartão" ? <p>Cartão Final: </p> : ""}
+                </FormaPagamento>
+                <p>
+                  <b>Frete:</b> {item.tipoFrete} <br />
+                  <b>Valor:</b> {item.valorFrete}
                 </p>
               </PagamentoContainer>
             ))}

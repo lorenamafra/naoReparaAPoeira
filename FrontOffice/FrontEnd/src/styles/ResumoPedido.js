@@ -28,6 +28,10 @@ export const PagamentoContainer = styled.div`
   display: grid;
 `;
 
+export const FormaPagamento = styled.div`
+  display: flex;
+`;
+
 export const DescricaoProduto = styled.div`
   display: flex;
   justify-content: center;
@@ -55,7 +59,7 @@ export const ProdutoContainer = styled.div`
 `;
 
 export const ContainerRight = styled.div`
-  display: flex;
+  display: grid;
   padding: 5rem;
   gap: 1rem;
   align-items: center;
