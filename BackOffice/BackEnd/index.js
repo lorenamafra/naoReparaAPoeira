@@ -118,22 +118,19 @@ app.put("/usuario/alterar", (req, res) => {
 	const email = req.body.email;
 	const grupo = req.body.grupo;
 	const nome = req.body.nome;
-	const senha = req.body.senha;
-	const status = req.body.status;
+	console.log(grupo);
 	const cpf = req.body.cpf;
 
-	bcrypt.hash(senha, saltRounds, (err, hash) => {
-		connection.query(
-			`UPDATE usuario SET GRUPO = '${grupo}', NOME ='${nome}', SENHA ='${hash}', CPF ='${cpf}' WHERE EMAIL = '${email}'`,
-			(err, result) => {
-				if (result.affectedRows > 0) {
-					res.status(200).send("Atualizado com sucesso");
-				} else {
-					res.status(400).send("Impossibilitado de alteração ");
-				}
+	connection.query(
+		`UPDATE usuario SET GRUPO = '${grupo}', NOME ='${nome}', CPF ='${cpf}' WHERE EMAIL = '${email}'`,
+		(err, result) => {
+			if (result.affectedRows > 0) {
+				res.status(200).send("Atualizado com sucesso");
+			} else {
+				res.status(400).send("Impossibilitado de alteração ");
 			}
-		);
-	});
+		}
+	);
 });
 
 app.put("/usuario/alterarStatus", (req, res) => {

@@ -9,17 +9,14 @@ function Alterar() {
 	let location = useLocation();
 	const currentUser = JSON.parse(sessionStorage.getItem("User"));
 
-	console.log(location.state.usuario);
-
 	const user = location.state.usuario;
 
-	console.log(user);
 	const [email, setEmail] = useState();
 	const [nome, setNome] = useState();
 	const [cpf, setCpf] = useState();
 	const [grupo, setGrupo] = useState();
-	const [senha, setSenha] = useState();
-	const [confirmaSenha, setConfirmaSenha] = useState();
+	// const [senha, setSenha] = useState();
+	// const [confirmaSenha, setConfirmaSenha] = useState();
 
 	useEffect(() => {
 		const fetchUsuarios = async () => {
@@ -29,7 +26,7 @@ function Alterar() {
 			await setGrupo(user.grupo);
 		};
 		fetchUsuarios();
-	});
+	}, []);
 
 	const validation = () => {
 		let isValid = true;
@@ -39,21 +36,12 @@ function Alterar() {
 			alert(`${campo} vazio!`);
 		};
 
-		const invalidaSenhaConfirma = () => {
-			alert("Senha não confirmada");
-			isValid = false;
-		};
-
-		const senhasNãoCorrespondem = () => {
-			alert("Senhas não correspondem");
-			isValid = false;
-		};
 		nome == "" ? invalidado("Nome") : "";
 		cpf == "" ? invalidado("CPF") : "";
 		grupo == "" ? invalidado("Grupo") : "";
-		senha == "" ? invalidado("Senha") : "";
-		confirmaSenha == "" ? invalidaSenhaConfirma() : "";
-		senha == confirmaSenha ? "" : senhasNãoCorrespondem();
+		// senha == "" ? invalidado("Senha") : "";
+		// confirmaSenha == "" ? invalidaSenhaConfirma() : "";
+		// senha == confirmaSenha ? "" : senhasNãoCorrespondem();
 		return isValid;
 	};
 
@@ -61,12 +49,11 @@ function Alterar() {
 		e.preventDefault();
 
 		if (validation()) {
+			console.log(grupo);
 			user.nome = nome;
 			user.cpf = cpf;
-			user.senha = senha;
 			user.grupo = grupo;
 			console.log(user);
-
 			axios.put("http://localhost:8080/usuario/alterar", user).then((resp) => {
 				if (resp.status == 200) {
 					navigate(-1);
@@ -75,11 +62,20 @@ function Alterar() {
 		}
 	};
 
-	const handleGrupo = () => {
-		setGrupo(event.target.value);
-		if (user.email == email) {
-			prompt("Você não pode alterar seu próprio grupo");
-		}
+	const handleGrupo = (event) => {
+		console.log(event.target.value);
+
+		const checkEmail = () => {
+			if (currentUser.email == email) {
+				prompt("Você não pode alterar seu próprio grupo");
+				return;
+			} else {
+				setGrupo(event.target.value);
+				return;
+			}
+		};
+
+		checkEmail();
 	};
 	return (
 		<MainFormContainer>
@@ -131,7 +127,7 @@ function Alterar() {
 						</select>
 					)}
 
-					<label htmlFor="Senha"> Senha </label>
+					{/* <label htmlFor="Senha"> Senha </label>
 					<input
 						value={senha}
 						type="password"
@@ -147,7 +143,8 @@ function Alterar() {
 						name="ConfirmaSenha"
 						required
 						onChange={(event) => setConfirmaSenha(event.target.value)}
-					/>
+					/> */}
+
 					<div>
 						<button onClick={handleSave}>Alterar</button>
 						<button

@@ -92,8 +92,6 @@ function CadastroEndereco() {
 	// 	}
 	// };
 
-	const dados = useLocation();
-
 	return (
 		<CadastroEnderecoPage>
 			<MainCadastroEnderecoContainer onSubmit={(e) => handleSubmit(e)}>

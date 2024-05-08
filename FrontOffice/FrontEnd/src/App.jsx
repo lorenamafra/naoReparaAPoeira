@@ -16,6 +16,7 @@ import MainPage from "./pages/MainPage";
 import ResumoPedido from "./pages/ResumoPedido";
 import Frete from "./pages/Frete";
 import Pagamento from "./pages/Pagamento";
+import SelecionarEndereco from "./Components/SelecionarEndereco";
 
 const router = createBrowserRouter([
 	{ path: "/Login", Component: Login },
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
 			{ path: "/Frete", Component: Frete },
 			{ path: "/Pagamento", Component: Pagamento },
 			{ path: "/ResumoPedido", Component: ResumoPedido },
+			{ path: "/SelecionarEndereco", Component: SelecionarEndereco },
 		],
 	},
 ]);

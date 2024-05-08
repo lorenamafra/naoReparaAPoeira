@@ -292,6 +292,25 @@ app.put("/endereco/alterar/despadronizar", (req, res) => {
 		}
 	);
 });
+
+app.get("/:cpf/enderecoPadrao", (req, res) => {
+	connection.query(
+		`SELECT * FROM endereco_entrega where CPF = ${req.params.cpf} AND padrao = 1`,
+		(err, rows) => {
+			if (err) {
+				res.send(err);
+			}
+			if (rows) {
+				if (rows[0] == undefined || rows[0] == "") {
+					res.send(undefined);
+				} else {
+					res.send(rows[0]);
+				}
+			}
+		}
+	);
+});
+
 app.put("/endereco/alterar/padrao", (req, res) => {
 	console.log(req.body);
 	const id_endereco = req.body.id_endereco;

@@ -1,86 +1,188 @@
+import { useLocation, useNavigate } from "react-router";
 import {
-  CalculoFretePage,
-  EnderecoEntregaContainer,
-  OpcoesFreteContainer,
-  OpFretediv,
-  ResumoFreteContainer,
-  ButtonContinuar,
-  AlterarEnderecoButton,
-  DivisaoContainer,
+	CalculoFretePage,
+	EnderecoEntregaContainer,
+	OpcoesFreteContainer,
+	OpFretediv,
+	ResumoFreteContainer,
+	ButtonContinuar,
+	AlterarEnderecoButton,
+	DivisaoContainer,
 } from "../styles/CalculoFrete.styles";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Toaster, toast } from "sonner";
 
 function CalculoFrete() {
-  return (
-    <CalculoFretePage>
-      <h1>Selecione o endereço de entrega:</h1>
+	let location = useLocation().state.pedido;
+	const valor = location.valor.subTotal;
+	const [endereco, setEndereco] = useState({});
+	const [loader, setLoader] = useState(true);
+	const [haveAdd, setHaveAdd] = useState(false);
+	const [frete, setFrete] = useState({
+		valor: 0,
+	});
+	const [total, setTotal] = useState(valor + frete.valor);
 
-      <EnderecoEntregaContainer>
-        <p>currentUser.enderecoEntrega</p>
+	console.log(location);
+	const navigate = useNavigate();
+	const fretes = [
+		{
+			tipoFrete: "Nuvem Voadora",
+			valorFrete: 20,
+			tempo: "1 dia útil",
+		},
+		{
+			tipoFrete: "Jaguar Tirica",
+			valorFrete: 10,
+			tempo: "2 dias úteis",
+		},
+		{
+			tipoFrete: "Pombo Correios",
+			valorFrete: 10,
+			tempo: "2 dias úteis",
+		},
+	];
 
-        <AlterarEnderecoButton>Alterar Endereco</AlterarEnderecoButton>
-      </EnderecoEntregaContainer>
+	const handleAdicionarEndereco = () => {
+		const user = location.cliente;
+		console.log(user);
+		navigate("/SelecionarEndereco", { state: { pedido: location } });
+	};
 
-      <DivisaoContainer>
-        <OpcoesFreteContainer>
-          <OpFretediv onClick={() => {}}>
-            <div>
-              <input type="radio" name="Frete" value="Frete Comum" />
-              <span> Frete Comum</span>
-              <br />
-              <label> 5 dias úteis</label>
-            </div>
+	useEffect(() => {
+		const getEnderecoPadrao = async () => {
+			axios
+				.get(`http://localhost:8081/${location.cliente.cpf}/enderecoPadrao`)
+				.then((resp) => {
+					console.log(resp.data);
+					if (resp.data != "") {
+						console.log("aqiiiii");
+						setEndereco(resp.data);
+						setLoader(false);
+						setHaveAdd(true);
+					} else {
+						if (location.envio.endereco.cep != undefined) {
+							setEndereco(location.envio.endereco);
+							console.log("endereco");
+							setHaveAdd(true);
+							setLoader(false);
+						} else {
+							setLoader(false);
+						}
+					}
+				});
+		};
 
-            <div>
-              <span>R$ valorFreteComum</span>
-            </div>
-          </OpFretediv>
+		getEnderecoPadrao();
+	}, []);
 
-          <OpFretediv>
-            <div>
-              <input type="radio" name="Frete" value="" />{" "}
-              <span> Frete Plus</span>
-              <br />
-              <label> 3 dias úteis</label>
-            </div>
-            <div>
-              <span>R$ valorFretePlus</span>
-            </div>
-          </OpFretediv>
+	useEffect(() => {
+		setTotal(valor + frete.valor);
+	}, [frete]);
 
-          <OpFretediv>
-            <div>
-              <input type="radio" name="Frete" value="frete premium" />{" "}
-              <span>Frete Premium</span>
-              <br />
-              <label> 1 dia útil</label>
-            </div>
+	const handleFrete = (freteSelecionado, e) => {
+		console.log(freteSelecionado);
+		setFrete({
+			valor: freteSelecionado.valorFrete,
+			tipoFrete: freteSelecionado.tipoFrete,
+		});
+	};
 
-            <div>
-              <span>R$ valorFretePremium</span>
-            </div>
-          </OpFretediv>
-        </OpcoesFreteContainer>
+	const handleSubmit = () => {
+		let pedido = location;
+		console.log(pedido.envio.tipoFrete);
+		console.log(frete);
+		pedido.envio.tipoFrete = frete.tipoFrete;
+		pedido.envio.valorFrete = frete.valor;
+		pedido.valor.total = total;
+		pedido.valor.valorFrete = frete.valor;
+		console.log(pedido);
+		if (pedido.envio.endereco.cep == undefined) {
+			toast.warning("Selecione o endereço");
+			return false;
+		}
 
-        <ResumoFreteContainer>
-          <div>
-            <div>
-              <label>Produtos: valorTotalProdutos</label>
-            </div>
-            <div>
-              <label>Frete: valorTotalFrete</label>
-            </div>
-            <div>
-              <label>Subtotal: valorTotalFinal</label>
-            </div>
-          </div>
+		if (frete.tipoFrete != undefined) {
+			navigate("/Pagamento", { state: { pedido: pedido } });
+		} else {
+			toast.warning("Selecione o Frete");
+		}
+	};
+	return (
+		<CalculoFretePage>
+			<h1>Selecione o endereço de entrega:</h1>
+			{loader ? (
+				<p>isLoading</p>
+			) : (
+				<EnderecoEntregaContainer>
+					{haveAdd ? (
+						<div>
+							<p>
+								{endereco.logradouro}, {endereco.numero} - {endereco.cep}
+							</p>
 
-          <ButtonContinuar>Continuar</ButtonContinuar>
-        </ResumoFreteContainer>
-      </DivisaoContainer>
-    </CalculoFretePage>
-  );
+							<AlterarEnderecoButton
+								onClick={() => {
+									handleAdicionarEndereco();
+								}}
+							>
+								{" "}
+								Alterar Endereco
+							</AlterarEnderecoButton>
+						</div>
+					) : (
+						<div>
+							<p>Vamos adicionar um endereço para entrega</p>
+							<AlterarEnderecoButton
+								onClick={() => {
+									handleAdicionarEndereco();
+								}}
+							>
+								Adicionar Endereco
+							</AlterarEnderecoButton>
+						</div>
+					)}
+				</EnderecoEntregaContainer>
+			)}
+
+			<DivisaoContainer>
+				<OpcoesFreteContainer>
+					{fretes.map((frete, key) => (
+						<OpFretediv
+							key={key}
+							id={key}
+							isSelected={false}
+							onClick={(e) => {
+								handleFrete(frete, e);
+							}}
+						>
+							<p>Frete:{frete.tipoFrete}</p>
+							<p>Valor: {frete.valorFrete}</p>
+							<p>{frete.tempo}</p>
+						</OpFretediv>
+					))}
+				</OpcoesFreteContainer>
+
+				<ResumoFreteContainer>
+					<div>
+						<div>
+							<label>Produtos:{location.valor.subTotal}</label>
+						</div>
+						<div>
+							<label>Frete:{frete.valor}</label>
+						</div>
+						<div>
+							<label>Subtotal:{total}</label>
+						</div>
+					</div>
+
+					<ButtonContinuar onClick={handleSubmit}>Continuar</ButtonContinuar>
+				</ResumoFreteContainer>
+			</DivisaoContainer>
+			<Toaster />
+		</CalculoFretePage>
+	);
 }
 
 export default CalculoFrete;
-
-//verificar com o Denis como trazer o endereço de entrega para pagina
