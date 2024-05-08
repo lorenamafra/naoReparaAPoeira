@@ -34,6 +34,7 @@ function FormaPagamento() {
 
 				navigate("/ResumoPedido", { state: { pedido: pedido } });
 			}
+			navigate("/ResumoPedido", { state: { pedido: pedido } });
 		}
 		console.log("nem retornou");
 	};
