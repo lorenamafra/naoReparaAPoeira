@@ -26,10 +26,12 @@ export const ContainerLeft = styled.div`
 
 export const PagamentoContainer = styled.div`
   display: grid;
+  text-align: left;
 `;
 
 export const FormaPagamento = styled.div`
   display: flex;
+  text-align: left;
 `;
 
 export const DescricaoProduto = styled.div`
