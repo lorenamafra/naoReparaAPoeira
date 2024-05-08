@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { ContainerBotao, InputField } from "../styles/AlterarCliente.styles";
 import axios from "axios";
+import { Toaster, toast } from "sonner";
 import { useLocation, useNavigate } from "react-router";
 import { BotaoPadrao, ButtonConfirmar } from "../styles/MainStyles.styles";
 
 function FormularioAlterarCadastro() {
   let navigate = useNavigate();
   let usuario = useLocation().state;
-  console.log(usuario);
   const [user, setUser] = useState({});
 
-  function HandleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
     console.log(event.target);
     const fd = new FormData(event.target);
     const ObjectForm = Object.fromEntries(fd);
     console.log(ObjectForm);
-    axios.post("/cliente/alterar");
+    axios
+      .put("http://localhost:8081/cliente/alterar", ObjectForm)
+      .then((resp) => {
+        console.log(resp.data);
+      });
   }
 
   const validation = (event) => {
@@ -28,8 +32,6 @@ function FormularioAlterarCadastro() {
     let nome = fd.get("nome");
     let CPF = fd.get("CPF");
     let genero = fd.get("genero");
-    let senha = fd.get("senha");
-    let confirmaSenha = fd.get("confirmar Senha");
 
     const campoVazio = (campo, campoNome) => {
       if (!campo || campo == "" || campo == " ") {
@@ -40,25 +42,11 @@ function FormularioAlterarCadastro() {
       return true;
     };
 
-    const confirmarSenha = (senha, senha2) => {
-      if (senha != senha2) {
-        alert(`Senha não está igual`);
-        return false;
-      }
-    };
-
     isValid = campoVazio(email, "Email");
     isValid = campoVazio(nome, "Nome");
     isValid = campoVazio(cpf, "Cpf");
     isValid = campoVazio(genero, "genero");
-    isValid = campoVazio(senha, "Senha");
-    isValid = campoVazio(confirmaSenha, "confirmar Senha");
 
-    confirmarSenha(senha, confirmaSenha);
-    if (!ValidaCPF(cpf)) {
-      isValid = false;
-      alert("CPF falso");
-    }
     return isValid;
   };
 
@@ -75,22 +63,26 @@ function FormularioAlterarCadastro() {
   }, []);
 
   return (
-    <form onSubmit={(e) => HandleSubmit(e)}>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <h1>Alterar Cadastro</h1>
 
       <InputField>
         <label>Email</label>
-        <input type="email" name="email" value={user.email}></input>
+        <input type="email" name="email" defaultValue={user.email}></input>
       </InputField>
 
       <InputField>
         <label>Nome</label>
-        <input type="text" name="nome" value={user.nome_completo}></input>
+        <input
+          type="text"
+          name="nome_completo"
+          defaultValue={user.nome_completo}
+        ></input>
       </InputField>
 
       <InputField>
         <label>CPF</label>
-        <input type="number" name="cpf" value={user.cpf}></input>
+        <input type="number" name="cpf" defaultValue={user.cpf}></input>
       </InputField>
 
       <InputField>
@@ -116,6 +108,7 @@ function FormularioAlterarCadastro() {
         >
           Endereços
         </BotaoPadrao>
+        <Toaster />
       </ContainerBotao>
     </form>
   );

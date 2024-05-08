@@ -225,23 +225,19 @@ values (${req.params.cpf}, '${cep}', '${numero}', '${complemento}', '${req.body.
 app.put("/cliente/alterar", (req, res) => {
   const email = req.body.email;
   const nome_completo = req.body.nome_completo;
-  const senha = req.body.senha;
   const cpf = req.body.cpf;
   const genero = req.body.genero;
-
-  bcrypt.hash(senha, saltRounds, (err, hash) => {
-    connection.query(
-      `UPDATE cliente SET CPF = '${cpf}', EMAIL = '${email}', NOME_COMPLETO = '${nome_completo}', GENERO = '${genero}'`,
-      (err, result) => {
-        if (err) throw err;
-        if (result.affectedRows > 0) {
-          res.status(200).send("Atualizado com sucesso");
-        } else {
-          res.status(400).send("Impossibilitado de alteração ");
-        }
+  connection.query(
+    `UPDATE cliente SET EMAIL = '${email}', NOME_COMPLETO = '${nome_completo}', GENERO = '${genero}' WHERE CPF = ${cpf}`,
+    (err, result) => {
+      if (err) throw err;
+      if (result.affectedRows > 0) {
+        res.status(200).send("Atualizado com sucesso");
+      } else {
+        res.status(400).send("Impossibilitado de alteração ");
       }
-    );
-  });
+    }
+  );
 });
 
 app.put("/cliente/alterarSenha", (req, res) => {
