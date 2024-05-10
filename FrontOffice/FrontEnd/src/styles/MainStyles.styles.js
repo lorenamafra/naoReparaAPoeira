@@ -325,6 +325,23 @@ export const ButtonConfirmarBranco = styled.button`
   }
 `;
 
+export const ButtonDetalhes = styled(ButtonConfirmarBranco)`
+  border: 1px solid black;
+  font-size: 10px;
+  text-align: center;
+  margin: 5px 0;
+  padding: 0.5rem;
+`;
+
+export const ButtonConfirmarPreto = styled(ButtonConfirmarBranco)`
+  border: 1px solid black;
+  background-color: black;
+  color: white;
+  text-align: center;
+  margin: 5px 0;
+  padding: 0.5rem;
+`;
+
 export const ContainerButton = styled.div`
   display: flex;
   justify-content: center;
