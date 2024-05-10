@@ -415,11 +415,28 @@ app.post("/pedido/item/criar", (req, res) => {
   res.status(200).send("Itens adicionados");
 });
 
-app.get("/pedido/criado", (req, res) => {
+app.post("/pedido/ultimo", (req, res) => {
+  console.log(req.body.cliente.cpf);
   connection.query(
-    `SELECT * FROM PEDIDO where CPF = "${req.body.cliente.cpf}" ORDER BY ID_PEDIDO DESC`
+    `SELECT * FROM PEDIDO where CPF = "${req.body.cliente.cpf}" ORDER BY ID_PEDIDO DESC`,
+    (err, rows) => {
+      if (rows) res.send(rows[0]);
+    }
   );
 });
+
+app.post("/pedidos", (req, res) => {
+  console.log(req.body);
+  connection.query(
+    `SELECT * FROM PEDIDO WHERE CPF = "${req.body.cpf}" ORDER BY ID_PEDIDO DESC`,
+    (err, rows) => {
+      if (rows) {
+        res.send(rows);
+      }
+    }
+  );
+});
+
 // essa sempre tem que ficar ABAIXO de tudo gurizada
 app.listen(port, (req, res) => {
   console.log(`Server listening to port ${port}, FRONT OFFICE`);

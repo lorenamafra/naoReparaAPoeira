@@ -8,6 +8,7 @@ import {
   ButtonConfirmarPreto,
   ContainerButton,
 } from "../styles/MainStyles.styles";
+import { useNavigate, useLocation } from "react-router";
 
 function DetalhesPedido() {
   return (
@@ -26,9 +27,7 @@ function DetalhesPedido() {
         Valor Total: <br />
       </DescricaoPedido>
       <ContainerButton>
-        <ButtonConfirmarPreto onClick={() => navigate(-1)}>
-          Finalizar
-        </ButtonConfirmarPreto>
+        <ButtonConfirmarPreto>Finalizar</ButtonConfirmarPreto>
       </ContainerButton>
     </MainDetalhesPedido>
   );
