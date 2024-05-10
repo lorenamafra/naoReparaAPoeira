@@ -15,6 +15,10 @@ function Carrinho() {
 			sessionStorage.setItem("cart", JSON.stringify(context.cart));
 			setProdutos(context.cart);
 		}
+
+		if (context.cart.length == 0) {
+			sessionStorage.setItem("cart", JSON.stringify([]));
+		}
 	}, [context.cart]);
 
 	useEffect(() => {

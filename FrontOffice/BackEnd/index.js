@@ -382,11 +382,17 @@ app.post("/pedido/criar", (req, res) => {
 		forma_pagamento,
 		id_endereco
 	);
-	connection.query(`INSERT INTO pedido (cpf, subtotal, valor_total, tipo_frete, valor_frete, forma_pagamento, id_endereco) values
-	(${cpf},${subtotal}, ${valor_total}, "${tipo_frete}", ${valor_frete}, "${forma_pagamento}", ${id_endereco});
+	let nf = new Date().valueOf();
+	var today = new Date();
+	var dd = String(today.getDate()).padStart(2, "0");
+	var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+	var yyyy = today.getFullYear();
+	today = yyyy + "-" + mm + "-" + dd;
+	connection.query(`INSERT INTO pedido (cpf, subtotal, valor_total, tipo_frete, valor_frete, forma_pagamento, id_endereco, status, NF, data) values
+	(${cpf},${subtotal}, ${valor_total}, "${tipo_frete}", ${valor_frete}, "${forma_pagamento}", ${id_endereco}, "Aguardando pagamento", ${nf}, "${today}");
 	`);
 
-	res.send("Pedido criado");
+	res.status(200).send("Pedido criado");
 });
 
 app.post("/pedido/item/criar", (req, res) => {
@@ -406,9 +412,14 @@ app.post("/pedido/item/criar", (req, res) => {
 		}
 	);
 
-	res.send("Itens adicionados");
+	res.status(200).send("Itens adicionados");
 });
 
+app.get("/pedido/criado", (req, res) => {
+	connection.query(
+		`SELECT * FROM PEDIDO where CPF = "${req.body.cliente.cpf}" ORDER BY ID_PEDIDO DESC`
+	);
+});
 // essa sempre tem que ficar ABAIXO de tudo gurizada
 app.listen(port, (req, res) => {
 	console.log(`Server listening to port ${port}, FRONT OFFICE`);

@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useOutletContext } from "react-router";
 import {
 	CalculoFretePage,
 	EnderecoEntregaContainer,
@@ -14,6 +14,8 @@ import axios from "axios";
 import { Toaster, toast } from "sonner";
 
 function CalculoFrete() {
+	const context = useOutletContext();
+	console.log(context);
 	let location = useLocation().state.pedido;
 	const valor = location.valor.subTotal;
 	const [endereco, setEndereco] = useState({});
@@ -52,26 +54,30 @@ function CalculoFrete() {
 
 	useEffect(() => {
 		const getEnderecoPadrao = async () => {
-			axios
-				.get(`http://localhost:8081/${location.cliente.cpf}/enderecoPadrao`)
-				.then((resp) => {
-					console.log(resp.data);
-					if (resp.data != "") {
-						console.log("aqiiiii");
-						setEndereco(resp.data);
-						setLoader(false);
-						setHaveAdd(true);
-					} else {
-						if (location.envio.endereco.cep != undefined) {
-							setEndereco(location.envio.endereco);
-							console.log("endereco");
+			if (location.cliente != undefined) {
+				axios
+					.get(`http://localhost:8081/${location.cliente.cpf}/enderecoPadrao`)
+					.then((resp) => {
+						console.log(resp.data);
+						if (resp.data != "") {
+							console.log("aqiiiii");
+							setEndereco(resp.data);
+							setLoader(false);
 							setHaveAdd(true);
-							setLoader(false);
 						} else {
-							setLoader(false);
+							if (location.envio.endereco.cep != undefined) {
+								setEndereco(location.envio.endereco);
+								console.log("endereco");
+								setHaveAdd(true);
+								setLoader(false);
+							} else {
+								setLoader(false);
+							}
 						}
-					}
-				});
+					});
+			} else {
+				setLoader(false);
+			}
 		};
 
 		getEnderecoPadrao();
@@ -98,15 +104,24 @@ function CalculoFrete() {
 		pedido.valor.total = total;
 		pedido.valor.valorFrete = frete.valor;
 		console.log(pedido);
-		if (pedido.envio.endereco.cep == undefined) {
-			toast.warning("Selecione o endereço");
-			return false;
-		}
+		if (pedido.cliente != undefined) {
+			if (pedido.envio.endereco.cep == undefined) {
+				toast.warning("Selecione o endereço");
+				return false;
+			}
 
-		if (frete.tipoFrete != undefined) {
-			navigate("/Pagamento", { state: { pedido: pedido } });
+			if (frete.tipoFrete != undefined) {
+				navigate("/Pagamento", { state: { pedido: pedido } });
+			} else {
+				toast.warning("Selecione o Frete");
+			}
 		} else {
-			toast.warning("Selecione o Frete");
+			window.alert(
+				"Você será redirecionado para a tela de cadastro para conseguirmos finalizar o pedido!"
+			);
+			navigate("/Cadastro", {
+				state: { carrinho: true, context: context.cart },
+			});
 		}
 	};
 	return (
@@ -133,14 +148,20 @@ function CalculoFrete() {
 						</div>
 					) : (
 						<div>
-							<p>Vamos adicionar um endereço para entrega</p>
-							<AlterarEnderecoButton
-								onClick={() => {
-									handleAdicionarEndereco();
-								}}
-							>
-								Adicionar Endereco
-							</AlterarEnderecoButton>
+							{location.cliente == undefined ? (
+								<p> Simule seu Frete </p>
+							) : (
+								<div>
+									<p>Vamos adicionar um endereço para entrega</p>
+									<AlterarEnderecoButton
+										onClick={() => {
+											handleAdicionarEndereco();
+										}}
+									>
+										Adicionar Endereco
+									</AlterarEnderecoButton>
+								</div>
+							)}
 						</div>
 					)}
 				</EnderecoEntregaContainer>

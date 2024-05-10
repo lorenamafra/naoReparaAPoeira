@@ -11,6 +11,7 @@ export function removeFromCart(item, cart) {
 	let cartFiltered = cart.filter(
 		(element) => element.id_produto != item.id_produto
 	);
+
 	cart = cartFiltered;
 	return cart;
 }
@@ -48,6 +49,12 @@ export function decrease(item, cart) {
 
 	return cartCopy;
 }
+
+export const createCart = (item, context) => {
+	let itens = item;
+
+	context.setCart(itens);
+};
 
 export const addToContextCart = (item, context) => {
 	let produto = context.cart.find(

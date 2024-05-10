@@ -7,7 +7,7 @@ import {
 	ButtonLinkCE,
 } from "../styles/Cadastro.styles";
 import Logo from "../assets/Component5.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useOutletContext } from "react-router-dom";
 import ValidaCPF from "../testes/ValidaCPF";
 import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
@@ -17,6 +17,7 @@ const infoStyles = {
 	backgroundColor: "white",
 	color: "red",
 };
+import { createCart } from "../Context/CartFunctions";
 
 const validation = () => {
 	const fd = new FormData(event.target);
@@ -108,12 +109,19 @@ function Cadastro() {
 				if (r == true) {
 					toast.info("da pra ir nengue");
 					navigate("/Cadastro/CadastroEndereco", {
-						state: { user: ObjectForm },
+						state: {
+							user: ObjectForm,
+							carrinho: location.carrinho,
+							context: location.context,
+						},
 					});
 				}
 			});
 		}
 	};
+
+	const location = useLocation().state;
+	console.log(location);
 
 	return (
 		<CadastroPage>
