@@ -11,7 +11,7 @@ import { Link, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { addToContextCart } from "../Context/CartFunctions";
-
+import { toast } from "sonner";
 function CardLancamentos(_props) {
 	const context = useOutletContext();
 	let imagem;
@@ -58,6 +58,7 @@ function CardLancamentos(_props) {
 					onClick={() => {
 						disco.imagem = Picture.props.src;
 						addToContextCart(disco, context);
+						toast.success("Disco adicionado ou quantidade incrementada");
 					}}
 				>
 					<Icon path={mdiCartOutline} size={1.5} />

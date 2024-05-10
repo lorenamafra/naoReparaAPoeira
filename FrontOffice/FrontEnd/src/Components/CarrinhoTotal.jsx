@@ -41,13 +41,16 @@ function CarrinhoTotal() {
 			total: 0,
 		};
 
-		console.log(user);
+		if (user == undefined) {
+			setUser({});
+		} else {
+			delete user.id_cliente;
+			delete user.endereco_faturamento_cep;
+			delete user.endereco_faturamento_logradouro;
+			delete user.endereco_faturamento_numero;
+			delete user.endereco_faturamento_complemento;
+		}
 
-		delete user.id_cliente;
-		delete user.endereco_faturamento_cep;
-		delete user.endereco_faturamento_logradouro;
-		delete user.endereco_faturamento_numero;
-		delete user.endereco_faturamento_complemento;
 		const pedido = {
 			items: items,
 			valor: valor,
