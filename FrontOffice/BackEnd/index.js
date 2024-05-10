@@ -209,7 +209,7 @@ app.post("/cliente/:cpf/endereco", (req, res) => {
 
   connection.query(
     `INSERT INTO endereco_entrega (cpf, cep, numero, complemento, logradouro, ativo) 
-values (${req.params.cpf}, '${cep}', '${numero}', '${complemento}', '${req.body.logradouro}', 1)`,
+values ("${req.params.cpf}", '${cep}', '${numero}', '${complemento}', '${req.body.logradouro}', 1)`,
     (err, rows) => {
       if (err) {
         res.send(err);
