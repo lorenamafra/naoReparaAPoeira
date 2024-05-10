@@ -16,12 +16,7 @@ function ProductImageDetailed() {
 				.get(`http://localhost:8080/produto/${disco.cod_produto}/imagens`)
 				.then((resp) => setImageFiles(resp.data));
 		};
-		const getPrincipal = async () => {
-			axios
-				.get(`http://localhost:8080/produto/${disco.cod_produto}`)
-				.then((resp) => console.log(resp.data.imagem_principal));
-		};
-		getPrincipal();
+
 		getImages();
 	}, []);
 

@@ -33,6 +33,7 @@ function SelecionarEndereco() {
 	const handleSubmit = (add) => {
 		console.log(add);
 		console.log(pedido);
+		pedido.envio.endereco.id_endereco = add.id_endereco;
 		pedido.envio.endereco.cep = add.cep;
 		pedido.envio.endereco.logradouro = add.logradouro;
 		pedido.envio.endereco.numero = add.numero;
