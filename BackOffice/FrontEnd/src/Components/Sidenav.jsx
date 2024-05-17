@@ -15,6 +15,7 @@ function Sidenav() {
 					<ul>
 						<Link to="/Home">Home</Link>
 						<Link to="Produtos">Lista de Produtos</Link>
+						<Link to="Produtos">Pedidos</Link>
 					</ul>
 				</EstoquistaSideNav>
 			) : (

@@ -20,36 +20,38 @@ import SelecionarEndereco from "./Components/SelecionarEndereco";
 import PedidoConcluido from "./pages/PedidoConcluido";
 import ListarPedidos from "./pages/ListarPedidos";
 import DetalhesPedido from "./pages/DetalhesPedido";
+import Pedido from "./pages/Pedido";
 
 const router = createBrowserRouter([
-  { path: "/Login", Component: Login },
-  { path: "/Cadastro", Component: Cadastro },
-  { path: "/Cadastro/CadastroEndereco", Component: CadastroEndereco },
-  {
-    path: "/",
-    Component: MainPage,
-    children: [
-      { path: "/", Component: LandingPage },
-      { path: "Produto/:cod_produto", Component: Produto },
-      { path: "/AlterarCliente", Component: AlterarCliente },
-      { path: "/MeusEnderecos", Component: MeusEnderecos },
-      { path: "/AlterarCliente/AlterarSenha", Component: AlterarSenha },
-      { path: "/AdicionarEndereco", Component: AdicionarEndereco },
-      { path: "/Carrinho", Component: Carrinho },
-      { path: "/Frete", Component: Frete },
-      { path: "/Pagamento", Component: Pagamento },
-      { path: "/ResumoPedido", Component: ResumoPedido },
-      { path: "/SelecionarEndereco", Component: SelecionarEndereco },
-      { path: "/Trans", Component: Transtion },
-      { path: "/PedidoConcluido", Component: PedidoConcluido },
-      { path: "/ListarPedidos", Component: ListarPedidos },
-      { path: "/DetalhesPedido", Component: DetalhesPedido },
-    ],
-  },
+	{ path: "/Login", Component: Login },
+	{ path: "/Cadastro", Component: Cadastro },
+	{ path: "/Cadastro/CadastroEndereco", Component: CadastroEndereco },
+	{
+		path: "/",
+		Component: MainPage,
+		children: [
+			{ path: "/", Component: LandingPage },
+			{ path: "Produto/:cod_produto", Component: Produto },
+			{ path: "/AlterarCliente", Component: AlterarCliente },
+			{ path: "/MeusEnderecos", Component: MeusEnderecos },
+			{ path: "/AlterarCliente/AlterarSenha", Component: AlterarSenha },
+			{ path: "/AdicionarEndereco", Component: AdicionarEndereco },
+			{ path: "/Carrinho", Component: Carrinho },
+			{ path: "/Frete", Component: Frete },
+			{ path: "/Pagamento", Component: Pagamento },
+			{ path: "/ResumoPedido", Component: ResumoPedido },
+			{ path: "/SelecionarEndereco", Component: SelecionarEndereco },
+			{ path: "/Trans", Component: Transtion },
+			{ path: "/PedidoConcluido", Component: PedidoConcluido },
+			{ path: "/ListarPedidos", Component: ListarPedidos },
+			{ path: "/Pedido/Visualizar", Component: Pedido },
+			{ path: "/DetalhesPedido", Component: DetalhesPedido },
+		],
+	},
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+	return <RouterProvider router={router} />;
 }
 
 export default App;

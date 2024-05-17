@@ -3,6 +3,7 @@ export default function testeCartao(cartao) {
 	let nome = cartao.NomeTitular.split(" ");
 	console.log(nome);
 	console.log(cartao.NumeroCartao.length);
+
 	if (cartao.NumeroCartao.length != 16) {
 		toast.warning("Número cartão está invalido");
 		return false;
