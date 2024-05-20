@@ -9,6 +9,7 @@ import VisualizarProduto from "./Pages/VisualizarProduto";
 import { createBrowserRouter } from "react-router-dom";
 import UserList from "./Pages/UserList";
 import ProductList from "./Pages/ProductList";
+import Pedidos from "./Pages/Pedidos";
 
 const router = createBrowserRouter([
   { path: "/", Component: Login },
