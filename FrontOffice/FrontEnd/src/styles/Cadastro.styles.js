@@ -1,78 +1,78 @@
 import styled from "styled-components";
 
 export const CadastroPage = styled.div`
-	display: flex;
-	justify-content: center;
-	height: 100vh;
-	align-items: center;
-	background-color: black;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
 `;
 
 export const InputField = styled.div`
-	text-align: left;
-	display: grid;
-	color: white;
-	margin-top: 10px;
-	select {
-		padding: 0.5rem 0.5rem;
-		margin: 1rem;
-		color: black;
-		border: 1px solid white;
-		background-color: white;
-	}
+  text-align: left;
+  display: grid;
+  color: black;
+  margin-top: 10px;
+  select {
+    padding: 0.5rem 0.5rem;
+    margin: 1rem;
+    color: black;
+    border: 1px solid black;
+    background-color: white;
+  }
 `;
 
 export const MainCadastroContainer = styled.div`
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	border: 2px solid white;
-	padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 2px solid black;
+  box-shadow: 2px -1px 2px grey;
+  padding: 2rem;
 `;
 
 export const CadastroContainer = styled.form`
-	display: grid;
-	place-items: center;
-	color: white;
-	input::-webkit-outer-spin-button,
-	input::-webkit-inner-spin-button {
-		-webkit-appearance: none;
-		margin: 0;
-	}
+  display: grid;
+  place-items: center;
+  color: black;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-	/* Firefox */
-	input[type="number"] {
-		-moz-appearance: textfield;
-	}
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 
-	input:focus {
-		outline: 0;
-	}
+  input:focus {
+    outline: 0;
+  }
 `;
 
 export const ImageContainer = styled.div`
-	display: grid;
-	place-items: center;
+  display: grid;
+  place-items: center;
 
-	img {
-		height: 50%;
-		aspect-ratio: 1/1;
-	}
+  img {
+    height: 50%;
+    aspect-ratio: 1/1;
+  }
 `;
 
 export const ButtonLinkCE = styled.button`
-	transition: all ease-in-out 0.15s;
-	padding: 0.5rem 0.5rem;
-	margin: 1rem;
-	color: black;
-	border: 1px solid #ccd7c5;
-	background-color: #ccd7c5;
-	font-size: 15px;
+  transition: all ease-in-out 0.15s;
+  padding: 0.5rem 0.5rem;
+  margin: 1rem;
+  color: black;
+  border: 1px solid #ccd7c5;
+  background-color: #ccd7c5;
+  font-size: 15px;
 
-	cursor: pointer;
+  cursor: pointer;
 
-	&:hover {
-		background-color: white;
-		color: black;
-		border: 0.1rem solid black;
-	}
+  &:hover {
+    background-color: white;
+    color: black;
+    border: 0.1rem solid black;
+  }
 `;

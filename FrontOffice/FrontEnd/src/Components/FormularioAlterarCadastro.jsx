@@ -20,6 +20,7 @@ function FormularioAlterarCadastro() {
       .put("http://localhost:8081/cliente/alterar", ObjectForm)
       .then((resp) => {
         console.log(resp.data);
+        navigate(0);
       });
   }
 

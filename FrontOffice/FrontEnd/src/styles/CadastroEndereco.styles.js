@@ -5,27 +5,27 @@ export const CadastroEnderecoPage = styled.div`
   justify-content: center;
   height: 100vh;
   align-items: center;
-  background-color: black;
 `;
 
 export const InputField = styled.div`
   text-align: left;
   display: grid;
-  color: white;
+  color: black;
   margin-top: 10px;
 `;
 
 export const MainCadastroEnderecoContainer = styled.form`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border: 2px solid white;
+  border: 2px solid black;
+  box-shadow: 2px -1px 2px grey;
   padding: 2rem;
 `;
 
 export const CadastroEnderecoContainer = styled.div`
   display: grid;
   place-items: center;
-  color: white;
+  color: black;
 `;
 
 export const ImageContainer = styled.div`

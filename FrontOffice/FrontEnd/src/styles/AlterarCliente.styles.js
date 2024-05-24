@@ -27,7 +27,7 @@ export const MainAlterarCliente = styled.div`
 export const AlterarContainer = styled.div`
   display: flex;
   border: 1px solid black;
-  box-shadow: 2px -1px 10px grey;
+  box-shadow: 2px -1px 2px grey;
   padding: 2rem;
 `;
 
